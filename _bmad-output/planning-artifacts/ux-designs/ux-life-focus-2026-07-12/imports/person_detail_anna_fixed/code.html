@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Life Focus Intelligence - Anna</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&amp;family=Playfair+Display:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#e4e2e1",
+                      "surface": "#fcf9f3",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#1c1c18",
+                      "on-surface-variant": "#424848",
+                      "tertiary-container": "#3b3b3b",
+                      "surface-bright": "#fcf9f3",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#d3e6e8",
+                      "on-primary-fixed-variant": "#394a4c",
+                      "on-secondary-container": "#636360",
+                      "inverse-primary": "#b7cacc",
+                      "surface-dim": "#dcdad4",
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "surface-container-highest": "#e5e2dc",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e5e2dc",
+                      "on-surface": "#1c1c18",
+                      "outline": "#727879",
+                      "on-primary-fixed": "#0d1e20",
+                      "surface-container": "#f1ede7",
+                      "inverse-surface": "#31302d",
+                      "secondary": "#5e5e5c",
+                      "secondary-container": "#e1dfdc",
+                      "surface-tint": "#506164",
+                      "primary-fixed-dim": "#b7cacc",
+                      "on-secondary-fixed": "#1b1c1a",
+                      "inverse-on-surface": "#f3f0ea",
+                      "primary": "#17282a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#96a9ab",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#c8c6c6",
+                      "on-tertiary-container": "#a7a5a5",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "primary-container": "#2d3e40",
+                      "secondary-fixed": "#e4e2df",
+                      "background": "#fcf9f3",
+                      "tertiary": "#252525",
+                      "outline-variant": "#c2c7c8",
+                      "surface-container-low": "#f6f3ed",
+                      "on-secondary-fixed-variant": "#474745",
+                      "secondary-fixed-dim": "#c8c6c4",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "surface-container-high": "#ebe8e2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "section-gap": "64px",
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "container-max": "1200px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Public Sans"
+                      ],
+                      "label-md": [
+                              "Public Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden min-h-screen">
+<!-- Side Navigation Rail (Web) -->
+<nav class="hidden md:flex h-full w-20 flex-col border-r border-outline-variant bg-surface fixed left-0 top-0 bottom-0 z-40 items-center py-unit pt-[80px]">
+<div class="flex flex-col gap-6 w-full mt-4">
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">today</span>
+<span class="text-[10px] font-label-md">Today</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_view_week</span>
+<span class="text-[10px] font-label-md">Week</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">notification_important</span>
+<span class="text-[10px] font-label-md">Interrupts</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary font-bold border-r-2 border-primary bg-surface-container p-2 mx-2 rounded-lg scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-label-md">People</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="text-[10px] font-label-md">Goals</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">handshake</span>
+<span class="text-[10px] font-label-md">Commitments</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-label-md">Sources</span>
+</a>
+</div>
+<div class="mt-auto mb-4">
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 hover:bg-surface-container transition-colors p-2 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<div class="md:ml-20 flex flex-col min-h-screen">
+<!-- Top Navigation (Web) -->
+<nav class="hidden md:flex sticky top-0 z-50 justify-between items-center px-gutter py-2 w-full max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant h-[72px]">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-medium tracking-tight text-primary">Life Focus Intelligence</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-all text-secondary"><span class="material-symbols-outlined">sync</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-all text-secondary"><span class="material-symbols-outlined">bolt</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-all text-secondary"><span class="material-symbols-outlined">search</span></button>
+</div>
+<button class="bg-primary-container text-on-primary px-4 py-2 rounded-full font-label-md text-label-md hover:opacity-90 transition-opacity">Capture</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User profile" class="object-cover w-full h-full" data-alt="A subtle, minimalist user avatar illustration featuring soft, muted colors and simple geometric shapes representing a person, adhering to a calm, professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdRE5BqxFaudy27mopIBAzevJcvuwfgH-rF6X2DNMSEkm26ZoFhwxEvzWFn-NMFyLcpSK_0nMHG6_wyWwSkeVATWHYjTuHF_UHGa3sjRcNKZKIGozDF4sLSIAhrhdNfP702fHsIWdNVbELfGbtSwQHyMRd7_8tRMId2Lh18Z1ZXSygXvL3eSxwGyx0-FrsQr52bBHiMPvxHhBjQ5rKHUoFl1cQL5HDFYWmUn6WpnM-AebVJJ-1gRXumEv6tHi1egQUGoVavmkAqRE"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col gap-section-gap">
+<!-- Header Section -->
+<header class="flex flex-col gap-6">
+<div class="flex items-center gap-4 mb-2">
+<a class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant hover:bg-surface-container transition-colors text-secondary" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-widest">People</span>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-surface-variant flex-shrink-0 relative">
+<img alt="Anna" class="object-cover w-full h-full" data-alt="A warm, candid portrait photograph of a woman, softly lit with natural daylight, conveying a sense of genuine connection and calm. The aesthetic is bright, minimalist, and deeply human, avoiding harsh shadows or artificial studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyT0G26peBxsdB_5cNe4oc-eANGS_cr2iS3CCDi9hxRCkTt3tu9hmDAc5l4d4MeeFaQx4iJ2Apom1eY9j7kAmzNwKve6fHrvm0mBw-8s4wYCRXoLYqqXVW1kwzOlcCLeWMNj4TY-EtpLufnIruiK35t-AE72jcp8JP8VIxV827MLn3xkOhKrZb37Gus6tUB_Nw8nJXYcV7zPsemn9v_wCrkNXXJSbhvZ8x_z9WjGWvQ7A_HlEEMeTXb9kfcNxsGvS1j4wnH3bdPLg"/>
+</div>
+<div class="flex flex-col gap-4 max-w-2xl">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-display-lg md:text-display-lg text-primary">Anna</h1>
+<p class="font-body-lg text-body-lg text-secondary mt-1">Core Relationship · Spouse</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-surface-variant mt-2 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+<h3 class="font-label-md text-label-md text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">favorite</span> Intention
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                            "Protect meaningful time together, communicate clearly, and share household planning fairly."
+                        </p>
+</div>
+</div>
+</div>
+</header>
+<!-- Dynamic Insights (Next Action & Displacement) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Suggested Next Action -->
+<div class="bg-surface-container-high rounded-xl p-6 border border-outline-variant shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between h-full hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow">
+<div>
+<div class="flex items-center gap-2 text-primary-container mb-4">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-md text-label-md">Suggested Action</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface mb-6">
+                        "Reserve 30 minutes Sunday evening to plan the birthday and family trip."
+                    </p>
+</div>
+<button class="bg-primary-container text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md self-start hover:bg-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_task</span> Add to week
+                </button>
+</div>
+<!-- Recent Displacement Alert -->
+<div class="bg-surface-container rounded-xl p-6 border border-surface-variant flex flex-col justify-center h-full">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface rounded-full text-secondary mt-1">
+<span class="material-symbols-outlined">info</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-secondary mb-2">Gentle Observation</h4>
+<p class="font-body-md text-body-md text-on-surface-variant italic">
+                            "Date night has been moved twice this month because of work."
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid for Details -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-6 pb-20">
+<!-- Rhythms -->
+<div class="md:col-span-5 bg-surface rounded-xl border border-surface-variant p-6 flex flex-col gap-6">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2 border-b border-surface-variant pb-4">
+<span class="material-symbols-outlined">all_inclusive</span> Established Rhythms
+                </h2>
+<ul class="flex flex-col gap-4">
+<li class="flex items-center gap-4 group cursor-default">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">restaurant</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Date Night</p>
+<p class="font-label-md text-label-md text-secondary mt-1">2x / Month</p>
+</div>
+</li>
+<li class="flex items-center gap-4 group cursor-default">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Weekly Planning</p>
+<p class="font-label-md text-label-md text-secondary mt-1">Sunday Evenings</p>
+</div>
+</li>
+<li class="flex items-center gap-4 group cursor-default">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">home</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Family Dinner</p>
+<p class="font-label-md text-label-md text-secondary mt-1">Protected Daily</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Right Column Split -->
+<div class="md:col-span-7 flex flex-col gap-6">
+<!-- Upcoming Milestones -->
+<div class="bg-surface rounded-xl border border-surface-variant p-6">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2 border-b border-surface-variant pb-4 mb-6">
+<span class="material-symbols-outlined">event_upcoming</span> Horizon
+                    </h2>
+<div class="space-y-5">
+<div class="flex justify-between items-start border-l-2 border-primary-container pl-4 py-1">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Anna's Birthday</p>
+<p class="font-label-md text-label-md text-secondary mt-1">Milestone event</p>
+</div>
+<span class="bg-surface-container-high px-3 py-1 rounded-full font-label-md text-label-md text-primary">In 24 Days</span>
+</div>
+<div class="flex justify-between items-start border-l-2 border-outline-variant pl-4 py-1">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Family Trip Decision</p>
+<p class="font-label-md text-label-md text-secondary mt-1">Pending discussion</p>
+</div>
+</div>
+<div class="flex justify-between items-start border-l-2 border-outline-variant pl-4 py-1">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Dinner Reservation</p>
+<p class="font-label-md text-label-md text-secondary mt-1">Saturday, 7:30 PM</p>
+</div>
+<span class="bg-surface-container px-3 py-1 rounded-full font-label-md text-label-md text-secondary">This Week</span>
+</div>
+</div>
+</div>
+<!-- Open Commitments -->
+<div class="bg-surface rounded-xl border border-surface-variant p-6">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2 border-b border-surface-variant pb-4 mb-6">
+<span class="material-symbols-outlined">task_alt</span> Open Commitments
+                    </h2>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 p-3 hover:bg-surface-container rounded-lg transition-colors cursor-pointer border border-transparent hover:border-surface-variant">
+<span class="material-symbols-outlined text-secondary mt-0.5">radio_button_unchecked</span>
+<span class="font-body-md text-body-md text-on-surface">Research weekend getaway locations</span>
+</li>
+<li class="flex items-start gap-3 p-3 hover:bg-surface-container rounded-lg transition-colors cursor-pointer border border-transparent hover:border-surface-variant">
+<span class="material-symbols-outlined text-secondary mt-0.5">radio_button_unchecked</span>
+<span class="font-body-md text-body-md text-on-surface">Review preliminary trip budget</span>
+</li>
+</ul>
+<button class="mt-4 text-primary font-label-md text-label-md flex items-center gap-1 hover:opacity-70 transition-opacity p-2">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Commitment
+                    </button>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Life Focus Intelligence - End of Day Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "tertiary-fixed": "#e4e2e1",
+          "surface": "#fcf9f3",
+          "on-secondary": "#ffffff",
+          "on-background": "#1c1c18",
+          "on-surface-variant": "#424848",
+          "tertiary-container": "#3b3b3b",
+          "surface-bright": "#fcf9f3",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#d3e6e8",
+          "on-primary-fixed-variant": "#394a4c",
+          "on-secondary-container": "#636360",
+          "inverse-primary": "#b7cacc",
+          "surface-dim": "#dcdad4",
+          "on-tertiary-fixed": "#1b1c1c",
+          "surface-container-highest": "#e5e2dc",
+          "error": "#ba1a1a",
+          "on-error-container": "#93000a",
+          "surface-variant": "#e5e2dc",
+          "on-surface": "#1c1c18",
+          "outline": "#727879",
+          "on-primary-fixed": "#0d1e20",
+          "surface-container": "#f1ede7",
+          "inverse-surface": "#31302d",
+          "secondary": "#5e5e5c",
+          "secondary-container": "#e1dfdc",
+          "surface-tint": "#506164",
+          "primary-fixed-dim": "#b7cacc",
+          "on-secondary-fixed": "#1b1c1a",
+          "inverse-on-surface": "#f3f0ea",
+          "primary": "#17282a",
+          "surface-container-lowest": "#ffffff",
+          "on-primary-container": "#96a9ab",
+          "on-tertiary": "#ffffff",
+          "tertiary-fixed-dim": "#c8c6c6",
+          "on-tertiary-container": "#a7a5a5",
+          "error-container": "#ffdad6",
+          "on-error": "#ffffff",
+          "primary-container": "#2d3e40",
+          "secondary-fixed": "#e4e2df",
+          "background": "#fcf9f3",
+          "tertiary": "#252525",
+          "outline-variant": "#c2c7c8",
+          "surface-container-low": "#f6f3ed",
+          "on-secondary-fixed-variant": "#474745",
+          "secondary-fixed-dim": "#c8c6c4",
+          "on-tertiary-fixed-variant": "#474747",
+          "surface-container-high": "#ebe8e2"
+        },
+        borderRadius: {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        spacing: {
+          "margin-mobile": "16px",
+          "section-gap": "64px",
+          "unit": "8px",
+          "gutter": "24px",
+          "container-max": "1200px",
+          "margin-desktop": "40px"
+        },
+        fontFamily: {
+          "body-md": ["Public Sans"],
+          "label-md": ["Public Sans"],
+          "headline-lg-mobile": ["Playfair Display"],
+          "body-lg": ["Public Sans"],
+          "headline-md": ["Playfair Display"],
+          "display-lg": ["Playfair Display"],
+          "headline-lg": ["Playfair Display"]
+        },
+        fontSize: {
+          "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+          "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+          "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "500" }],
+          "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+          "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "500" }],
+          "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "500" }]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  /*
+   * End of Day Review — Spine sections illustrated:
+   *   1. Closure & completion accounting (What moved today)
+   *   2. Renegotiation transparency (displaced commitment, notifications)
+   *   3. Waiting-on-you surface (unanswered requests with Gmail draft action)
+   *   4. Roll-forward planning (tomorrow's first tasks)
+   *   5. Evening protection boundary (hard-stop honored, personal commitments)
+   *   6. Intentionally-not-scheduled surface (deferred items)
+   */
+  body { background-color: #fcf9f3; }
+  .glass-panel {
+    background: rgba(252, 249, 243, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(194, 199, 200, 0.4);
+  }
+  .amber-border-card {
+    border-left: 2px solid #d97706;
+  }
+</style>
+</head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col md:flex-row antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+<!-- ═══════════════════════════════════════════════
+     SIDEBAR (Desktop only, fixed 80px)
+════════════════════════════════════════════════ -->
+<nav class="hidden md:flex h-full w-20 flex-col border-r border-outline-variant bg-surface fixed left-0 top-0 bottom-0 z-40 items-center py-unit">
+  <!-- Logo mark -->
+  <div class="mb-8 mt-4 flex items-center justify-center w-full">
+    <div class="h-10 w-10 bg-primary-container text-on-primary rounded-full flex items-center justify-center font-bold text-sm">LF</div>
+  </div>
+
+  <!-- Nav items -->
+  <div class="flex flex-col gap-2 w-full px-2 mt-4">
+    <!-- Today -->
+    <a class="flex flex-col items-center p-3 rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Today">
+      <span class="material-symbols-outlined mb-1">today</span>
+      <span class="font-label-md text-[10px] uppercase tracking-wider">Today</span>
+    </a>
+    <!-- Week -->
+    <a class="flex flex-col items-center p-3 rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Week">
+      <span class="material-symbols-outlined mb-1">calendar_view_week</span>
+      <span class="font-label-md text-[10px] uppercase tracking-wider">Week</span>
+    </a>
+    <!-- Inbox -->
+    <a class="flex flex-col items-center p-3 rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Inbox">
+      <span class="material-symbols-outlined mb-1">inbox</span>
+      <span class="font-label-md text-[10px] uppercase tracking-wider">Inbox</span>
+    </a>
+    <!-- Commitments -->
+    <a class="flex flex-col items-center p-3 rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Commitments">
+      <span class="material-symbols-outlined mb-1">task_alt</span>
+      <span class="font-label-md text-[10px] uppercase tracking-wider">Commit</span>
+    </a>
+    <!-- End of Day (ACTIVE) -->
+    <a class="flex flex-col items-center p-3 rounded-xl bg-surface-container text-primary font-bold border-r-2 border-primary transition-colors" href="#" title="End of Day">
+      <span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+      <span class="font-label-md text-[10px] uppercase tracking-wider">End</span>
+    </a>
+  </div>
+
+  <!-- Bottom: settings + avatar -->
+  <div class="mt-auto mb-4 flex flex-col gap-2 w-full px-2">
+    <a class="flex flex-col items-center p-3 rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Settings">
+      <span class="material-symbols-outlined mb-1">settings</span>
+      <span class="font-label-md text-[10px] uppercase tracking-wider">Set</span>
+    </a>
+    <button class="h-12 w-12 rounded-full overflow-hidden border border-outline-variant hover:opacity-80 transition-opacity mt-2 mx-auto">
+      <div class="h-full w-full bg-primary-container flex items-center justify-center text-on-primary font-bold text-sm">S</div>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     MOBILE TOP NAV
+════════════════════════════════════════════════ -->
+<header class="md:hidden sticky top-0 z-50 flex justify-between items-center px-4 py-4 w-full bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+  <div class="font-headline-md text-headline-md font-medium tracking-tight text-primary">Life Focus Intelligence</div>
+  <button class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold">S</button>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════ -->
+<main class="flex-1 md:ml-20 flex flex-col pb-24">
+  <div class="w-full max-w-[1200px] mx-auto px-4 md:px-10 py-8 md:py-12">
+
+    <!-- PAGE HEADER -->
+    <header class="mb-10 max-w-3xl">
+      <h1 class="font-headline-lg text-headline-lg text-on-background mb-2" style="font-family: 'Playfair Display', serif;">Winding down</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-1">3:55 PM · Work ends at 4:30 PM</p>
+      <p class="font-body-md text-body-md text-on-surface-variant">Based on current information, you're on track to leave at 4:30 PM.</p>
+    </header>
+
+    <!-- TWO-COLUMN LAYOUT: 8/12 main + 4/12 aside -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 relative">
+
+      <!-- ═══════════════════════════════════════
+           LEFT COLUMN (8/12)
+      ════════════════════════════════════════ -->
+      <div class="lg:col-span-8 flex flex-col gap-8">
+
+        <!-- ─────────────────────────────────────
+             SECTION 1: What moved today
+        ───────────────────────────────────── -->
+        <section>
+          <!-- Section label chip -->
+          <div class="flex items-center gap-2 mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary font-label-md text-label-md uppercase tracking-wider text-xs">
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Completed · 4 Outcomes
+            </span>
+          </div>
+
+          <h2 class="font-headline-md text-headline-md text-on-background mb-4" style="font-family: 'Playfair Display', serif;">What moved today</h2>
+
+          <div class="flex flex-col gap-3">
+            <!-- Item 1 -->
+            <div class="bg-surface border border-[#ebe8e2] rounded-xl p-4 flex items-start gap-4 hover:shadow-sm transition-shadow">
+              <span class="material-symbols-outlined text-primary mt-0.5 shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <p class="font-body-md text-body-md text-on-background">Delivered architecture decision record to engineering team</p>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-xs border border-outline-variant shrink-0">Work</span>
+            </div>
+            <!-- Item 2 -->
+            <div class="bg-surface border border-[#ebe8e2] rounded-xl p-4 flex items-start gap-4 hover:shadow-sm transition-shadow">
+              <span class="material-symbols-outlined text-primary mt-0.5 shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <p class="font-body-md text-body-md text-on-background">Resolved Priya's blocker on the data pipeline spec</p>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-xs border border-outline-variant shrink-0">Work</span>
+            </div>
+            <!-- Item 3 -->
+            <div class="bg-surface border border-[#ebe8e2] rounded-xl p-4 flex items-start gap-4 hover:shadow-sm transition-shadow">
+              <span class="material-symbols-outlined text-primary mt-0.5 shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <p class="font-body-md text-body-md text-on-background">Cleared 11 items from shared review queue with Marcus</p>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-xs border border-outline-variant shrink-0">Work</span>
+            </div>
+            <!-- Item 4 -->
+            <div class="bg-surface border border-[#ebe8e2] rounded-xl p-4 flex items-start gap-4 hover:shadow-sm transition-shadow">
+              <span class="material-symbols-outlined text-primary mt-0.5 shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <p class="font-body-md text-body-md text-on-background">Confirmed school pickup route with Anna</p>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-xs border border-outline-variant shrink-0">Personal</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─────────────────────────────────────
+             SECTION 2: One displaced commitment
+        ───────────────────────────────────── -->
+        <section>
+          <!-- Section label chip — amber, not color-only -->
+          <div class="flex items-center gap-2 mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-xs uppercase tracking-wider" style="background-color: #fef3c7; color: #92400e;">
+              <span class="material-symbols-outlined text-[14px]">swap_horiz</span>
+              Renegotiated
+            </span>
+          </div>
+
+          <h2 class="font-headline-md text-headline-md text-on-background mb-4" style="font-family: 'Playfair Display', serif;">One displaced commitment — renegotiated</h2>
+
+          <!-- Amber-bordered card -->
+          <div class="bg-surface border border-[#ebe8e2] rounded-xl p-5 amber-border-card">
+            <!-- Card header with warning icon (not color-only) -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="material-symbols-outlined text-[18px]" style="color: #d97706;">warning</span>
+              <span class="font-label-md text-xs uppercase tracking-wider" style="color: #92400e;">At risk · Timeline adjusted</span>
+            </div>
+
+            <p class="font-body-md text-body-md text-on-background font-medium mb-1">Architecture decision documentation</p>
+            <p class="text-sm text-on-surface-variant mb-3">Originally due today</p>
+
+            <div class="flex flex-col gap-2 mb-3">
+              <div class="flex items-center gap-2 text-sm text-on-background">
+                <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                <span>Moved to tomorrow 9:00 AM — first task</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant">schedule</span>
+                <span class="text-on-surface-variant">Marcus notified — awaiting acknowledgment</span>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container border border-outline-variant text-xs text-secondary font-medium">
+                  <span class="material-symbols-outlined text-[12px]">schedule</span>
+                  Pending
+                </span>
+              </div>
+            </div>
+
+            <p class="text-sm text-secondary">Renegotiated before the deadline. Timeline impact: low.</p>
+          </div>
+        </section>
+
+        <!-- ─────────────────────────────────────
+             SECTION 3: Two unanswered requests
+        ───────────────────────────────────── -->
+        <section>
+          <!-- Section label chip -->
+          <div class="flex items-center gap-2 mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface font-label-md text-xs uppercase tracking-wider border border-outline-variant">
+              <span class="material-symbols-outlined text-[14px]">hourglass_top</span>
+              Waiting on you
+            </span>
+          </div>
+
+          <h2 class="font-headline-md text-headline-md text-on-background mb-4" style="font-family: 'Playfair Display', serif;">Two unanswered requests</h2>
+
+          <div class="flex flex-col gap-3">
+            <!-- Request 1: Marcus -->
+            <div class="bg-surface border border-[#ebe8e2] rounded-xl p-5 hover:shadow-sm transition-shadow">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold shrink-0 mt-0.5">M</div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs text-secondary font-medium mb-1">Marcus</p>
+                  <p class="font-body-md text-body-md text-on-background">"Can you confirm we're aligned on the Q3 architecture priorities before the all-hands Thursday?"</p>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <button class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-outline text-on-surface-variant font-label-md text-xs hover:bg-surface-container transition-colors">
+                  <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                  Draft in Gmail — review &amp; send
+                </button>
+              </div>
+            </div>
+
+            <!-- Request 2: Priya -->
+            <div class="bg-surface border border-[#ebe8e2] rounded-xl p-5 hover:shadow-sm transition-shadow">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="h-8 w-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface text-xs font-bold shrink-0 mt-0.5">P</div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs text-secondary font-medium mb-1">Priya</p>
+                  <p class="font-body-md text-body-md text-on-background">"Are you able to attend the data governance review on Friday at 2 PM?"</p>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <button class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-outline text-on-surface-variant font-label-md text-xs hover:bg-surface-container transition-colors">
+                  <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                  Draft in Gmail — review &amp; send
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─────────────────────────────────────
+             SECTION 4: Rolling forward to tomorrow
+        ───────────────────────────────────── -->
+        <section class="mb-2">
+          <!-- Section label chip -->
+          <div class="flex items-center gap-2 mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-xs uppercase tracking-wider border border-outline-variant">
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              Tomorrow's first tasks
+            </span>
+          </div>
+
+          <h2 class="font-headline-md text-headline-md text-on-background mb-4" style="font-family: 'Playfair Display', serif;">Rolling forward to tomorrow</h2>
+
+          <div class="bg-surface border border-[#ebe8e2] rounded-xl p-5">
+            <ol class="flex flex-col gap-4">
+              <li class="flex items-start gap-4">
+                <span class="h-6 w-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                <div>
+                  <p class="font-body-md text-body-md text-on-background">Architecture documentation <span class="text-secondary">(renegotiated)</span></p>
+                  <p class="text-sm text-on-surface-variant">9:00 AM</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="h-6 w-6 rounded-full bg-surface-container text-on-surface flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-outline-variant">2</span>
+                <div>
+                  <p class="font-body-md text-body-md text-on-background">Reply to Marcus re: Q3 priorities</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="h-6 w-6 rounded-full bg-surface-container text-on-surface flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-outline-variant">3</span>
+                <div>
+                  <p class="font-body-md text-body-md text-on-background">Confirm Friday meeting with Priya</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="h-6 w-6 rounded-full bg-surface-container text-on-surface flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-outline-variant">4</span>
+                <div>
+                  <p class="font-body-md text-body-md text-on-background">Review sprint retrospective notes</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+      </div><!-- /LEFT COLUMN -->
+
+      <!-- ═══════════════════════════════════════
+           RIGHT COLUMN (4/12 sticky aside)
+      ════════════════════════════════════════ -->
+      <aside class="lg:col-span-4 mt-4 lg:mt-0">
+        <div class="sticky top-8 flex flex-col gap-5">
+
+          <!-- Card: Evening is protected -->
+          <div class="glass-panel rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3 text-primary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">nights_stay</span>
+              <h3 class="font-label-md text-label-md uppercase tracking-wider">Evening is protected</h3>
+            </div>
+            <div class="flex flex-col gap-2 mb-3">
+              <div class="flex items-center gap-2 text-sm text-on-background">
+                <span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+                <span>Dinner with Anna · 6:30 PM</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm text-on-background">
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant">phone</span>
+                <span>Call Mom · after dinner</span>
+              </div>
+            </div>
+            <p class="text-sm text-secondary">No work items are scheduled after 4:30 PM.</p>
+          </div>
+
+          <!-- Card: What this protected today -->
+          <div class="glass-panel rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3 text-primary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield</span>
+              <h3 class="font-label-md text-label-md uppercase tracking-wider">What this protected today</h3>
+            </div>
+            <ul class="flex flex-col gap-2">
+              <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                <span class="material-symbols-outlined text-[16px] text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                School pickup at 3:30 PM — uninterrupted
+              </li>
+              <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                <span class="material-symbols-outlined text-[16px] text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                4:30 PM hard stop honored
+              </li>
+              <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                <span class="material-symbols-outlined text-[16px] text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                Family evening boundary maintained
+              </li>
+            </ul>
+          </div>
+
+          <!-- Card: Intentionally not scheduled -->
+          <div class="glass-panel rounded-xl p-5 opacity-80">
+            <div class="flex items-center gap-2 mb-3 text-secondary">
+              <span class="material-symbols-outlined">snooze</span>
+              <h3 class="font-label-md text-label-md uppercase tracking-wider">Intentionally not scheduled</h3>
+            </div>
+            <ul class="flex flex-col gap-2">
+              <li class="flex items-start gap-2 text-sm text-secondary line-through">
+                Inbox zero review (deferred to Friday)
+              </li>
+              <li class="flex items-start gap-2 text-sm text-secondary line-through">
+                Sprint ceremony prep (handled async by Marcus)
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </aside><!-- /RIGHT ASIDE -->
+
+    </div><!-- /TWO-COLUMN LAYOUT -->
+  </div><!-- /max-w container -->
+</main>
+
+<!-- ═══════════════════════════════════════════════
+     STICKY BOTTOM ACTION BAR
+════════════════════════════════════════════════ -->
+<div class="fixed bottom-0 left-0 right-0 md:left-20 z-50 p-4 bg-surface/90 backdrop-blur-md border-t border-outline-variant/30 flex justify-end items-center gap-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+  <button class="px-6 py-2.5 rounded-full border border-outline text-on-background font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+    Review tomorrow's plan
+  </button>
+  <button class="px-6 py-2.5 rounded-full text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm" style="background-color: #2d3e40;">
+    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+    Mark work ended
+  </button>
+</div>
+
+</body>
+</html>

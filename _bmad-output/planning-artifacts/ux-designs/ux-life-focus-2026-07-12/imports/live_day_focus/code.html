@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Life Focus Intelligence - Today</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#e4e2e1",
+                      "surface": "#fcf9f3",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#1c1c18",
+                      "on-surface-variant": "#424848",
+                      "tertiary-container": "#3b3b3b",
+                      "surface-bright": "#fcf9f3",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#d3e6e8",
+                      "on-primary-fixed-variant": "#394a4c",
+                      "on-secondary-container": "#636360",
+                      "inverse-primary": "#b7cacc",
+                      "surface-dim": "#dcdad4",
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "surface-container-highest": "#e5e2dc",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e5e2dc",
+                      "on-surface": "#1c1c18",
+                      "outline": "#727879",
+                      "on-primary-fixed": "#0d1e20",
+                      "surface-container": "#f1ede7",
+                      "inverse-surface": "#31302d",
+                      "secondary": "#5e5e5c",
+                      "secondary-container": "#e1dfdc",
+                      "surface-tint": "#506164",
+                      "primary-fixed-dim": "#b7cacc",
+                      "on-secondary-fixed": "#1b1c1a",
+                      "inverse-on-surface": "#f3f0ea",
+                      "primary": "#17282a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#96a9ab",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#c8c6c6",
+                      "on-tertiary-container": "#a7a5a5",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "primary-container": "#2d3e40",
+                      "secondary-fixed": "#e4e2df",
+                      "background": "#fcf9f3",
+                      "tertiary": "#252525",
+                      "outline-variant": "#c2c7c8",
+                      "surface-container-low": "#f6f3ed",
+                      "on-secondary-fixed-variant": "#474745",
+                      "secondary-fixed-dim": "#c8c6c4",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "surface-container-high": "#ebe8e2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "section-gap": "64px",
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "container-max": "1200px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Public Sans"
+                      ],
+                      "label-md": [
+                              "Public Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(252, 249, 243, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(114, 120, 121, 0.1);
+        }
+        
+        /* Soft subtle layering */
+        .layer-base {
+            background-color: theme('colors.surface');
+        }
+        .layer-card {
+            background-color: theme('colors.surface-container-lowest');
+            border: 1px solid theme('colors.outline-variant');
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .layer-hover {
+            transition: all 0.2s ease;
+        }
+        .layer-hover:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            transform: translateY(-1px);
+        }
+
+        /* Progress ring animation */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Hidden on Mobile, Visible on Desktop) -->
+<nav class="hidden md:flex h-screen w-20 flex-col bg-surface border-r border-outline-variant fixed left-0 top-0 bottom-0 z-40 items-center py-unit">
+<!-- Logo Area -->
+<div class="mb-8 mt-4 w-12 h-12 flex items-center justify-center rounded-full bg-primary-container text-on-primary-container font-headline-md text-headline-md font-bold text-primary">
+            LF
+        </div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2 w-full px-2">
+<!-- Active Tab: Today -->
+<a aria-current="page" aria-label="Today" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg bg-surface-container-high text-primary font-bold border-r-2 border-primary scale-95 transition-transform duration-150 group" href="#">
+<span class="material-symbols-outlined icon-fill mb-1" data-icon="today">today</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight">Today</span>
+</a>
+<!-- Inactive Tabs -->
+<a aria-label="Week" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors" data-icon="calendar_view_week">calendar_view_week</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">Week</span>
+</a>
+<a aria-label="Interrupts" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors relative" data-icon="notification_important">
+                    notification_important
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">Interrupts</span>
+</a>
+<a aria-label="People" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors" data-icon="group">group</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">People</span>
+</a>
+<a aria-label="Goals" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors" data-icon="emoji_events">emoji_events</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">Goals</span>
+</a>
+<a aria-label="Commitments" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors" data-icon="handshake">handshake</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">Promises</span>
+</a>
+<a aria-label="Sources" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors" data-icon="menu_book">menu_book</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">Sources</span>
+</a>
+</div>
+<!-- Spacer -->
+<div class="flex-grow"></div>
+<!-- Settings Tab -->
+<div class="flex flex-col gap-2 w-full px-2 mb-4">
+<a aria-label="Settings" class="flex flex-col items-center justify-center py-3 px-2 rounded-lg text-secondary opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md text-[10px] leading-tight group-hover:text-primary transition-colors">Settings</span>
+</a>
+<!-- User Avatar -->
+<div class="mt-4 flex justify-center">
+<img alt="User avatar for Life Focus Intelligence" class="w-10 h-10 rounded-full object-cover border border-outline-variant layer-card" data-alt="A small, circular, minimalist user avatar showing a subtle abstract pattern in soft teal and stone colors, suitable for a professional productivity app light mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkVOD_jGT7ErAioggTf5uyiW4lA6-JLsBH4e__8AgSs8Quz_hB-R1TuxWZiJtQRm5fWkZCy2kwDjxUKT4EVJLd6YCe5nr21ldd9WwMeTeMuargbieZ6vp_CuBJKUmo5Spx4dP8mmDd2BURqi4It1qssrKkpebDI_zgSUWOMaCedhZuj7f3UOHsHpHdXMUHca49OojXpgFstva_JVnbbqQOAJ91r3WzsJ58psD_23963boYJ8EZEqgg7OcoubzuriDEaZJEiYt8dHA"/>
+</div>
+</div>
+</nav>
+<!-- TopNavBar (Mobile Only / Responsive Header) -->
+<header class="md:hidden sticky top-0 z-50 flex justify-between items-center px-margin-mobile py-4 w-full bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary-container text-on-primary-container font-headline-md text-headline-md font-bold text-[14px]">LF</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-medium tracking-tight text-primary">Today</h1>
+</div>
+<div class="flex items-center gap-3">
+<button aria-label="Interrupts" class="p-2 rounded-full text-secondary hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined relative" data-icon="notification_important">
+                    notification_important
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</span>
+</button>
+<button class="font-label-md text-label-md px-4 py-2 bg-primary-container text-on-primary-container rounded-full hover:opacity-90 transition-opacity">Capture</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow md:ml-20 flex justify-center w-full">
+<!-- Fixed Center Grid Container -->
+<div class="w-full max-w-container-max px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col gap-section-gap">
+<!-- Day Status Bar (Compact Horizontal) -->
+<section aria-label="Day Status Overview" class="w-full">
+<div class="layer-card rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="schedule">schedule</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-wider text-xs">Projected End</p>
+<p class="font-headline-md text-headline-md text-primary font-semibold">5:25 PM</p>
+</div>
+</div>
+<div class="hidden md:block w-px h-10 bg-outline-variant"></div>
+<div class="flex flex-row gap-6 w-full md:w-auto justify-between md:justify-start">
+<div>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-wider text-xs mb-1">Capacity Left</p>
+<div class="flex items-center gap-2">
+<span class="font-body-md text-body-md text-on-surface font-medium">2h 30m</span>
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 40%;"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-wider text-xs mb-1">Protected Personal</p>
+<div class="flex items-center gap-1">
+<span class="font-body-md text-body-md text-on-surface font-medium mr-1">3</span>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="favorite">favorite</span>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="restaurant">restaurant</span>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="call">call</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Subtle changes ticker -->
+<div class="mt-3 flex items-center gap-2 px-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="info">info</span>
+<p class="font-body-md text-body-md text-sm text-secondary italic">Changes since morning: Acme meeting moved 15m later.</p>
+</div>
+</section>
+<!-- Main Content Grid (Bento Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- LEFT COLUMN: The "Now" Focus (Spans 8 cols on desktop) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Main Focus Card -->
+<section aria-label="Current Focus">
+<div class="layer-card rounded-2xl p-6 md:p-8 layer-hover border-l-4 border-l-primary relative overflow-hidden">
+<!-- Subtle abstract bg -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-cover bg-center opacity-10 rounded-full pointer-events-none" data-alt="A very subtle, abstract, low-contrast geometric pattern in pale stone and soft teal colors, used as a faint background watermark in a sophisticated minimalist UI." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDEiD5d1XRLPVA5YW8LR0Tp04T26OlpEYzY5AfXpkUNMCwIpkpezS73jIPNtMKPU6UbqbYEXwqseIipfY8uXLuuvyRzPtk6UdffgagzGUyadHcoPhERmSHCsGH6unC0rOluMeGylSVLQHsRA2-JcnixBQhitj7mO5UVTBZZ06FN9mqliX47Ajx83Jg4K7ZjooLrp9_RgPr9jusRIGJwtkJy7wOD_M8s7w2KvLDgQK0Dh3h7yBz3Ddv_pTQECR3eewYDo1AJhi9l35I')"></div>
+<div class="flex justify-between items-start mb-6 relative z-10">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-1 rounded-full bg-error-container text-on-error-container font-label-md text-label-md text-[10px] uppercase tracking-widest flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span> Live Now
+                                        </span>
+<span class="font-label-md text-label-md text-secondary">Protected until 10:30 AM</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Complete architecture decision</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant flex items-start gap-2">
+<span class="material-symbols-outlined text-outline mt-1 text-sm" data-icon="subdirectory_arrow_right">subdirectory_arrow_right</span>
+<span class="italic text-secondary">Why: Blocking three engineers</span>
+</p>
+</div>
+</div>
+<!-- Timer & Controls Area -->
+<div class="mt-8 flex flex-col md:flex-row items-center justify-between bg-surface p-6 rounded-xl border border-surface-container">
+<!-- Timer Circle -->
+<div class="flex items-center gap-6 mb-6 md:mb-0">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<!-- SVG Progress Ring -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="stroke-surface-container-high" cx="50" cy="50" fill="none" r="45" stroke-width="8"></circle>
+<circle class="stroke-primary progress-ring__circle" cx="50" cy="50" fill="none" r="45" stroke-dasharray="283" stroke-dashoffset="85" stroke-width="8"></circle> <!-- 85 represents ~70% remaining -->
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md font-bold text-primary">42</span>
+<span class="font-label-md text-label-md text-[10px] text-secondary">MIN</span>
+</div>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="flex flex-wrap items-center justify-center gap-3">
+<button class="px-6 py-3 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md flex items-center gap-2 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined icon-fill" data-icon="play_arrow">play_arrow</span>
+                                        Continue
+                                    </button>
+<button class="px-4 py-3 border border-outline rounded-full font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="pause">pause</span>
+                                        Pause
+                                    </button>
+<button class="px-4 py-3 border border-outline rounded-full font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-2" title="Re-estimate">
+<span class="material-symbols-outlined" data-icon="update">update</span>
+</button>
+<button class="p-3 bg-surface-container-highest rounded-full text-primary hover:bg-tertiary-fixed transition-colors ml-2" title="Complete early">
+<span class="material-symbols-outlined" data-icon="check">check</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Next Sequence (Timeline style) -->
+<section aria-label="Upcoming Schedule" class="mt-4">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="arrow_forward">arrow_forward</span>
+                            Next in Sequence
+                        </h3>
+<div class="relative pl-6 border-l border-outline-variant space-y-8">
+<!-- Timeline Item 1 -->
+<div class="relative group">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+<div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+<div class="font-label-md text-label-md text-secondary w-16 pt-1">10:45</div>
+<div class="layer-card p-4 rounded-lg flex-grow flex justify-between items-center group-hover:border-primary transition-colors">
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-medium">Resolve Acme escalation</h4>
+<p class="font-body-md text-body-md text-sm text-secondary mt-1">Work Domain</p>
+</div>
+<span class="px-3 py-1 bg-surface-container-low rounded-full font-label-md text-label-md text-xs text-secondary">75m</span>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative group">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+<div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+<div class="font-label-md text-label-md text-secondary w-16 pt-1">12:00</div>
+<div class="layer-card p-4 rounded-lg flex-grow flex justify-between items-center bg-surface-container-lowest opacity-80 border-dashed">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="restaurant">restaurant</span>
+<h4 class="font-body-lg text-body-lg text-on-surface">Lunch Block</h4>
+</div>
+<span class="px-3 py-1 bg-surface-container rounded-full font-label-md text-label-md text-xs text-secondary">45m</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: Interrupts & Protected Later (Spans 4 cols on desktop) -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Interrupts Card (Glassmorphism highlight) -->
+<section aria-label="Requires Decision">
+<div class="glass-panel rounded-xl p-5 border-t-2 border-t-error">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface text-lg">Needs a Decision</h3>
+<span class="flex h-5 w-5 items-center justify-center rounded-full bg-error-container text-on-error-container text-xs font-bold">2</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Interrupt 1 -->
+<div class="bg-surface rounded-lg p-3 border border-outline-variant hover:border-error transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-body-md text-body-md font-medium text-on-surface leading-tight">Acme dashboard error</h4>
+<span class="material-symbols-outlined text-outline group-hover:text-error text-sm" data-icon="error">error</span>
+</div>
+<p class="font-label-md text-label-md text-secondary text-xs mb-3">From: Maya</p>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 px-2 bg-surface-container-high hover:bg-surface-dim rounded text-xs font-label-md text-on-surface transition-colors">Handle Now</button>
+<button class="flex-1 py-1.5 px-2 border border-outline-variant hover:bg-surface-container rounded text-xs font-label-md text-on-surface transition-colors">Defer</button>
+</div>
+</div>
+<!-- Interrupt 2 -->
+<div class="bg-surface rounded-lg p-3 border border-outline-variant hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-body-md text-body-md font-medium text-on-surface leading-tight">Saturday dinner coordination</h4>
+<span class="material-symbols-outlined text-outline group-hover:text-primary text-sm" data-icon="chat_bubble">chat_bubble</span>
+</div>
+<p class="font-label-md text-label-md text-secondary text-xs mb-3">From: Daniel</p>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 px-2 bg-surface-container-high hover:bg-surface-dim rounded text-xs font-label-md text-on-surface transition-colors">Quick Reply</button>
+<button class="flex-1 py-1.5 px-2 border border-outline-variant hover:bg-surface-container rounded text-xs font-label-md text-on-surface transition-colors">Snooze</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Protected Later Today -->
+<section aria-label="Protected Personal Commitments">
+<div class="layer-card rounded-xl p-5">
+<h3 class="font-headline-md text-headline-md text-on-surface text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="shield">shield</span>
+                                Protected Later
+                            </h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-0.5 p-1.5 bg-surface-container rounded-md">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="directions_car">directions_car</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">School pickup</p>
+<p class="font-label-md text-label-md text-secondary text-xs mt-0.5">4:05 PM</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 p-1.5 bg-surface-container rounded-md">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="family_restroom">family_restroom</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Family dinner</p>
+<p class="font-label-md text-label-md text-secondary text-xs mt-0.5">6:00 PM</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 p-1.5 bg-surface-container rounded-md">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="phone_iphone">phone_iphone</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Call Mom</p>
+<p class="font-label-md text-label-md text-secondary text-xs mt-0.5">7:15 PM</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</div>
+</div> <!-- End Grid -->
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/90 backdrop-blur-md border-t border-outline-variant flex justify-around items-center py-2 px-4 pb-safe">
+<a aria-current="page" class="flex flex-col items-center p-2 text-primary group" href="#">
+<span class="material-symbols-outlined icon-fill mb-1" data-icon="today">today</span>
+<span class="font-label-md text-label-md text-[10px]">Today</span>
+</a>
+<a class="flex flex-col items-center p-2 text-secondary hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_view_week">calendar_view_week</span>
+<span class="font-label-md text-label-md text-[10px]">Week</span>
+</a>
+<!-- FAB placeholder in bottom nav for mobile -->
+<div class="relative -top-5">
+<button aria-label="Capture" class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center p-2 text-secondary hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="handshake">handshake</span>
+<span class="font-label-md text-label-md text-[10px]">Promises</span>
+</a>
+<a class="flex flex-col items-center p-2 text-secondary hover:text-primary transition-colors group" href="#">
+<img alt="Profile" class="w-6 h-6 rounded-full mb-1 object-cover border border-outline" data-alt="A very small circular user avatar image representing a profile tab in a mobile navigation bar, soft neutral colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWSm8AmD1A7itStk2H1goT78Vql0KA3mPIBp3S4t-RnqgCf-V7MttEu4LGuhCDzpcI7hE5ESql0jzuxWXPDsfAnIPjrgM2hrAjaHAFW2Diyc-CZ4IyKSvXyonWuVVlN-h1Q9UjsRqz985f5QLpCoiyzOqm5DbmME4e6xWihl-v28KiXpfi9BDwJnPXKKAvs0TlZ_wdGDDnmZE2h7ps1o4qI23cUB47AxLBZtO0nhtdyAahVYk1iXfue8hbhfFUAqhLfSFiIBGuuZ4"/>
+<span class="font-label-md text-label-md text-[10px]">Profile</span>
+</a>
+</nav>
+</body></html>

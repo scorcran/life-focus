@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Life Focus Intelligence - Morning Whole-Life Plan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e4e2e1",
+                        "surface": "#fcf9f3",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1c1c18",
+                        "on-surface-variant": "#424848",
+                        "tertiary-container": "#3b3b3b",
+                        "surface-bright": "#fcf9f3",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d3e6e8",
+                        "on-primary-fixed-variant": "#394a4c",
+                        "on-secondary-container": "#636360",
+                        "inverse-primary": "#b7cacc",
+                        "surface-dim": "#dcdad4",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-highest": "#e5e2dc",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e5e2dc",
+                        "on-surface": "#1c1c18",
+                        "outline": "#727879",
+                        "on-primary-fixed": "#0d1e20",
+                        "surface-container": "#f1ede7",
+                        "inverse-surface": "#31302d",
+                        "secondary": "#5e5e5c",
+                        "secondary-container": "#e1dfdc",
+                        "surface-tint": "#506164",
+                        "primary-fixed-dim": "#b7cacc",
+                        "on-secondary-fixed": "#1b1c1a",
+                        "inverse-on-surface": "#f3f0ea",
+                        "primary": "#17282a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#96a9ab",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "on-tertiary-container": "#a7a5a5",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "primary-container": "#2d3e40",
+                        "secondary-fixed": "#e4e2df",
+                        "background": "#fcf9f3",
+                        "tertiary": "#252525",
+                        "outline-variant": "#c2c7c8",
+                        "surface-container-low": "#f6f3ed",
+                        "on-secondary-fixed-variant": "#474745",
+                        "secondary-fixed-dim": "#c8c6c4",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-high": "#ebe8e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "section-gap": "64px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-lg": ["Public Sans"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F7F5F2; }
+        .glass-panel { background: rgba(252, 249, 243, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(229, 226, 220, 0.5); }
+        .timeline-line { position: absolute; left: 15px; top: 24px; bottom: 0; width: 1px; background-color: #c2c7c8; z-index: 0; }
+        .domain-pip { position: relative; z-index: 10; width: 12px; height: 12px; border-radius: 50%; background-color: #fcf9f3; border: 2px solid #2d3e40; }
+        .domain-pip.protected { background-color: #2d3e40; }
+    </style>
+</head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col md:flex-row antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex h-full w-20 flex-col border-r border-outline-variant bg-surface dark:bg-background fixed left-0 top-0 bottom-0 z-40 items-center py-unit">
+<div class="mb-8 mt-4 flex items-center justify-center w-full">
+<div class="h-10 w-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">LF</div>
+</div>
+<div class="flex flex-col gap-2 w-full px-2 mt-4">
+<a class="flex flex-col items-center p-3 rounded-xl bg-surface-container dark:bg-surface-container-high text-primary dark:text-primary-fixed font-bold border-r-2 border-primary transition-colors hover:bg-surface-container dark:hover:bg-surface-container-high scale-95 transition-transform duration-150" href="#" title="Today">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">today</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Today</span>
+</a>
+<a class="flex flex-col items-center p-3 rounded-xl text-secondary dark:text-secondary-fixed-dim opacity-70 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#" title="Week">
+<span class="material-symbols-outlined mb-1">calendar_view_week</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Week</span>
+</a>
+<a class="flex flex-col items-center p-3 rounded-xl text-secondary dark:text-secondary-fixed-dim opacity-70 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#" title="Interrupts">
+<span class="material-symbols-outlined mb-1">notification_important</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Int</span>
+</a>
+<a class="flex flex-col items-center p-3 rounded-xl text-secondary dark:text-secondary-fixed-dim opacity-70 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#" title="People">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Ppl</span>
+</a>
+</div>
+<div class="mt-auto mb-4 flex flex-col gap-2 w-full px-2">
+<a class="flex flex-col items-center p-3 rounded-xl text-secondary dark:text-secondary-fixed-dim opacity-70 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#" title="Settings">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Set</span>
+</a>
+<button class="h-12 w-12 rounded-full overflow-hidden border border-outline-variant hover:opacity-80 transition-opacity mt-2 mx-auto">
+<img alt="User avatar for Life Focus Intelligence" class="h-full w-full object-cover" data-alt="A sophisticated minimalist professional headshot of a man named Sean, soft studio lighting, calm expression, neutral background, light mode aesthetic, matching the clean editorial design system colors of soft stones and deep teals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvR01_doT_enlgCXzxOicBVcXYwMMIznMtac6Miq11LuJ7cV4nudZO4cE9ZitGO-5DTB6zi2pv-U_6LL71eoP30P7jc7MCXysYv4VO4J1NPwLvuPksO839mggRVAdE9P-pH6_HpXJ8cObKanA5TolBFTGqMBZyMWGMedq0B5FODvzKw5yTtRojfAHp0sIALJYls3RI8qv1rMeQFCo6sPSlg_0E7V5CYmCm1n2qsghhw7EwKP_bXIjpUsVawqMbLP3qwt3yPMUlsKI"/>
+</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-20 flex flex-col pb-24 md:pb-0">
+<!-- TopNavBar (Mobile only for Destination, or Top for Web if configured. Here using as mobile fallback since side rail is desktop) -->
+<header class="md:hidden sticky top-0 z-50 flex justify-between items-center px-margin-mobile py-4 w-full bg-surface/80 dark:bg-background/80 backdrop-blur-md border-b border-outline-variant">
+<div class="font-headline-md text-headline-md font-medium tracking-tight text-primary dark:text-primary-fixed">Life Focus Intelligence</div>
+<button class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User profile" class="h-full w-full object-cover" data-alt="A sophisticated minimalist professional headshot of a man named Sean, soft studio lighting, calm expression, neutral background, light mode aesthetic, matching the clean editorial design system colors of soft stones and deep teals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUW8yVHFVQnyZ-eqhldugKk8A4ELgePulzlq4knDO34PTeznadXWtXpQqPeJfZEvHI95fZqgG-629DFwEcJE7eBdcqDmI94aOQcdjxlTJghDjWfhpd5VnDY9YslP_btfZM53uK-PzTYdl5FEAwTj1kuoXQnCXzjZWDrn_6ucgpYfkbUxkynCxwoWJK78ECYTc102QPgaDPa2kzjABgYMDdS8fGzCY401eLLj0Sev-pP3AVDuLG0NWkCizEhpUvnJ_xQ4PN6JTQojo"/>
+</button>
+</header>
+<div class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<!-- Header Section -->
+<header class="mb-12 max-w-3xl">
+<h1 class="font-display-lg text-display-lg text-on-background mb-4">Good morning, Sean</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                    Your recommended workday ends at <strong class="text-on-background font-medium">5:20 PM</strong>. School pickup at 4:30 PM is protected, and the evening remains reserved for family.
+                </p>
+</header>
+<!-- Capacity Summary -->
+<section class="mb-section-gap">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="bg-surface-container-highest rounded-xl p-4 border border-outline-variant/30 hover:shadow-sm transition-shadow">
+<div class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Work</div>
+<div class="font-headline-md text-headline-md text-on-background">6h 10m</div>
+<div class="text-sm text-on-surface-variant mt-1">Ends 5:20 PM</div>
+</div>
+<div class="bg-surface-container-highest rounded-xl p-4 border border-outline-variant/30 hover:shadow-sm transition-shadow">
+<div class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Personal</div>
+<div class="font-headline-md text-headline-md text-on-background">1h 20m</div>
+<div class="text-sm text-on-surface-variant mt-1">3 Hard Commitments</div>
+</div>
+<div class="bg-surface-container-highest rounded-xl p-4 border border-outline-variant/30 hover:shadow-sm transition-shadow">
+<div class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Flexibility</div>
+<div class="font-headline-md text-headline-md text-on-background">45m</div>
+<div class="text-sm text-on-surface-variant mt-1">Interrupt Reserve</div>
+</div>
+<div class="bg-surface-container-highest rounded-xl p-4 border border-outline-variant/30 hover:shadow-sm transition-shadow">
+<div class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Confidence</div>
+<div class="font-headline-md text-headline-md text-primary">81%</div>
+<div class="text-sm text-on-surface-variant mt-1">Plan Viability</div>
+</div>
+<div class="bg-surface-container-highest rounded-xl p-4 border border-outline-variant/30 hover:shadow-sm transition-shadow col-span-2 md:col-span-1">
+<div class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Unscheduled</div>
+<div class="font-headline-md text-headline-md text-on-background">1h 25m</div>
+<div class="text-sm text-error mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Demand risk
+                        </div>
+</div>
+</div>
+</section>
+<!-- Main Layout: 67/33 Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-12 relative">
+<!-- Left Column: Recommended Day timeline (67%) -->
+<div class="lg:col-span-8">
+<h2 class="font-headline-md text-headline-md mb-8 border-b border-outline-variant pb-4">Recommended Day</h2>
+<div class="relative pl-8">
+<div class="timeline-line"></div>
+<!-- Timeline Item 1 -->
+<div class="relative mb-8 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip"></div>
+</div>
+<div class="text-sm font-medium text-secondary mb-1">9:00 AM - 10:30 AM</div>
+<div class="bg-[#EBE8E2] rounded-xl p-5 border border-outline-variant/50 transition-all hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)] hover:-translate-y-0.5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body-lg text-body-lg font-medium text-on-background">Complete architecture decision</h3>
+</div>
+<div class="flex flex-wrap gap-2 mb-3">
+<span class="px-2 py-1 rounded-full bg-surface-dim text-on-surface text-xs font-medium border border-outline-variant/50">Work</span>
+<span class="px-2 py-1 rounded-full bg-primary-container text-on-primary text-xs font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span> Protected priority
+                                    </span>
+</div>
+<p class="text-sm text-on-surface-variant bg-surface rounded p-3 border border-outline-variant/30">
+<strong class="text-on-background">Why:</strong> Blocks 3 engineers. Essential for current sprint velocity.
+                                </p>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative mb-8 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip"></div>
+</div>
+<div class="text-sm font-medium text-secondary mb-1">10:45 AM - 11:45 AM</div>
+<div class="bg-surface rounded-xl p-5 border border-outline-variant/50 transition-all hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<h3 class="font-body-lg text-body-lg font-medium text-on-background">Resolve Acme escalation</h3>
+</div>
+</div>
+<!-- Timeline Item 3 (Midday) -->
+<div class="relative mb-8 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip"></div>
+</div>
+<div class="text-sm font-medium text-secondary mb-1">12:00 PM - 12:30 PM</div>
+<div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/30 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+<h3 class="font-body-md text-body-md text-on-surface-variant">Lunch and reset</h3>
+</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="relative mb-8 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip"></div>
+</div>
+<div class="text-sm font-medium text-secondary mb-1">1:30 PM - 2:15 PM</div>
+<div class="bg-surface rounded-xl p-5 border border-outline-variant/50 transition-all hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<h3 class="font-body-lg text-body-lg font-medium text-on-background">Customer meeting</h3>
+</div>
+</div>
+<!-- Timeline Item 5 -->
+<div class="relative mb-8 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip"></div>
+</div>
+<div class="text-sm font-medium text-secondary mb-1">2:30 PM - 3:45 PM</div>
+<div class="bg-surface rounded-xl p-5 border border-outline-variant/50 transition-all hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<h3 class="font-body-lg text-body-lg font-medium text-on-background">Quarterly planning</h3>
+</div>
+</div>
+<!-- Timeline Item 6 (Protected) -->
+<div class="relative mb-8 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip protected ring-4 ring-primary-container/20"></div>
+</div>
+<div class="text-sm font-medium text-primary-container mb-1 flex items-center gap-1">
+                                4:05 PM <span class="material-symbols-outlined text-[14px]">directions_car</span>
+</div>
+<div class="bg-[#EBE8E2] rounded-xl p-5 border-l-4 border-l-primary-container border-t border-r border-b border-outline-variant/50 shadow-sm relative overflow-hidden">
+<div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-primary-container/5 to-transparent pointer-events-none"></div>
+<h3 class="font-headline-md text-headline-md text-on-background mb-1">School Pickup</h3>
+<p class="text-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span> Protected hard commitment
+                                </p>
+</div>
+</div>
+<!-- Timeline Item 7 -->
+<div class="relative mb-2 group">
+<div class="absolute -left-[32px] top-6 flex items-center justify-center">
+<div class="domain-pip"></div>
+</div>
+<div class="text-sm font-medium text-secondary mb-1">7:15 PM - 7:35 PM</div>
+<div class="bg-surface rounded-xl p-5 border border-outline-variant/50 transition-all hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Evening Personal</div>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-outline mt-0.5">check_circle</span>
+<span class="font-body-md text-body-md text-on-background">Confirm dinner with Daniel</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-outline mt-0.5">phone_in_talk</span>
+<span class="font-body-md text-body-md text-on-background">Call Mom</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Plan Intelligence (33%) -->
+<aside class="lg:col-span-4 mt-12 lg:mt-0">
+<div class="sticky top-24 space-y-6">
+<h2 class="font-headline-md text-headline-md mb-6 border-b border-outline-variant pb-4">Plan Intelligence</h2>
+<!-- What this plan protects -->
+<div class="glass-panel rounded-xl p-5">
+<div class="flex items-center gap-2 mb-3 text-primary-container">
+<span class="material-symbols-outlined">shield</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider">What this plan protects</h3>
+</div>
+<ul class="space-y-2 text-sm text-on-surface-variant">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-[16px] text-primary">done</span> Family evening boundary (post 5:20)</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-[16px] text-primary">done</span> Deep work momentum for architecture</li>
+</ul>
+</div>
+<!-- Needs attention -->
+<div class="glass-panel rounded-xl p-5 border-l-4 border-l-[#ba1a1a]">
+<div class="flex items-center gap-2 mb-3 text-error">
+<span class="material-symbols-outlined">error</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-error">Needs attention</h3>
+</div>
+<p class="text-sm text-on-surface-variant mb-2">
+                                Acme escalation might spill over. Buffer is thin before lunch.
+                            </p>
+</div>
+<!-- Plan risks -->
+<div class="glass-panel rounded-xl p-5">
+<div class="flex items-center gap-2 mb-3 text-on-surface-variant">
+<span class="material-symbols-outlined">warning</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider">Plan risks</h3>
+</div>
+<div class="w-full bg-surface-dim rounded-full h-1.5 mb-2">
+<div class="bg-outline h-1.5 rounded-full" style="width: 45%"></div>
+</div>
+<p class="text-xs text-secondary text-right mb-3">45% risk of meeting overrun</p>
+<p class="text-sm text-on-surface-variant">
+                                Quarterly planning often runs late. We've added a 20m buffer before school pickup.
+                            </p>
+</div>
+<!-- Intentionally not scheduled -->
+<div class="glass-panel rounded-xl p-5 opacity-80">
+<div class="flex items-center gap-2 mb-3 text-secondary">
+<span class="material-symbols-outlined">snooze</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider">Intentionally not scheduled</h3>
+</div>
+<ul class="space-y-2 text-sm text-secondary strike-through">
+<li class="line-through">Inbox zero block (deferred to tomorrow)</li>
+<li class="line-through">1:1 with Sarah (rescheduled to Thursday)</li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Sticky Action Area -->
+<div class="fixed bottom-0 left-0 right-0 md:left-20 z-50 p-4 bg-surface/90 dark:bg-background/90 backdrop-blur-md border-t border-outline-variant/30 flex justify-end items-center gap-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<button class="px-6 py-2.5 rounded-full border border-outline text-on-background font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+            Modify Plan
+        </button>
+<button class="px-6 py-2.5 rounded-full bg-primary-container text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+            Approve today's plan
+        </button>
+</div>
+</body></html>

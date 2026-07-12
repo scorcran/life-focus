@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capture Inbox — Life Focus</title>
+
+  <!-- Google Fonts: Playfair Display + Public Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    /*
+     * =========================================================
+     * CAPTURE INBOX — Life Focus Design System
+     * =========================================================
+     * Spine sections illustrated by this screen:
+     *
+     *   1. CAPTURE — Universal quick-add bar for raw input
+     *   2. INBOX TRIAGE — Review, classify, confirm or reclassify
+     *      captured items before they enter the plan
+     *   3. CLARIFICATION PROMPT — Inline disambiguation for
+     *      ambiguous commitment vs. note items
+     *   4. SOURCE ATTRIBUTION — Typed vs. email provenance badges
+     *   5. CLASSIFICATION CONFIDENCE — Neutral "proposed" framing,
+     *      confidence % as information not evaluation
+     *   6. DISCARD + SNOOZE — Safe non-destructive exits for items
+     *      that don't belong in the plan
+     * =========================================================
+     */
+
+    :root {
+      --bg:              #fcf9f3;
+      --surface:         #f1ede7;
+      --card-border:     #ebe8e2;
+      --primary:         #17282a;
+      --primary-cont:    #2d3e40;
+      --on-primary:      #ffffff;
+      --on-surface:      #1c1c18;
+      --on-surface-var:  #424848;
+      --secondary:       #5e5e5c;
+      --error:           #ba1a1a;
+      --error-cont:      #ffdad6;
+      --sidebar-w:       80px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--on-surface);
+      font-family: 'Public Sans', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    .font-headline { font-family: 'Playfair Display', Georgia, serif; }
+
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      vertical-align: middle;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      z-index: 50;
+    }
+
+    .sidebar-logo {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
+    }
+
+    .lf-mark {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: rgba(255,255,255,0.90);
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 12px 0;
+      overflow: hidden;
+    }
+
+    .nav-item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 10px 4px;
+      cursor: pointer;
+      border-radius: 0;
+      transition: background 0.15s;
+      position: relative;
+      text-decoration: none;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.80);
+    }
+
+    .nav-item.active {
+      color: #ffffff;
+      background: rgba(255,255,255,0.10);
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: #5ecfca;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .nav-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .nav-label {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      text-align: center;
+      font-family: 'Public Sans', sans-serif;
+      line-height: 1.1;
+    }
+
+    .sidebar-bottom {
+      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .avatar {
+      width: 32px; height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #5ecfca, #2d3e40);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      font-family: 'Public Sans', sans-serif;
+    }
+
+    /* Main content */
+    .main {
+      margin-left: var(--sidebar-w);
+    }
+
+    .main-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+    }
+
+    /* Mobile top bar */
+    .mobile-topbar {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--primary);
+      z-index: 50;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    @media (max-width: 767px) {
+      .sidebar { display: none; }
+      .mobile-topbar { display: flex; }
+      .main { margin-left: 0; padding-top: 56px; }
+      .main-inner { padding: 24px 16px 80px; }
+    }
+
+    /* Card */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    /* Chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .chip-request   { background: #e0f2fe; color: #0369a1; }
+    .chip-commitment{ background: #d1fae5; color: #065f46; }
+    .chip-idea      { background: #ede9fe; color: #5b21b6; }
+    .chip-date      { background: #fef3c7; color: #92400e; }
+
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--on-surface-var);
+      border: 1px solid var(--card-border);
+    }
+
+    .source-badge .material-symbols-outlined { font-size: 13px; }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: 'Public Sans', sans-serif;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover { background: var(--primary-cont); }
+
+    .btn-primary-sm {
+      padding: 5px 12px;
+      font-size: 12px;
+    }
+
+    .btn-teal {
+      background: #17282a;
+      color: #fff;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      background: transparent;
+      color: var(--on-surface-var);
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      font-family: 'Public Sans', sans-serif;
+      transition: background 0.12s, border-color 0.12s;
+      white-space: nowrap;
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface);
+    }
+
+    .btn-ghost-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .btn-destructive {
+      color: var(--error);
+      border-color: #f5c6c6;
+    }
+
+    .btn-destructive:hover {
+      background: var(--error-cont);
+      border-color: #f5c6c6;
+    }
+
+    /* Confidence badge */
+    .confidence {
+      font-size: 11px;
+      color: var(--secondary);
+      font-weight: 400;
+    }
+
+    /* Clarification banner */
+    .clarification-banner {
+      background: #fef9ee;
+      border: 1px solid #f5d98a;
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .clarification-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .clarification-row .material-symbols-outlined {
+      font-size: 16px;
+      color: #92400e;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-variation-settings: 'FILL' 1;
+    }
+
+    .clarification-text {
+      font-size: 13px;
+      color: #78350f;
+      line-height: 1.45;
+    }
+
+    .clarification-actions {
+      display: flex;
+      gap: 6px;
+      padding-left: 24px;
+    }
+
+    /* Dimmed action row */
+    .action-row-dimmed {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* Quick-add bar */
+    .quick-add-wrap {
+      position: relative;
+    }
+
+    .quick-add-input {
+      width: 100%;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 14px 100px 14px 16px;
+      font-size: 15px;
+      font-family: 'Public Sans', sans-serif;
+      color: var(--on-surface);
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .quick-add-input::placeholder {
+      color: var(--secondary);
+    }
+
+    .quick-add-input:focus {
+      border-color: #17282a;
+      box-shadow: 0 0 0 3px rgba(23,40,42,0.08);
+    }
+
+    .quick-add-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* Empty state */
+    .empty-state {
+      border: 1.5px dashed var(--card-border);
+      border-radius: 8px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .empty-state .material-symbols-outlined {
+      font-size: 32px;
+      color: #c4bfb8;
+    }
+
+    /* Warning badge */
+    .needs-review-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-family: 'Public Sans', sans-serif;
+    }
+
+    .needs-review-badge .material-symbols-outlined {
+      font-size: 14px;
+      font-variation-settings: 'FILL' 1;
+    }
+
+    /* Timestamp */
+    .timestamp {
+      font-size: 11.5px;
+      color: var(--secondary);
+      white-space: nowrap;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#fcf9f3',
+            surface: '#f1ede7',
+            primary: '#17282a',
+            'primary-cont': '#2d3e40',
+            'on-surface': '#1c1c18',
+            'on-surface-var': '#424848',
+            secondary: '#5e5e5c',
+            error: '#ba1a1a',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       MOBILE TOP BAR (hidden ≥ md)
+  ═══════════════════════════════════════════ -->
+  <header class="mobile-topbar md:hidden">
+    <span class="lf-mark" style="width:32px;height:32px;font-size:12px;">LF</span>
+    <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:16px;color:#fff;flex:1;">Capture Inbox</span>
+    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.6);font-size:24px;">menu</span>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       FIXED LEFT SIDEBAR
+  ═══════════════════════════════════════════ -->
+  <nav class="sidebar hidden md:flex">
+
+    <!-- Logo mark -->
+    <div class="sidebar-logo">
+      <div class="lf-mark">LF</div>
+    </div>
+
+    <!-- Nav items -->
+    <div class="sidebar-nav">
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined nav-icon" style="font-variation-settings:'FILL' 0;">today</span>
+        <span class="nav-label">Today</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined nav-icon" style="font-variation-settings:'FILL' 0;">calendar_view_week</span>
+        <span class="nav-label">Week</span>
+      </a>
+
+      <a href="#" class="nav-item active">
+        <span class="material-symbols-outlined nav-icon" style="font-variation-settings:'FILL' 1;">inbox</span>
+        <span class="nav-label">Inbox</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined nav-icon" style="font-variation-settings:'FILL' 0;">task_alt</span>
+        <span class="nav-label">Commit&shy;ments</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined nav-icon" style="font-variation-settings:'FILL' 0;">nights_stay</span>
+        <span class="nav-label">End of Day</span>
+      </a>
+
+    </div>
+
+    <!-- Bottom: settings + avatar -->
+    <div class="sidebar-bottom">
+      <a href="#" class="nav-item" style="padding:8px 4px;">
+        <span class="material-symbols-outlined" style="font-size:20px;color:rgba(255,255,255,0.5);">settings</span>
+        <span class="nav-label" style="font-size:9px;color:rgba(255,255,255,0.4);">Settings</span>
+      </a>
+      <div class="avatar" title="Sean">S</div>
+    </div>
+
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════ -->
+  <main class="main">
+    <div class="main-inner">
+
+      <!-- ─── PAGE HEADER ─── -->
+      <div class="mb-8">
+        <div class="flex items-start justify-between gap-4 flex-wrap mb-2">
+          <h1 class="font-headline text-3xl font-semibold leading-tight" style="color:var(--on-surface);">
+            Capture Inbox
+          </h1>
+          <span class="needs-review-badge">
+            <span class="material-symbols-outlined">warning</span>
+            5 items need review
+          </span>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:var(--on-surface-var);max-width:560px;">
+          Review and classify what came in. Confirm or reclassify before items enter your plan.
+        </p>
+      </div>
+
+      <!-- ─── QUICK-ADD INPUT BAR ─── -->
+      <div class="mb-8">
+        <div class="quick-add-wrap mb-2">
+          <input
+            type="text"
+            class="quick-add-input"
+            placeholder="Capture anything — a thought, a request, a commitment, a date…"
+          />
+          <div class="quick-add-btn">
+            <button class="btn-primary btn-primary-sm">
+              Add
+            </button>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--secondary);padding-left:4px;">
+          Natural language — just type it. Classification happens automatically.
+        </p>
+      </div>
+
+      <!-- ─── CAPTURED ITEMS LIST ─── -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <!-- ─────────────────────────────────────────
+             ITEM 1 — Typed · Commitment · Clarification state
+        ───────────────────────────────────────── -->
+        <div class="card">
+          <!-- Top row: source badge + timestamp -->
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <span class="source-badge">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">keyboard</span>
+              typed
+            </span>
+            <span class="timestamp">2:14 PM · today</span>
+          </div>
+
+          <!-- Capture text -->
+          <p class="text-sm leading-relaxed mb-3" style="color:var(--on-surface);font-size:14.5px;">
+            I told Marcus we'd have the API contract finalized by end of next week
+          </p>
+
+          <!-- Classification row -->
+          <div class="flex items-center gap-2 mb-3">
+            <span class="chip chip-commitment">
+              <span class="material-symbols-outlined" style="font-size:12px;font-variation-settings:'FILL' 1;">task_alt</span>
+              Commitment
+            </span>
+            <span class="confidence">· proposed classification · 87% confident</span>
+          </div>
+
+          <!-- CLARIFICATION BANNER -->
+          <div class="clarification-banner mb-3">
+            <div class="clarification-row">
+              <span class="material-symbols-outlined">info</span>
+              <span class="clarification-text">
+                Did you commit to this? This would affect tomorrow's plan.
+              </span>
+            </div>
+            <div class="clarification-actions">
+              <button class="btn-primary btn-primary-sm">Yes, I committed</button>
+              <button class="btn-ghost btn-ghost-sm">Not a commitment</button>
+            </div>
+          </div>
+
+          <!-- Action row (dimmed while clarification is open) -->
+          <div class="flex items-center gap-2 flex-wrap action-row-dimmed">
+            <button class="btn-primary btn-primary-sm">Confirm</button>
+            <button class="btn-ghost btn-ghost-sm">Reclassify</button>
+            <button class="btn-ghost btn-ghost-sm">
+              <span class="material-symbols-outlined" style="font-size:14px;">snooze</span>
+              Snooze
+            </button>
+            <button class="btn-ghost btn-ghost-sm btn-destructive">
+              <span class="material-symbols-outlined" style="font-size:14px;">delete_outline</span>
+              Discard
+            </button>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+             ITEM 2 — Email · Request
+        ───────────────────────────────────────── -->
+        <div class="card">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="source-badge">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">mail</span>
+                email
+              </span>
+              <span class="text-xs" style="color:var(--secondary);">Marcus</span>
+            </div>
+            <span class="timestamp">10:47 AM · today</span>
+          </div>
+
+          <p class="text-sm leading-relaxed mb-3" style="color:var(--on-surface);font-size:14.5px;">
+            Email from Marcus (10:47 AM): "Can you review the updated capacity model before Thursday's all-hands?"
+          </p>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span class="chip chip-request">
+              <span class="material-symbols-outlined" style="font-size:12px;font-variation-settings:'FILL' 0;">move_to_inbox</span>
+              Request
+            </span>
+            <span class="confidence">· proposed classification · 94% confident</span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="btn-primary btn-primary-sm">Confirm</button>
+            <button class="btn-ghost btn-ghost-sm">Reclassify</button>
+            <button class="btn-ghost btn-ghost-sm">
+              <span class="material-symbols-outlined" style="font-size:14px;">snooze</span>
+              Snooze
+            </button>
+            <button class="btn-ghost btn-ghost-sm btn-destructive">
+              <span class="material-symbols-outlined" style="font-size:14px;">delete_outline</span>
+              Discard
+            </button>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+             ITEM 3 — Typed · Idea
+        ───────────────────────────────────────── -->
+        <div class="card">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <span class="source-badge">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">keyboard</span>
+              typed
+            </span>
+            <span class="timestamp">1:33 PM · today</span>
+          </div>
+
+          <p class="text-sm leading-relaxed mb-3" style="color:var(--on-surface);font-size:14.5px;">
+            Would be interesting to explore async standup format for the distributed team — reduces interrupt load
+          </p>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span class="chip chip-idea">
+              <span class="material-symbols-outlined" style="font-size:12px;font-variation-settings:'FILL' 0;">lightbulb</span>
+              Idea
+            </span>
+            <span class="confidence">· proposed classification · 78% confident</span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="btn-primary btn-primary-sm">Confirm</button>
+            <button class="btn-ghost btn-ghost-sm">Reclassify</button>
+            <button class="btn-ghost btn-ghost-sm">
+              <span class="material-symbols-outlined" style="font-size:14px;">snooze</span>
+              Snooze
+            </button>
+            <button class="btn-ghost btn-ghost-sm btn-destructive">
+              <span class="material-symbols-outlined" style="font-size:14px;">delete_outline</span>
+              Discard
+            </button>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+             ITEM 4 — Email · Important Date
+        ───────────────────────────────────────── -->
+        <div class="card">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="source-badge">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">mail</span>
+                email
+              </span>
+              <span class="text-xs" style="color:var(--secondary);">Priya</span>
+            </div>
+            <span class="timestamp">3:18 PM · today</span>
+          </div>
+
+          <p class="text-sm leading-relaxed mb-3" style="color:var(--on-surface);font-size:14.5px;">
+            Email from Priya: "Data governance review is confirmed for Friday July 18 at 2 PM — please RSVP"
+          </p>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span class="chip chip-date">
+              <span class="material-symbols-outlined" style="font-size:12px;font-variation-settings:'FILL' 0;">event</span>
+              Important date
+            </span>
+            <span class="confidence">· proposed classification · 96% confident</span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="btn-primary btn-primary-sm">Confirm</button>
+            <button class="btn-ghost btn-ghost-sm">Reclassify</button>
+            <button class="btn-ghost btn-ghost-sm">
+              <span class="material-symbols-outlined" style="font-size:14px;">snooze</span>
+              Snooze
+            </button>
+            <button class="btn-ghost btn-ghost-sm btn-destructive">
+              <span class="material-symbols-outlined" style="font-size:14px;">delete_outline</span>
+              Discard
+            </button>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+             ITEM 5 — Typed · Commitment
+        ───────────────────────────────────────── -->
+        <div class="card">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <span class="source-badge">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">keyboard</span>
+              typed
+            </span>
+            <span class="timestamp">3:41 PM · today</span>
+          </div>
+
+          <p class="text-sm leading-relaxed mb-3" style="color:var(--on-surface);font-size:14.5px;">
+            Agreed to present Q3 roadmap at the leadership sync on July 24
+          </p>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span class="chip chip-commitment">
+              <span class="material-symbols-outlined" style="font-size:12px;font-variation-settings:'FILL' 1;">task_alt</span>
+              Commitment
+            </span>
+            <span class="confidence">· proposed classification · 91% confident</span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="btn-primary btn-primary-sm">Confirm</button>
+            <button class="btn-ghost btn-ghost-sm">Reclassify</button>
+            <button class="btn-ghost btn-ghost-sm">
+              <span class="material-symbols-outlined" style="font-size:14px;">snooze</span>
+              Snooze
+            </button>
+            <button class="btn-ghost btn-ghost-sm btn-destructive">
+              <span class="material-symbols-outlined" style="font-size:14px;">delete_outline</span>
+              Discard
+            </button>
+          </div>
+        </div>
+
+        <!-- ─── EMPTY STATE HINT ─── -->
+        <div class="empty-state mt-4">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">add_circle</span>
+          <p class="text-sm" style="color:var(--secondary);max-width:400px;line-height:1.55;">
+            Nothing else waiting. Capture anything on your mind — it won't go into your plan until you confirm it.
+          </p>
+        </div>
+
+      </div>
+      <!-- /captured items list -->
+
+    </div>
+    <!-- /main-inner -->
+  </main>
+
+</body>
+</html>

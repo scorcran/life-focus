@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Life Focus Intelligence - Interrupt Decision</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e4e2e1",
+                        "surface": "#fcf9f3",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1c1c18",
+                        "on-surface-variant": "#424848",
+                        "tertiary-container": "#3b3b3b",
+                        "surface-bright": "#fcf9f3",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d3e6e8",
+                        "on-primary-fixed-variant": "#394a4c",
+                        "on-secondary-container": "#636360",
+                        "inverse-primary": "#b7cacc",
+                        "surface-dim": "#dcdad4",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-highest": "#e5e2dc",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e5e2dc",
+                        "on-surface": "#1c1c18",
+                        "outline": "#727879",
+                        "on-primary-fixed": "#0d1e20",
+                        "surface-container": "#f1ede7",
+                        "inverse-surface": "#31302d",
+                        "secondary": "#5e5e5c",
+                        "secondary-container": "#e1dfdc",
+                        "surface-tint": "#506164",
+                        "primary-fixed-dim": "#b7cacc",
+                        "on-secondary-fixed": "#1b1c1a",
+                        "inverse-on-surface": "#f3f0ea",
+                        "primary": "#17282a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#96a9ab",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "on-tertiary-container": "#a7a5a5",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "primary-container": "#2d3e40",
+                        "secondary-fixed": "#e4e2df",
+                        "background": "#fcf9f3",
+                        "tertiary": "#252525",
+                        "outline-variant": "#c2c7c8",
+                        "surface-container-low": "#f6f3ed",
+                        "on-secondary-fixed-variant": "#474745",
+                        "secondary-fixed-dim": "#c8c6c4",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-high": "#ebe8e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "section-gap": "64px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-lg": ["Public Sans"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(252, 249, 243, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(194, 199, 200, 0.3);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex text-body-md antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-full w-20 flex-col bg-surface border-r border-outline-variant fixed left-0 top-0 bottom-0 z-40 items-center py-unit">
+<div class="mb-8 mt-4 flex items-center justify-center w-full">
+<span class="material-symbols-outlined text-primary font-headline-md text-headline-md font-bold" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div class="flex flex-col gap-6 w-full items-center">
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">today</span>
+<span class="font-label-md text-label-md text-[10px]">Today</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">calendar_view_week</span>
+<span class="font-label-md text-label-md text-[10px]">Week</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-primary font-bold border-r-2 border-primary bg-surface-container py-2 scale-95 transition-transform duration-150 rounded-l-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notification_important</span>
+<span class="font-label-md text-label-md text-[10px]">Interrupts</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="font-label-md text-label-md text-[10px]">People</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">emoji_events</span>
+<span class="font-label-md text-label-md text-[10px]">Goals</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">handshake</span>
+<span class="font-label-md text-label-md text-[10px]">Commitments</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu_book</span>
+<span class="font-label-md text-label-md text-[10px]">Sources</span>
+</a>
+</div>
+<div class="mt-auto mb-4 w-full flex items-center justify-center">
+<a class="flex flex-col items-center gap-1 w-full text-secondary opacity-70 hover:bg-surface-container transition-colors py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md text-[10px]">Settings</span>
+</a>
+</div>
+</nav>
+<!-- TopNavBar (Mobile Only Fallback/Header) -->
+<header class="md:hidden sticky top-0 z-50 flex justify-between items-center px-gutter py-2 w-full max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="font-headline-md text-headline-md font-medium tracking-tight text-primary">Life Focus</div>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:bg-surface-container-high rounded-full p-2 transition-all">
+<span class="material-symbols-outlined">search</span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, circular avatar portrait of a professional individual in a minimalist studio setting. Soft, natural lighting highlights clear features against a neutral grey background. The mood is calm and composed, perfectly suited for a premium user interface profile icon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYoNivjpAW0rvYXfdLIVXWSiIavT-1VJscWhZUjoOlkdg2-ZXKTK99Eh_pI0B9m_ecEgWI_-uEBeiIMQC7s2YWzL9bfeAp2BaBCQLfM7SrQwBVdwTsc1NUu0KEE4Usbby8rg6hadw3N0xSQQFlcPWCJaalal668H4mjuC8SveShqWsWqkwgmpx5veB_9BTvWC-SRo0hpHoRj3OO4B7WGJoKQfVc9f6eK0I2yYJ4m43i2Iz-naAA6ex0cE01IA7RkleHwURJYuQOQQ"/>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 md:ml-20 flex justify-center w-full">
+<div class="w-full max-w-container-max px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col gap-12">
+<!-- Header Section -->
+<header class="flex flex-col gap-2">
+<div class="inline-flex items-center gap-2 text-error font-label-md text-label-md bg-error-container/30 px-3 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+                    Schedule Conflict Detected
+                </div>
+<h1 class="font-display-lg text-display-lg text-primary mt-4">Incoming Interrupt</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">A request has been made that conflicts with your established commitments. Review the impact scenarios below.</p>
+</header>
+<!-- Request & Conflict Context (Bento Grid) -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- The Request -->
+<div class="glass-panel rounded-xl p-8 flex flex-col gap-4 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] border border-outline-variant col-span-1 lg:col-span-1">
+<div class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">The Request</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary">"Can you join a troubleshooting session at 4:30?"</div>
+<div class="mt-auto flex items-center gap-3 pt-4 border-t border-outline-variant/50">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-label-md">M</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Maya / Acme Corp</span>
+<span class="text-sm text-secondary">Urgent Client Escalation</span>
+</div>
+</div>
+</div>
+<!-- The Conflict -->
+<div class="glass-panel rounded-xl p-8 flex flex-col gap-4 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] border border-error/20 bg-error-container/10 col-span-1 lg:col-span-2">
+<div class="flex items-center gap-3 text-error">
+<span class="material-symbols-outlined">block</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Hard Conflict</span>
+</div>
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">School pickup (Leave at 4:05 PM)</div>
+<p class="font-body-md text-body-md text-on-surface-variant">This request overlaps with a non-negotiable personal commitment. Accepting will require a major logistical shift and impact family time.</p>
+<!-- Recommendation Callout -->
+<div class="mt-6 bg-surface-container p-6 rounded-lg border-l-4 border-primary flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+<div>
+<div class="font-label-md text-label-md text-primary mb-1 uppercase tracking-wider">System Recommendation</div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">Ask Priya to lead... Join at 5:15 PM only if needed.</div>
+<div class="text-sm text-secondary mt-1">Why: Preserves school pickup, utilizes available delegate.</div>
+</div>
+<button class="bg-primary-container text-on-primary rounded-full px-6 py-3 font-label-md text-label-md hover:bg-primary transition-colors whitespace-nowrap shadow-sm">
+                            Execute Recommendation
+                        </button>
+</div>
+</div>
+</section>
+<hr class="border-t border-outline-variant/30"/>
+<!-- Scenario Comparison Cards -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">Decision Scenarios</h2>
+<span class="font-label-md text-label-md text-secondary">4 Options Evaluated</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Card 1 (Recommended) -->
+<div class="bg-surface rounded-xl p-6 flex flex-col gap-4 border-2 border-primary shadow-[0px_4px_20px_rgba(0,0,0,0.04)] relative overflow-hidden group hover:-translate-y-1 transition-transform">
+<div class="absolute top-0 right-0 bg-primary text-on-primary px-3 py-1 font-label-md text-[10px] rounded-bl-lg">RECOMMENDED</div>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined">person_add</span>
+<h3 class="font-label-md text-label-md">Option 1: Delegate</h3>
+</div>
+<div class="font-body-md text-body-md text-on-surface flex-1">
+                            Ask Priya to lead the session initially.
+                        </div>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/50">
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-[#2d6a4f] mt-0.5">check_circle</span>
+<span>Preserves school pickup</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-[#2d6a4f] mt-0.5">check_circle</span>
+<span>Preserves family dinner</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 border border-outline rounded-lg text-primary font-label-md text-label-md hover:bg-surface-container transition-colors">Select Option</button>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-4 border border-outline-variant shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined">warning</span>
+<h3 class="font-label-md text-label-md">Option 2: Join at 4:30</h3>
+</div>
+<div class="font-body-md text-body-md text-on-surface flex-1">
+                            Accept the meeting as requested.
+                        </div>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/50">
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5">cancel</span>
+<span>Miss school pickup</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5">cancel</span>
+<span>Anna must change plans</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">schedule</span>
+<span>Work day extends to 6:00 PM</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 border border-outline rounded-lg text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors">Select Option</button>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-4 border border-outline-variant shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined">update</span>
+<h3 class="font-label-md text-label-md">Option 3: Join at 5:15</h3>
+</div>
+<div class="font-body-md text-body-md text-on-surface flex-1">
+                            Propose joining late after pickup.
+                        </div>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/50">
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-[#2d6a4f] mt-0.5">check_circle</span>
+<span>Preserves school pickup</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">info</span>
+<span>Dinner delayed by 20m</span>
+</div>
+</div>
+<button class="mt-auto w-full py-2 border border-outline rounded-lg text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors">Select Option</button>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-4 border border-outline-variant shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined">help</span>
+<h3 class="font-label-md text-label-md">Option 4: Context</h3>
+</div>
+<div class="font-body-md text-body-md text-on-surface flex-1">
+                            Ask for more context before deciding.
+                        </div>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/50">
+<div class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">edit_note</span>
+<span>Drafts clarification message</span>
+</div>
+</div>
+<button class="mt-auto w-full py-2 border border-outline rounded-lg text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors">Select Option</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface border-t border-outline-variant flex justify-around items-center py-2 px-4 shadow-[0px_-4px_20px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 p-2" href="#">
+<span class="material-symbols-outlined">today</span>
+<span class="font-label-md text-[10px]">Today</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary font-bold bg-surface-container rounded-lg p-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notification_important</span>
+<span class="font-label-md text-[10px]">Interrupts</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 p-2" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="font-label-md text-[10px]">Goals</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary opacity-70 p-2" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-[10px]">Sources</span>
+</a>
+</nav>
+</body></html>

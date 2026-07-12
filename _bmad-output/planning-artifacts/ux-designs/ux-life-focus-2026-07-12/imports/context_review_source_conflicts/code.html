@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Context Review - Life Focus Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&amp;family=Playfair+Display:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#5e5e5c",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#dcdad4",
+                      "surface-container-low": "#f6f3ed",
+                      "on-background": "#1c1c18",
+                      "primary-container": "#2d3e40",
+                      "primary": "#17282a",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#ebe8e2",
+                      "primary-fixed-dim": "#b7cacc",
+                      "surface-container": "#f1ede7",
+                      "on-surface": "#1c1c18",
+                      "inverse-on-surface": "#f3f0ea",
+                      "on-primary-fixed-variant": "#394a4c",
+                      "background": "#fcf9f3",
+                      "tertiary": "#252525",
+                      "on-secondary-container": "#636360",
+                      "secondary-fixed": "#e4e2df",
+                      "surface-bright": "#fcf9f3",
+                      "secondary-container": "#e1dfdc",
+                      "on-secondary-fixed": "#1b1c1a",
+                      "inverse-primary": "#b7cacc",
+                      "surface-variant": "#e5e2dc",
+                      "surface-container-highest": "#e5e2dc",
+                      "on-secondary-fixed-variant": "#474745",
+                      "on-primary-fixed": "#0d1e20",
+                      "surface": "#fcf9f3",
+                      "outline-variant": "#c2c7c8",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#e4e2e1",
+                      "outline": "#727879",
+                      "on-primary-container": "#96a9ab",
+                      "primary-fixed": "#d3e6e8",
+                      "tertiary-container": "#3b3b3b",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "surface-tint": "#506164",
+                      "error": "#ba1a1a",
+                      "on-tertiary-container": "#a7a5a5",
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "tertiary-fixed-dim": "#c8c6c6",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#424848",
+                      "secondary-fixed-dim": "#c8c6c4",
+                      "inverse-surface": "#31302d",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "1200px",
+                      "section-gap": "64px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "label-md": ["Public Sans"],
+                      "body-lg": ["Public Sans"],
+                      "display-lg": ["Playfair Display"],
+                      "headline-lg": ["Playfair Display"],
+                      "headline-md": ["Playfair Display"],
+                      "headline-lg-mobile": ["Playfair Display"],
+                      "body-md": ["Public Sans"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        /* Hide scrollbar for nav */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar (Desktop) -->
+<nav aria-label="Main Navigation" class="hidden md:flex fixed left-0 top-0 bottom-0 z-40 flex-col items-center py-unit w-20 border-r border-outline-variant bg-surface">
+<!-- Brand Logo Area -->
+<div class="mb-8 mt-4 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-headline-md text-headline-md font-bold mb-1">
+                L
+            </div>
+</div>
+<ul class="flex flex-col gap-4 w-full px-2">
+<!-- Tabs -->
+<li class="w-full flex justify-center">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Today">
+<span class="material-symbols-outlined" data-icon="today">today</span>
+</a>
+</li>
+<li class="w-full flex justify-center">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Week">
+<span class="material-symbols-outlined" data-icon="calendar_view_week">calendar_view_week</span>
+</a>
+</li>
+<li class="w-full flex justify-center">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Interrupts">
+<span class="material-symbols-outlined" data-icon="notification_important">notification_important</span>
+</a>
+</li>
+<li class="w-full flex justify-center">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="People">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</a>
+</li>
+<li class="w-full flex justify-center">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Goals">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+</a>
+</li>
+<li class="w-full flex justify-center">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Commitments">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+</a>
+</li>
+<!-- Active Tab: Sources -->
+<li class="w-full flex justify-center border-r-2 border-primary">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-primary font-bold bg-surface-container-high transition-transform duration-150 scale-95" href="#" title="Sources">
+<span class="material-symbols-outlined" data-icon="menu_book" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</a>
+</li>
+<li class="w-full flex justify-center mt-auto">
+<a class="w-12 h-12 flex items-center justify-center rounded-xl text-secondary opacity-70 hover:bg-surface-container transition-colors" href="#" title="Settings">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-4 mb-2">
+<img alt="User avatar for Life Focus Intelligence" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRJe2t0AYhHJyX7BwHslAQERl1_C6qRKgtVTgEbzJsgTt99Q8pAZEpjnM-BOEJQP6vTCktPJZyy9gNAbdsZW6sVEcw276Ojnp5BpN1FeXr6xxTmpfq3aTQt1HmmweY8vMzGgDzuqJohfdhYVQlzVFmCVHMqOZDlUSHUHHM-IoR2wLV67cfN8qRUHbIg4qpSqRVTqseNlnx0KD2egiwZrGk4xJ1Fjobz2ACA25H2kjVlA-a3Olngu9zbdk0Fupyh0GcnWyRT5Zy4P0"/>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-20 h-screen overflow-hidden bg-background">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-gutter py-2 w-full max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-medium tracking-tight text-primary">Life Focus Intelligence</span>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="sync" class="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+<button aria-label="bolt" class="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+<button aria-label="search" class="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="ml-4 px-6 py-2 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-full hover:opacity-90 transition-opacity flex items-center gap-2">
+                    Capture
+                </button>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop no-scrollbar">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="mb-section-gap">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-2">Context Review</h1>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-2xl">
+                        Review detected intelligence, resolve source conflicts, and monitor the health of your connected context streams.
+                    </p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Actionable Items (Span 8) -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Source Conflicts Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+<h2 class="font-headline-md text-headline-md text-on-background">Source Conflicts</h2>
+<span class="ml-auto bg-error-container text-on-error-container px-3 py-1 rounded-full font-label-md text-label-md text-xs">1 Active</span>
+</div>
+<!-- Source Conflict Component -->
+<div class="bg-surface-container rounded-lg p-5 border border-outline-variant">
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Conflict: Architecture review deadline</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<!-- Source A -->
+<div class="flex flex-col gap-1 p-3 bg-surface-container-lowest rounded border border-outline-variant/50 opacity-80">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg" data-icon="description">description</span>
+<span>Project brief</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface">Oct 25 (Wednesday)</p>
+</div>
+<!-- Source B -->
+<div class="flex flex-col gap-1 p-3 bg-surface-container-lowest rounded border border-outline-variant/50 opacity-80">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg" data-icon="task">task</span>
+<span>Jira Ticket #402</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface">Oct 27 (Friday)</p>
+</div>
+<!-- Source C -->
+<div class="flex flex-col gap-1 p-3 bg-surface-container-lowest rounded border border-outline-variant/50 opacity-80">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg" data-icon="mail">mail</span>
+<span>Email thread</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface">"End of week"</p>
+</div>
+</div>
+<!-- Resolution UI -->
+<div class="bg-surface-bright p-4 rounded-lg border border-primary-fixed-dim/30 flex flex-col sm:flex-row items-center gap-4 justify-between">
+<div class="flex-1 w-full">
+<label class="sr-only" for="resolution-input">Resolution</label>
+<input class="w-full bg-transparent border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface" id="resolution-input" type="text" value="Treat Friday as internal deadline"/>
+</div>
+<button class="shrink-0 px-5 py-2 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors">
+                                        Resolve Decision
+                                    </button>
+</div>
+</div>
+</section>
+<!-- Needs Confirmation Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+<h2 class="font-headline-md text-headline-md text-on-background mb-4">Needs Confirmation</h2>
+<div class="flex flex-col gap-3">
+<!-- Item 1 -->
+<div class="group flex items-start gap-4 p-4 hover:bg-surface-container transition-colors rounded-lg border border-transparent hover:border-outline-variant/30">
+<div class="mt-1 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm" data-icon="psychology">psychology</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-label-md text-label-md text-secondary uppercase tracking-wider">Detected Commitment</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2">"I will send the Q3 design roadmap by tomorrow noon."</p>
+<p class="text-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="forum">forum</span> Slack (Design Channel)
+                                        </p>
+</div>
+<div class="flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 bg-surface border border-outline-variant rounded-full hover:bg-primary-container hover:text-on-primary-container hover:border-transparent transition-all" title="Accept">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+</button>
+<button class="p-2 bg-surface border border-outline-variant rounded-full hover:bg-error-container hover:text-on-error-container hover:border-transparent transition-all" title="Reject">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group flex items-start gap-4 p-4 hover:bg-surface-container transition-colors rounded-lg border border-transparent hover:border-outline-variant/30">
+<div class="mt-1 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm" data-icon="person_question">siren_question</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-label-md text-label-md text-secondary uppercase tracking-wider">Ambiguous Owner</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2">Action item: "Update design system token names."</p>
+<div class="flex items-center gap-2 mt-2">
+<select class="text-sm bg-surface-container-highest border-none rounded p-1 text-on-surface pr-8 focus:ring-1 focus:ring-primary">
+<option>Assign owner...</option>
+<option>Sarah J.</option>
+<option>Mike T.</option>
+<option>Me</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group flex items-start gap-4 p-4 hover:bg-surface-container transition-colors rounded-lg border border-transparent hover:border-outline-variant/30">
+<div class="mt-1 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-label-md text-label-md text-secondary uppercase tracking-wider">Low-Confidence Estimate</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2">Task: "Refactor authentication flow."</p>
+<p class="text-sm text-on-surface-variant mb-2">System estimate: 2 days (Based on similar past tasks)</p>
+<button class="text-sm font-label-md text-label-md text-primary underline hover:text-primary-container transition-colors">Adjust Estimate</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Status & Info (Span 4) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Access & Privacy -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md text-on-background">Connected Sources</h2>
+<button class="text-primary hover:bg-surface-container p-1 rounded transition-colors" title="Settings">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+</button>
+</div>
+<ul class="flex flex-col gap-4">
+<li class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="cloud">cloud</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Confluence</p>
+<p class="text-xs text-on-surface-variant">Syncing now...</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span>
+</li>
+<li class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="folder_shared">folder_shared</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">SharePoint</p>
+<p class="text-xs text-on-surface-variant">Last sync: 2h ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span>
+</li>
+<li class="flex items-center justify-between p-2 -mx-2 bg-error-container/20 rounded">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="drive_file_move">drive_file_move</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Personal Drive</p>
+<p class="text-xs text-error">Auth expired</p>
+</div>
+</div>
+<button class="text-xs font-label-md text-label-md bg-surface border border-outline-variant px-2 py-1 rounded hover:bg-surface-container transition-colors">Reconnect</button>
+</li>
+</ul>
+</section>
+<!-- Trusted Sources (Approved) -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+<h2 class="font-headline-md text-headline-md text-on-background mb-4">Trusted Baselines</h2>
+<p class="text-sm text-on-surface-variant mb-4">The system prioritizes these sources for truth resolution.</p>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container rounded-full border border-outline-variant/50 text-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span> Approved Project Brief
+                                </span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container rounded-full border border-outline-variant/50 text-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="emergency">emergency</span> Incident System
+                                </span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container rounded-full border border-outline-variant/50 text-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="family_restroom">family_restroom</span> Family Calendar
+                                </span>
+</div>
+</section>
+<!-- Recently Added Context -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+<h2 class="font-headline-md text-headline-md text-on-background mb-4">Recent Ingests</h2>
+<div class="relative pl-4 border-l border-outline-variant/50 space-y-6">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-primary-fixed-dim border-2 border-surface-container-lowest"></div>
+<p class="font-label-md text-label-md text-on-surface">Runbook Updated</p>
+<p class="text-sm text-on-surface-variant">Deployment sequence modified via GitHub PR.</p>
+<p class="text-xs text-on-surface-variant mt-1">10 mins ago</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-primary-fixed-dim border-2 border-surface-container-lowest"></div>
+<p class="font-label-md text-label-md text-on-surface">Commitment Confirmed</p>
+<p class="text-sm text-on-surface-variant">"Dentist appointment" synced from Apple Calendar.</p>
+<p class="text-xs text-on-surface-variant mt-1">2 hours ago</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation (Visible only on small screens) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 px-2 py-2 flex justify-between items-center pb-safe">
+<a class="flex flex-col items-center p-2 text-secondary opacity-70" href="#">
+<span class="material-symbols-outlined" data-icon="today">today</span>
+</a>
+<a class="flex flex-col items-center p-2 text-secondary opacity-70" href="#">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+</a>
+<!-- Active -->
+<a class="flex flex-col items-center p-2 text-primary font-bold bg-surface-container-high rounded-full px-4" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</a>
+<a class="flex flex-col items-center p-2 text-secondary opacity-70" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</a>
+<a class="flex flex-col items-center p-2 text-secondary opacity-70" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+</nav>
+</body></html>
