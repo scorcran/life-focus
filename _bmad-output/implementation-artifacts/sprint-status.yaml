@@ -1,0 +1,173 @@
+# generated: 2026-07-12 23:26:56
+# last_updated: 2026-07-12 23:26:56
+# project: life-focus
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; sprint-status surfaces open ones
+
+generated: 2026-07-12 23:26:56
+last_updated: 2026-07-12 23:26:56
+project: life-focus
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # Epic 1a: Steel Thread Foundation (MVP — build order 1)
+  epic-1a: backlog
+  1a-1-project-scaffold-and-development-environment: backlog
+  1a-2-sign-in-to-a-themed-accessible-shell: backlog
+  1a-3-the-event-ledger-small-but-final: backlog
+  1a-4-connect-both-google-calendars-with-context-assignment: backlog
+  1a-5-see-my-real-days: backlog
+  epic-1a-retrospective: optional
+
+  # Epic 2: The Life Model (MVP — build order 2)
+  epic-2: backlog
+  2-1-guided-onboarding-flow: backlog
+  2-2-boundaries-domains-and-starter-policies: backlog
+  2-3-hard-commitments-and-protection-levels: backlog
+  2-4-important-people-and-communication-rhythms: backlog
+  2-5-goals-with-a-next-action-and-protected-allocation: backlog
+  2-6-the-forty-five-minute-proof: backlog
+  2-7-the-policy-and-boundaries-surface: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3a: Capture & the Commitment Ledger (MVP — build order 3)
+  epic-3a: backlog
+  3a-1-capture-anything-in-two-interactions: backlog
+  3a-2-rule-based-classification-and-minimal-clarification: backlog
+  3a-3-requests-commitments-and-manual-acceptance: backlog
+  3a-4-the-commitment-ledger-surface: backlog
+  3a-5-the-capture-guarantee: backlog
+  epic-3a-retrospective: optional
+
+  # Epic 4: The Morning Plan (MVP — build order 4)
+  epic-4: backlog
+  4-1-golden-planning-scenarios-and-the-regression-gate: backlog
+  4-2-contextsnapshot-and-declared-capacity: backlog
+  4-3-the-pure-planner-an-honest-day: backlog
+  4-4-plan-lifecycle-diffs-and-undo: backlog
+  4-5-the-morning-plan-surface: backlog
+  4-6-today-and-the-work-ended-tap: backlog
+  epic-4-retrospective: optional
+
+  # Epic 1b: Foundation Completion (MVP — build order 5)
+  epic-1b: backlog
+  1b-1-connect-both-gmail-accounts: backlog
+  1b-2-the-sync-health-surface: backlog
+  1b-3-dark-mode-and-theme-switching: backlog
+  1b-4-the-phone-in-my-pocket: backlog
+  1b-5-ops-hardening-trust-the-machinery: backlog
+  epic-1b-retrospective: optional
+
+  # Epic 3b: Email Intelligence (MVP — build order 6)
+  epic-3b: backlog
+  3b-1-the-llm-gateway: backlog
+  3b-2-email-commitment-extraction: backlog
+  3b-3-hostile-input-defense: backlog
+  3b-4-the-extraction-quality-gate: backlog
+  3b-5-the-system-survives-the-model: backlog
+  epic-3b-retrospective: optional
+
+  # Epic 5: Interrupts with Visible Tradeoffs (MVP — build order 7)
+  epic-5: backlog
+  5-1-interrupt-intake: backlog
+  5-2-the-tradeoff-view: backlog
+  5-3-decide-apply-preserve: backlog
+  5-4-drafts-never-sends: backlog
+  5-5-notifications-that-earn-their-interruption: backlog
+  epic-5-retrospective: optional
+
+  # Epic 6: The Deliberate Stop (MVP — build order 8)
+  epic-6: backlog
+  6-1-the-end-of-day-review: backlog
+  6-2-the-stop-ritual: backlog
+  epic-6-retrospective: optional
+
+  # Epic 7: My Data, My Rules (MVP — build order 9)
+  epic-7: backlog
+  7-1-export-everything: backlog
+  7-2-disconnect-without-loss: backlog
+  7-3-erasure-that-actually-erases: backlog
+  7-4-the-audit-window: backlog
+  epic-7-retrospective: optional
+
+  # Epic 8: Work Signal (v0.2)
+  epic-8: backlog
+  8-1-slack-ingestion: backlog
+  8-2-jira-ingestion: backlog
+  8-3-full-request-extraction: backlog
+  8-4-the-live-day: backlog
+  8-5-the-weekly-shape: backlog
+  epic-8-retrospective: optional
+
+  # Epic 9: Calibration (v0.3)
+  epic-9: backlog
+  9-1-the-learning-loop: backlog
+  9-2-capacity-that-knows-me: backlog
+  9-3-inferred-interrupt-estimation: backlog
+  9-4-learning-review-and-coverage: backlog
+  epic-9-retrospective: optional
+
+  # Epic 10: People & Goals in Full (v0.4)
+  epic-10: backlog
+  10-1-goal-decomposition: backlog
+  10-2-allocation-tracking-and-white-space: backlog
+  10-3-relationships-that-generate-action: backlog
+  10-4-one-person-many-sources: backlog
+  10-5-personal-sources: backlog
+  epic-10-retrospective: optional
+
+  # Epic 11: Evidence & Execution (v0.5)
+  epic-11: backlog
+  11-1-linked-documents: backlog
+  11-2-authority-and-conflicts: backlog
+  11-3-context-packets: backlog
+  11-4-execution-and-renegotiation: backlog
+  11-5-delegation: backlog
+  epic-11-retrospective: optional
+
+  # Epic 12: Completion & Hardening (v1.0)
+  epic-12: backlog
+  12-1-the-full-policy-system: backlog
+  12-2-interpreted-acceptance: backlog
+  12-3-configurable-autonomy: backlog
+  12-4-full-notifications-and-the-broker: backlog
+  12-5-the-32-step-proof: backlog
+  epic-12-retrospective: optional

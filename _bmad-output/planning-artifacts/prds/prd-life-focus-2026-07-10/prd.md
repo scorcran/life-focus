@@ -2,7 +2,7 @@
 title: Life Focus Intelligence PRD
 status: final
 created: 2026-07-10
-updated: 2026-07-11
+updated: 2026-07-12
 ---
 
 # Life Focus Intelligence — Product Requirements Document
@@ -15,7 +15,7 @@ It answers one question continuously:
 
 > "Given everything I care about, everything I have promised, the people who depend on me, the current state of my responsibilities, and the time and energy I actually have, what is the best use of my attention now?"
 
-**Delivery strategy.** The founding user (Sean) is user #1 and the proving ground; the product is designed from day one to scale to a commercial launch without a rewrite. This PRD defines:
+**Delivery strategy.** The founding user (Sean) is user #1 and the proving ground; the product is designed from day one to scale to a commercial launch without a rewrite. Tenancy is decided: a single-user personal deployment now, with every single-tenant assumption explicitly marked in the architecture so multi-tenancy is a planned reopening (OQ-7), never an accident. This PRD defines:
 
 - **MVP** — a thin wedge chosen for fastest personal value and habit formation (§7.2).
 - **v1.0** — the complete feature set (§9), which incorporates the full scope of the source draft.
@@ -161,16 +161,16 @@ An honest caveat: the same evidence supports a darker reading. Funded players *e
 
 **MVP includes:**
 
-1. **Life model, lite** — workday shape and hard stop; sleep window; hard commitments and protected priorities with protection levels; a starter set of Life Operating Policies (non-negotiables, work boundaries); up to 3 active goals and a core-people list (names, intentions, important dates) captured for visibility — without decomposition or workflow engines.
+1. **Life model, lite** — workday shape and hard stop; sleep window; hard commitments and protected priorities with protection levels; a starter set of Life Operating Policies (non-negotiables, work boundaries); up to 3 active goals — each with one user-defined next meaningful action and a protected weekly time allocation — and a core-people list (names, intentions, important dates, one communication rhythm each, implemented as flexible intentions); repeated displacement of goal allocations is visible. No autonomous decomposition or workflow engines. (Amended 2026-07-12 during epic creation: goal-activation-lite, rhythm-lite.)
 2. **Source ingestion, first ring** — work Google Calendar, personal Google Calendar, work Gmail, personal Gmail. Slack and Jira arrive in v1.0; until then their demands enter via capture. [ASSUMPTION: calendars + email give the highest planning signal per integration-hour; interrupts from Slack are captured manually in MVP]
 3. **Capture** — desktop and mobile-web natural-language capture into a Capture Inbox with basic classification and minimal clarification.
 4. **Commitment Ledger, core** — requests vs. commitments distinguished; lifecycle states; source and history preserved; at-risk flagging; email-derived commitments require confirmation before creation.
-5. **Morning planning loop** — import meetings and due work; review commitments and requests; calculate realistic capacity (buffers, transition time, boundaries); propose a day showing exclusions, expected work end, risks, and confidence; approve or adjust.
+5. **Morning planning loop** — import meetings and due work ("due work" at MVP = ledger-resident work: captured commitments, confirmed email-derived items, and calendar deadlines — no external task system of record); review commitments and requests; calculate realistic capacity (buffers, transition time, boundaries); propose a day showing exclusions, expected work end, risks, and confidence; approve or adjust.
 6. **Interrupt assessment, MVP-honest** — capture a demand; classify the requested outcome (user-confirmable, not autonomously inferred); take effort from user input or per-type templates (the MVP does *no* inferred estimation); compute a **mechanical plan-diff** against the active day (example output: "if this goes here, these blocks move, work ends at X, this boundary is at risk" — the P11 checklist); recommend among do now / schedule / acknowledge / clarify / decline ("delegate" arrives with the v1.0 delegation model); preserve displaced commitments; track to resolution. The tradeoff *display* is the MVP differentiator; tradeoff *inference* (effort estimation, response simulation) is v1.0.
 7. **End-of-day review, lite** — completed outcomes; displaced commitments; unanswered requests; roll-forward; boundary check and deliberate stop.
 8. **Autonomy posture** — recommend and draft only; every action user-approved; full audit trail from day one.
 
-**MVP explicitly defers to v1.0:** documentation/evidence layer; goal decomposition and allocation tracking; staged important-date workflows and relationship rhythms; execution context packets; learning loop; inferred effort estimation and response simulation; delegation (including the "delegate" recommendation); weekly planning loop; live-day loop; Slack/Jira/task-app/Apple-ecosystem ingestion; coverage dashboard beyond basic sync status.
+**MVP explicitly defers to v1.0:** documentation/evidence layer; autonomous goal decomposition and full allocation tracking (manual next-action + weekly allocation are MVP); staged important-date workflows and generated relationship actions (one rhythm per core person is MVP); execution context packets; learning loop; inferred effort estimation and response simulation; interpreted acceptance (manual acceptance-type selection is MVP); delegation (including the "delegate" recommendation); weekly planning loop; live-day loop; Slack/Jira/task-app/Apple-ecosystem ingestion (the email-only MVP is a deliberate channel-limited validation of the interrupt model — Slack completes it in v0.2); coverage dashboard beyond basic sync status.
 
 **MVP acceptance criteria** — the wedge is done when all of these pass:
 
@@ -246,13 +246,13 @@ Phases: **[MVP]** = §7.2 wedge; **[v1.0]** = complete product. All v1.0 require
 
 - **FR-8 [MVP-lite / v1.0-full]** A Person model captures: name, relationship type, domains, user-defined importance, relationship intention, preferred interaction forms, contact rhythm, availability, important dates, open commitments, shared responsibilities, recent meaningful interactions, unanswered messages, life events, related goals, professional role, delegation suitability, privacy settings, and source links. MVP captures the identity/intention/important-date subset. "Meaningful interactions" and "life events" are user-asserted fields only — never inferred from message content (P5, FR-54).
 - **FR-9 [v1.0]** Relationship importance levels (core, important, active professional, extended network, context only) influence attention but never create absolute priority.
-- **FR-10 [v1.0]** The system proposes relationship-generated actions across: communication (call, text, reply, send update), shared time (dinner, visit, date night, protected family time), care and support (check in, help, arrange, follow up), celebration (plan, gift, reserve, coordinate, protect), commitment fulfillment (send promised info, review, introduce, confirm), and repair (apologize, reschedule canceled time, acknowledge a missed commitment).
+- **FR-10 [MVP-rhythm-lite / v1.0-full]** MVP (amended 2026-07-12): one flexible communication rhythm per core person, implemented as a flexible intention linked to the Person, with repeated-displacement visibility. v1.0: the system proposes relationship-generated actions across: communication (call, text, reply, send update), shared time (dinner, visit, date night, protected family time), care and support (check in, help, arrange, follow up), celebration (plan, gift, reserve, coordinate, protect), commitment fulfillment (send promised info, review, introduce, confirm), and repair (apologize, reschedule canceled time, acknowledge a missed commitment).
 - **FR-11 [v1.0]** Important dates generate staged preparation workflows rather than same-day reminders (decide → coordinate → gift → reserve → invite → protect the window → celebrate); depth scales with relationship importance, event type, lead time, geography, budget, and participants; all proposed actions are editable.
 - **FR-12 [all phases]** Ethical constraint (P5): the system reasons only about the user's behavior and stated intentions, never claims knowledge of another person's internal state, and never computes a relationship score.
 
 ### 9.3 Source ingestion and context
 
-- **FR-13 [MVP]** Connect approved sources with OAuth/least privilege; preserve source links; track synchronization state; respect source permissions; distinguish imported vs. inferred vs. user-confirmed data. MVP sources: work + personal Google Calendar, work + personal Gmail. v1.0 adds: Slack, Jira, a personal task app, Apple ecosystem sources, meeting notes, and selected documents.
+- **FR-13 [MVP]** Connect approved sources with OAuth/least privilege; preserve source links; track synchronization state; respect source permissions; distinguish imported vs. inferred vs. user-confirmed data. MVP sources: work + personal Google Calendar, work + personal Gmail — a deliberate channel-limited validation of the interrupt-decision model, completed by Slack in v0.2. v1.0 adds: Slack, Jira, a personal task app, Apple ecosystem sources, meeting notes, and selected documents.
 - **FR-14 [MVP]** Separate work and personal identities are supported as first-class, with the privacy boundary of §11 between them.
 - **FR-15 [MVP-core / v1.0-full]** Request and action extraction identifies: direct requests, implied requests, follow-ups, decisions, invitations, approval requests, care needs, social commitments, important dates, and informational messages requiring no action. MVP ships email-scope extraction with confirmation required, behind a per-account toggle, with a quality gate: if the user rejects >50% of proposed commitments in week one, auto-extraction drops to explicit-forward-only mode until precision improves. v1.0 extends extraction to Slack, Jira, and all connected sources.
 - **FR-16 [v1.0]** The context model maintains the layered structure: user intention layer, operational layer, people layer, evidence layer, capacity/feasibility layer, policy layer, planning layer (entity catalog in `addendum.md`).
@@ -268,7 +268,7 @@ Phases: **[MVP]** = §7.2 wedge; **[v1.0]** = complete product. All v1.0 require
 
 - **FR-21 [MVP]** The system distinguishes requests from commitments and tracks the full lifecycle: detected request → unassessed → clarification required / proposed → accepted / modified / delegated / declined → scheduled → in progress → waiting / blocked / at risk → fulfilled / renegotiated / canceled / failed.
 - **FR-22 [MVP]** Commitment records carry: required outcome, requester, owner, beneficiary, dates (requested, accepted, due), source, supporting evidence, scope, definition of done, protection level, related goal/person/project, confidence, current state, communication state, renegotiation history, fulfillment evidence.
-- **FR-23 [v1.0]** Acceptance interpretation distinguishes acknowledgment, agreement to investigate, agreement to estimate, acceptance of full responsibility, agreement to coordinate another owner, and acceptance of a specific outcome and deadline. "I'll look into it" never auto-escalates to "fully resolve today."
+- **FR-23 [MVP-manual / v1.0-interpreted]** MVP (amended 2026-07-12): confirming a commitment requires manually selecting the acceptance type — acknowledged / agreed to investigate / accepted full responsibility / declined. v1.0: acceptance interpretation distinguishes acknowledgment, agreement to investigate, agreement to estimate, acceptance of full responsibility, agreement to coordinate another owner, and acceptance of a specific outcome and deadline. "I'll look into it" never auto-escalates to "fully resolve today."
 - **FR-24 [MVP-flag / v1.0-full]** At-risk detection and renegotiation: identify risk early, explain why, recommend new date/owner/scope, draft the stakeholder update, track acceptance of the change, preserve original history. Dragging a commitment to a new date is not renegotiation. MVP ships at-risk flagging; drafted renegotiation completes in v1.0.
 
 ### 9.6 Prioritization, capacity, and planning
@@ -279,7 +279,7 @@ Phases: **[MVP]** = §7.2 wedge; **[v1.0]** = complete product. All v1.0 require
 - **FR-28 [MVP]** Overcommitment behavior: when demand exceeds capacity the system states the mismatch, identifies contributing items, shows affected domains, recommends what should move, preserves displaced commitments, shows consequences of each scenario, and never silently consumes sleep, family time, or recovery.
 - **FR-29 [MVP-day / v1.0-all]** Planning horizons: today (fixed events, hard commitments, due work, acknowledgments, boundaries); this week (goal allocations, rhythms, exercise, household, strategic work, recovery); this month (important dates, appointments, milestones); quarter/year (major goals, direction, travel, development). MVP plans today; v1.0 adds week/month/quarter.
 - **FR-30 [MVP]** Replanning recalculates remaining capacity; preserves completed work and commitments; minimizes unnecessary movement; identifies displaced priorities; explains changes; records reasons; requests approval for consequential changes. Every move displays the P11 consequence checklist: what is displaced, who is affected, which goal loses time, whether a boundary is violated, whether the finish time changes, whether another person must agree.
-- **FR-31 [v1.0]** White space and non-optimization: users define protected unstructured time (unplanned evenings, transition time, open weekend mornings, % of week unallocated); the planner preserves buffers per the anti-saturation rule; opportunity suggestions (open Saturday + neglected outdoor goal → "consider the hike") remain opportunities and never become obligations automatically.
+- **FR-31 [MVP-reserves / v1.0-full]** White space and non-optimization. Clarified 2026-07-12: reserve mechanics — minimum unallocated buffer, transition time, never auto-filling every opening — are MVP via FR-26's configurable reserves. v1.0: users define named protected unstructured time (unplanned evenings, transition time, open weekend mornings, % of week unallocated); the planner preserves buffers per the anti-saturation rule; opportunity suggestions (open Saturday + neglected outdoor goal → "consider the hike") remain opportunities and never become obligations automatically.
 
 ### 9.7 Operating loops
 
@@ -292,9 +292,9 @@ Phases: **[MVP]** = §7.2 wedge; **[v1.0]** = complete product. All v1.0 require
 
 ### 9.8 Goal-to-action translation
 
-- **FR-38 [v1.0]** Goals decompose through: goal/intention → desired outcomes → milestones/rhythms/responsibilities → next meaningful actions → resources and dependencies → protected time allocations. Material decompositions require approval.
+- **FR-38 [MVP-manual / v1.0-decomposed]** MVP (amended 2026-07-12): the user manually defines one next meaningful action per active goal plus a protected weekly time allocation (reusing protection levels). v1.0: goals decompose through goal/intention → desired outcomes → milestones/rhythms/responsibilities → next meaningful actions → resources and dependencies → protected time allocations; material decompositions require approval.
 - **FR-39 [v1.0]** Users control decomposition fully: accept, modify outcomes, remove actions, change cadence or protection, reject the interpretation, define success criteria.
-- **FR-40 [v1.0]** Goal neglect is identified in neutral language with a remedy proposed ("Your health goal has not received scheduled time for 12 days; Wednesday morning is the best remaining opening"). "Best remaining opening" is defined: the candidate slot that displaces nothing above flexible-intention protection and minimizes P11 checklist impact. Allocation tracking reports intended vs. delivered weekly capacity.
+- **FR-40 [MVP-displacement / v1.0-full]** MVP (amended 2026-07-12): repeated displacement of goal allocations is visible (count, neutral language). v1.0: goal neglect is identified in neutral language with a remedy proposed ("Your health goal has not received scheduled time for 12 days; Wednesday morning is the best remaining opening"). "Best remaining opening" is defined: the candidate slot that displaces nothing above flexible-intention protection and minimizes P11 checklist impact. Allocation tracking reports intended vs. delivered weekly capacity.
 
 ### 9.9 Documentation, knowledge, and evidence
 
@@ -347,6 +347,18 @@ Phases: **[MVP]** = §7.2 wedge; **[v1.0]** = complete product. All v1.0 require
 
 - **FR-67 [MVP-subset / v1.0-full]** The product is organized around named interface surfaces, each answering a defined question. **MVP surfaces:** Today (what matters now, what is protected, what is at risk, when work ends, what personal commitments follow); Morning Plan (review and approve); Interrupt Decision (compare scenarios and consequences); Capture Inbox (captured but unresolved items); Commitment Ledger (promises, risk, ownership, communication state); Policy and Boundaries (policies and autonomy); End-of-Day Review (close loops, carry forward, transition out of work). **v1.0 adds:** Week (allocate capacity); People (intentions, dates, open commitments, next actions); Goals (decomposition, allocation, next actions); Focus Context (execute with a context packet); Context Review (evidence, conflicts, source access); Learning Review (confirm or reject learned assumptions).
 - **FR-68 [MVP]** Every primary view follows the visual hierarchy, in order: current decision or action → recommendation → reason → person/goal/commitment protected → consequence → confidence and evidence → full source detail. Progressive disclosure: the default view shows only what is needed to decide; evidence, sources, and reasoning remain expandable (evidence-drawer spec in `addendum.md`).
+
+### 9.17 Foundational correctness requirements (added 2026-07-12 from pre-epic external review; full detail in `epics.md` ADD-1..9)
+
+- **ADD-1 [MVP]** Planner behavioral contract: identical inputs yield identical ordered proposals; user-locked blocks never move; the approved plan changes minimally before lower-priority preferences optimize; plan states and stale-proposal detection are explicit.
+- **ADD-2 [MVP]** Temporal correctness: time zones, DST transitions, recurrence with exceptions, all-day/floating events, midnight-crossing, due-dates-without-times — covered in planner and connector test suites.
+- **ADD-3 [MVP]** Connector correctness and identity-resolution operations: incremental sync with deletions, cross-source deduplication, reauthorization flows, user-confirmed reversible person merges.
+- **ADD-4 [MVP]** AI safety: all connected content is untrusted data, never instructions (prompt-injection defense, schema-constrained outputs); golden evaluation sets with adversarial cases; the planner remains fully usable from confirmed data with the model unavailable; cost ceilings.
+- **ADD-5 [MVP]** Account and data lifecycle: export, source disconnect without domain loss, selective and full erasure reconciled with the append-only ledger by design (decided before the first event is written), retention configuration.
+- **ADD-6 [MVP]** Operational reliability, right-sized: correlation-ID logging, dead-letter replay, projection rebuild, backup restore verification on a schedule.
+- **ADD-7 [MVP]** Evaluation harness: golden planning scenarios written before the planner; regression gates on boundary preservation, false commitments, cross-context disclosure, and plan stability.
+- **ADD-8 [MVP-in-app]** Notification delivery rules: batching, dedup, expiry, snooze, deep links, quiet hours, focus suppression; push transport and lock-screen redaction with Phase 2.
+- **ADD-9 [all]** Sensitive-domain guardrail: medical/mental-health/legal/financial/grief content planned neutrally, never advised on (enforces §2.1 item 10 and FR-54 at content level).
 
 ## 10. Non-Functional Requirements
 
