@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: lifefocus
+      POSTGRES_PASSWORD: lifefocus
+      POSTGRES_DB: lifefocus
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Host port configurable via POSTGRES_HOST_PORT env var (default: 5432)
+      - "${POSTGRES_HOST_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lifefocus -d lifefocus"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      # Host port configurable for machines where 3000 is taken; container always serves 3000
+      - "${WEB_HOST_PORT:-3000}:3000"
+    # env_file is optional — DATABASE_URL is set explicitly below for container networking.
+    # .env is still read for other vars (LOG_LEVEL, etc.) but not required for the service to start.
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # This DATABASE_URL intentionally overrides any value in .env:
+      # inside the container network the hostname is 'postgres', not 'localhost'.
+      DATABASE_URL: postgresql://lifefocus:lifefocus@postgres:5432/lifefocus
+      # PORT must be 3000 to match the published port; set explicitly so a user PORT in .env can't break it.
+      PORT: 3000
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Same intentional override — see web service comment above.
+      DATABASE_URL: postgresql://lifefocus:lifefocus@postgres:5432/lifefocus
+
+volumes:
+  postgres_data:

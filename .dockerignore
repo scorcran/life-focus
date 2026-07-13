@@ -1,0 +1,13 @@
+node_modules
+**/node_modules
+**/dist
+**/.next
+**/*.tsbuildinfo
+.git
+.env
+_bmad*
+_bmad-output
+design-artifacts
+docs
+stitch_life_focus_intelligence 2
+fixtures

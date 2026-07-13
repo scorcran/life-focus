@@ -3,3 +3,9 @@
 .bmad-loop/policy.toml
 node_modules/
 .DS_Store
+.env
+dist/
+.next/
+*.js.map
+*.d.ts.map
+*.tsbuildinfo
