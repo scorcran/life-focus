@@ -194,13 +194,13 @@ Statuses: **C** covered in an MVP epic · **D** deferred to a named post-MVP epi
 - FR-9, FR-11: Epic 10 (D: v0.4 relationship depth)
 - FR-10: Epic 2 (C: rhythm-lite); full action generation → Epic 10 (D)
 - FR-12, FR-54: all epics (C: binding constraint, enforced in Epics 2/3/9 stories)
-- FR-13, FR-14: Epic 1a (C: calendars + context assignment) / Epic 1b (C: Gmail); v1.0 sources → Epics 8/10 (D)
-- FR-15: Epic 3b (C: email-core + gate); full 10-category extraction → Epic 8 (D)
+- FR-13, FR-14: Epic 1 (C: calendars + context assignment) / Epic 13 (C: Gmail); v1.0 sources → Epics 8/10 (D)
+- FR-15: Epic 14 (C: email-core + gate); full 10-category extraction → Epic 8 (D)
 - FR-16: Epic 11 (D: evidence layer is v0.5)
-- FR-17..20: Epic 3a (C); v1.0 capture channels → Epics 8/10/11 (D)
-- FR-21, FR-22: Epic 3a (C)
-- FR-23: Epic 3a (C: manual acceptance types); interpretation → Epic 12 (D)
-- FR-24: Epic 3a (C: at-risk flag); drafted renegotiation → Epic 11 (D)
+- FR-17..20: Epic 3 (C); v1.0 capture channels → Epics 8/10/11 (D)
+- FR-21, FR-22: Epic 3 (C)
+- FR-23: Epic 3 (C: manual acceptance types); interpretation → Epic 12 (D)
+- FR-24: Epic 3 (C: at-risk flag); drafted renegotiation → Epic 11 (D)
 - FR-25, FR-26, FR-28, FR-30: Epic 4 (C); FR-26 inferred inputs → Epic 9 (D)
 - FR-27: Epic 9 (D: feasibility states need learning-loop signals)
 - FR-29: Epic 4 (C: today); week/month/quarter → Epics 8/10 (D)
@@ -214,39 +214,41 @@ Statuses: **C** covered in an MVP epic · **D** deferred to a named post-MVP epi
 - FR-39: Epic 10 (D)
 - FR-40: Epic 2 (C: displacement visibility); remediation + tracking → Epic 10 (D)
 - FR-41..45: Epic 11 (D: v0.5 evidence layer)
-- FR-46: Epic 1a (C: audit rows) + Epic 3b (C: assertion provenance) + Epic 4 (C: why-panel consumption)
+- FR-46: Epic 1 (C: audit rows) + Epic 14 (C: assertion provenance) + Epic 4 (C: why-panel consumption)
 - FR-47, FR-49, FR-50: Epic 11 (D: execution layer v0.5)
 - FR-48: Epic 5 (C: Gmail drafts); full execution actions → Epic 11 (D)
-- FR-51: Epic 3a (C)
+- FR-51: Epic 3 (C)
 - FR-52, FR-53, FR-55: Epic 9 (D: learning loop v0.3)
 - FR-56: Epic 5 (C: MVP triggers + ADD-8 delivery rules); v1.0 triggers → Epic 12 (D)
 - FR-57, FR-59: Epic 5 (C); L4/L5 + configuration matrix → Epic 12 (D: FR-58)
 - FR-58: Epic 12 (D)
-- FR-60..62: Epic 1a (C: basic disclosure) + Epic 1b (C: sync-health surface); full coverage dashboard → Epic 9 (D)
+- FR-60..62: Epic 1 (C: basic disclosure) + Epic 13 (C: sync-health surface); full coverage dashboard → Epic 9 (D)
 - FR-63..66: Epic 11 (D: delegation v0.5)
-- FR-67: Epics 2/3a/4/5/6 (C: 7 MVP surfaces — Policy & Boundaries surface is story 2.7); 6 v1.0 surfaces → Epics 8/10/11/12 (D)
+- FR-67: Epics 2/3/4/5/6 (C: 7 MVP surfaces — Policy & Boundaries surface is story 2.7); 6 v1.0 surfaces → Epics 8/10/11/12 (D)
 - FR-68: Epic 4 (C: page template established) — binding on all subsequent surfaces
-- NFR-1..9: NFR-1 → Epics 4/5 (C: why-panels, FR-25/46 ACs); NFR-2/4/5 → Epics 4/5 (C: latency targets in 4.5/5.2 ACs); NFR-3 → Epic 1a (C); NFR-6 → Epics 1a/3b (C: mirror-scope + retrieval-scope ACs); NFR-7 → Epic 1a (C: floor) + every surface story; NFR-8 → Epic 1b (C: offline queue + degraded operation); NFR-9 → Epic 1b (C: PWA shell)
+- NFR-1..9: NFR-1 → Epics 4/5 (C: why-panels, FR-25/46 ACs); NFR-2/4/5 → Epics 4/5 (C: latency targets in 4.5/5.2 ACs); NFR-3 → Epic 1 (C); NFR-6 → Epics 1/14 (C: mirror-scope + retrieval-scope ACs); NFR-7 → Epic 1 (C: floor) + every surface story; NFR-8 → Epic 13 (C: offline queue + degraded operation); NFR-9 → Epic 13 (C: PWA shell)
 - SEC-1..6: SEC-1/2-seam/3 → Epic 1 (C); SEC-2-broker → Epic 12 (D); SEC-4 → Epics 1/7 (C); SEC-5 → Epic 11+ (D); SEC-6 → Epic 5 (C: enforced at draft creation)
 - ADD-1, ADD-2: Epic 4 (C; ADD-2 connector share in Epic 1)
-- ADD-3: Epic 1b (C: sync correctness) + Epic 10 (D: person-merge ops at scale)
-- ADD-4: Epic 3b (C)
-- ADD-5: Epic 1a (C: erasure design decision) + Epic 7 (C: features)
-- ADD-6: Epic 1a (C: correlation-ID logging) + Epic 1b (C: full ops hardening)
-- ADD-7: Epic 4 (C: golden scenarios written first + regression gate) + Epic 3b (C: extraction evals)
+- ADD-3: Epic 13 (C: sync correctness) + Epic 10 (D: person-merge ops at scale)
+- ADD-4: Epic 14 (C)
+- ADD-5: Epic 1 (C: erasure design decision) + Epic 7 (C: features)
+- ADD-6: Epic 1 (C: correlation-ID logging) + Epic 13 (C: full ops hardening)
+- ADD-7: Epic 4 (C: golden scenarios written first + regression gate) + Epic 14 (C: extraction evals)
 - ADD-8: Epic 5 (C: in-app); push transport → Phase 2 (D)
-- ADD-9: Epic 3a (C)
-- UX-DR1: Epic 1a (C: light tokens) + Epic 1b (C: dark tokens + status vocabulary) · UX-DR2: Epic 1a (C: font roles) + Epic 1b (C: floor/reflow ACs in 1b.3) · UX-DR3/9: Epic 1b (C) · UX-DR4: distributed to first-use epics (C: MVP components); v1.0 components verified in Epics 11/12 stories (D) · UX-DR5: Epic 4 (C) then binding · UX-DR6: all UI epics (C) · UX-DR7: Epic 1a (C: floor) + per-surface stories · UX-DR8: per-surface stories (C) · UX-DR10: Epics 3a/4/5/6 (C) + Epic 1b (C: alert mock via sync health)
+- ADD-9: Epic 3 (C)
+- UX-DR1: Epic 1 (C: light tokens) + Epic 13 (C: dark tokens + status vocabulary) · UX-DR2: Epic 1 (C: font roles) + Epic 13 (C: floor/reflow ACs in 13.3) · UX-DR3/9: Epic 13 (C) · UX-DR4: distributed to first-use epics (C: MVP components); v1.0 components verified in Epics 11/12 stories (D) · UX-DR5: Epic 4 (C) then binding · UX-DR6: all UI epics (C) · UX-DR7: Epic 1 (C: floor) + per-surface stories · UX-DR8: per-surface stories (C) · UX-DR10: Epics 3/4/5/6 (C) + Epic 13 (C: alert mock via sync health)
 
 No requirement is unmapped; nothing was rejected.
 
 ## Epic List
 
-### Epic 1a: Steel Thread Foundation (MVP — build order 1)
+> **Renumbering note (2026-07-12):** the split epics were renumbered to plain integers for tooling compatibility (sprint tracking requires numeric epic IDs): 1a → **1**, 1b → **13**, 3a → **3**, 3b → **14**. Earlier artifacts (readiness report, review files, memlogs) may still reference the lettered IDs.
+
+### Epic 1: Steel Thread Foundation (MVP — build order 1)
 Sean signs into a minimal but load-bearing app shell and connects both Google Calendars with explicit work/personal context assignment — onto a **final-shape** event ledger: event schema, context tags, audit rows, and the erasure-ready payload design (redactable payloads vs. crypto-deletion decided HERE, before the first event is written; features land in Epic 7). "Small but final," not thin.
 **FRs covered:** FR-13(calendars), FR-14, FR-46, FR-62(basic) · SEC-1, SEC-2-seam, SEC-3 · ADD-2(connector share), ADD-5(design decision only), ADD-6 · UX-DR1(core tokens) · AC-1(calendar half), AC-14
 
-### Epic 1b: Foundation Completion (MVP — build order 5)
+### Epic 13: Foundation Completion (MVP — build order 5)
 Both Gmail accounts connect; sync health becomes a surface; the theme system (System/Light/Dark, no-flash) and PWA shell complete; ops hardening lands — structured logs with correlation IDs, dead-letter replay, nightly backup **with restore verification**.
 **FRs covered:** FR-13(Gmail), FR-60, FR-61(substrate) · ADD-3(sync correctness), ADD-6(full) · UX-DR2, UX-DR3, UX-DR9 · AC-1(complete), AC-15
 
@@ -254,12 +256,12 @@ Both Gmail accounts connect; sync health becomes a surface; the theme system (Sy
 Sean defines what matters — domains, boundaries, hard stop, protection levels, starter policies, up to 3 goals (each with one next action + protected weekly allocation), core people with important dates and one communication rhythm — in a single ≤45-minute sitting. First story: the onboarding flow design itself (the sitting must not feel like taxes); day-one empty states are explicit ACs.
 **FRs covered:** FR-1, FR-2, FR-3, FR-4(starter), FR-7, FR-8-lite, FR-10-lite, FR-12, FR-38-lite, FR-40-displacement, FR-67(Policy & Boundaries surface) · AC-2
 
-### Epic 3a: Capture & the Commitment Ledger (MVP — build order 3)
+### Epic 3: Capture & the Commitment Ledger (MVP — build order 3)
 Anything on Sean's mind becomes a tracked, classified item via manual natural-language capture; requests are distinguished from commitments with manual acceptance types; nothing captured is ever lost. Capture Inbox + Commitment Ledger surfaces. This is the "due work" system of record the morning plan feeds on — no email machinery required.
 **FRs covered:** FR-17, FR-18, FR-19, FR-20, FR-21, FR-22, FR-23-manual, FR-24-flag, FR-51 · ADD-9(classification handling) · AC-6, AC-9
 
-### Epic 3b: Email Intelligence (MVP — build order 6)
-Sean's email starts proposing commitments: extraction behind its per-account toggle and week-one quality gate, hostile-input/prompt-injection defense, the extraction evaluation set, and LLM-outage fallback (the planner keeps working from confirmed data with the gateway down). Requires Epic 1b (Gmail).
+### Epic 14: Email Intelligence (MVP — build order 6)
+Sean's email starts proposing commitments: extraction behind its per-account toggle and week-one quality gate, hostile-input/prompt-injection defense, the extraction evaluation set, and LLM-outage fallback (the planner keeps working from confirmed data with the gateway down). Requires Epic 13 (Gmail).
 **FRs covered:** FR-15-core · ADD-4 · AC-7
 
 ### Epic 4: The Morning Plan (MVP — build order 4)
@@ -275,7 +277,7 @@ At day's end Sean closes loops — completed, displaced, unanswered-with-drafts 
 **FRs covered:** FR-36-lite · AC-11
 
 ### Epic 7: My Data, My Rules (MVP — build order 9)
-Sean can export everything, disconnect a source without losing promoted commitments, selectively delete, and fully erase — implementing the erasure design decided in Epic 1a.
+Sean can export everything, disconnect a source without losing promoted commitments, selectively delete, and fully erase — implementing the erasure design decided in Epic 1.
 **FRs covered:** ADD-5(features) · SEC-3, SEC-4
 
 ### Epic 8: Work Signal (v0.2)
@@ -298,15 +300,15 @@ Decisions gain grounding and follow-through: documentation/evidence layer with a
 The complete product: full policy catalog and conflict handling, interpreted acceptance, autonomy configuration matrix with L4, full notification triggers, SEC-2 broker hardening, and the source draft's 32-step acceptance journey passing.
 **FRs covered:** FR-4-full, FR-5, FR-6, FR-23-full, FR-56-full, FR-58 · SEC-2-broker
 
-**MVP build order (adopted 2026-07-12 after party-mode review):** 1a → 2 → 3a → 4 → 1b → 3b → 5 → 6 → 7. Rationale: the first honest morning plan (Epic 4) arrives on the shortest trustworthy path — calendars + life model + manually captured commitments — weeks before the email-extraction machinery; the erasure design and golden scenarios are pulled forward to where retrofitting would be impossible or dishonest.
+**MVP build order (adopted 2026-07-12 after party-mode review):** 1 → 2 → 3 → 4 → 13 → 14 → 5 → 6 → 7. Rationale: the first honest morning plan (Epic 4) arrives on the shortest trustworthy path — calendars + life model + manually captured commitments — weeks before the email-extraction machinery; the erasure design and golden scenarios are pulled forward to where retrofitting would be impossible or dishonest.
 
-**Dependencies:** 1a → all; 2 needs 1a; 3a needs 1a+2; 4 needs 1a+2+3a; 1b needs 1a; 3b needs 1b; 5 needs 4+1b; 6 needs 4; 7 needs 1a; 8–12 sequence per architecture gates. Each epic delivers complete standalone functionality for its domain.
+**Dependencies:** 1 → all; 2 needs 1; 3 needs 1+2; 4 needs 1+2+3; 13 needs 1; 14 needs 13; 5 needs 4+13; 6 needs 4; 7 needs 1; 8–12 sequence per architecture gates. Each epic delivers complete standalone functionality for its domain.
 
-## Epic 1a: Steel Thread Foundation
+## Epic 1: Steel Thread Foundation
 
 Sean signs into a minimal but load-bearing app shell and connects both Google Calendars onto a final-shape event ledger — small but final.
 
-### Story 1a.1: Project Scaffold and Development Environment
+### Story 1.1: Project Scaffold and Development Environment
 
 As Sean (builder-user),
 I want the monorepo scaffolded per the architecture's Structural Seed with a one-command dev environment,
@@ -319,7 +321,7 @@ So that every subsequent story lands in a consistent, testable codebase.
 **Then** the web host, worker host, and local Postgres (major pinned to Supabase prod) start, a health endpoint responds, and pg-boss connects.
 **And** the package layout matches the spine (`apps/web`, `apps/worker`, 10 `packages/*`); TypeScript 7 strict passes; Vitest runs green with one seed test per package; dependency-direction lint enforces AD-1; structured JSON logging with request/job correlation IDs is in place; all config flows through the typed `config` module (a stray `process.env` read fails lint).
 
-### Story 1a.2: Sign In to a Themed, Accessible Shell
+### Story 1.2: Sign In to a Themed, Accessible Shell
 
 As Sean,
 I want to sign in and land in the app shell with the core visual identity,
@@ -332,7 +334,7 @@ So that the product is mine and unmistakably itself from the first render.
 **Then** Better Auth gates every surface and signs me in as the single app user.
 **And** the shell renders with DESIGN.md core light tokens (byte-identical values); Playfair Display + Public Sans load; the 80px side-nav rail renders with focus-visible rings, landmark roles (nav/main/aside), and full keyboard operability.
 
-### Story 1a.3: The Event Ledger — Small but Final
+### Story 1.3: The Event Ledger — Small but Final
 
 As Sean,
 I want every domain change recorded as an append-only, context-tagged, erasure-ready event with one-step undo,
@@ -345,7 +347,7 @@ So that my commitments can never silently vanish and my privacy rights are desig
 **Then** it appends a command/event row (`event_seq`, `event_type`, `actor`, non-null `context`, `payload`, `caused_by`) using the payload shape from the erasure design decision recorded in this story (redactable payloads vs. crypto-deletion — an ADR in-repo per ADD-5), and current state is served from a `ledger` projection.
 **And** attempted UPDATE/DELETE on event tables fails at the DB level; undo emits a compensating forward event (`compensatesEventId` audit-only); every cross-context read/emit writes an audit row (AC-14 instrument); payload schemas live only in `packages/ledger`; integration tests prove append → project → undo → audit round-trips. *(Sizing note: large — expect execution as 2 sequential dev sessions: the erasure ADR spike first, then schema + undo + audit implementation against the decided design.)*
 
-### Story 1a.4: Connect Both Google Calendars with Context Assignment
+### Story 1.4: Connect Both Google Calendars with Context Assignment
 
 As Sean,
 I want to connect my work and personal Google Calendars, assigning each to its context at connect time,
@@ -358,7 +360,7 @@ So that my real schedule flows into the system with the privacy seam intact from
 **Then** I must choose work or personal before the connection saves (AD-6: immutable thereafter; reconnect to change), scopes are read-only calendar, and events land in context-tagged source-mirror tables (AD-7 cache semantics; promotion is an explicit command).
 **And** initial + incremental sync run as pg-boss jobs with retry/backoff; a revoked token surfaces an in-app disclosure within one sync cycle (FR-62 basic); recurring events, all-day events, and timezone/DST handling pass the ADD-2 connector test cases.
 
-### Story 1a.5: See My Real Days
+### Story 1.5: See My Real Days
 
 As Sean,
 I want a read-only agenda view of my synced calendars across both contexts,
@@ -466,11 +468,11 @@ So that the rules governing my plan are always inspectable and adjustable — no
 **Then** all boundaries, policies (by category), protection defaults, and the theme preference are viewable and editable, with each edit flowing through AD-4 events with undo.
 **And** the surface states the current autonomy posture in plain language ("The system recommends and drafts; nothing is sent or changed without you"); policy edits take effect on the next plan without restart.
 
-## Epic 3a: Capture & the Commitment Ledger
+## Epic 3: Capture & the Commitment Ledger
 
-Anything on Sean's mind becomes a tracked, classified item; requests are distinguished from commitments; nothing captured is ever lost. Deliberately deterministic — LLM classification arrives with Epic 3b.
+Anything on Sean's mind becomes a tracked, classified item; requests are distinguished from commitments; nothing captured is ever lost. Deliberately deterministic — LLM classification arrives with Epic 14.
 
-### Story 3a.1: Capture Anything in Two Interactions
+### Story 3.1: Capture Anything in Two Interactions
 
 As Sean,
 I want natural-language quick capture from desktop and phone,
@@ -481,9 +483,9 @@ So that a thought, promise, or demand is out of my head and safe before it evapo
 **Given** any surface (desktop shell, or mobile responsive browser),
 **When** I invoke capture and type text,
 **Then** the item lands in the Capture Inbox in ≤2 interactions from entry point (AC-6), persisted as an AD-4 event; context is asked only when ambiguous, one tap.
-**And** the input follows the `capture-quick-add` component spec; a keyboard shortcut focuses capture from anywhere on desktop. (Installed-PWA FAB and offline capture queue arrive with story 1b.4 — no forward dependency here.)
+**And** the input follows the `capture-quick-add` component spec; a keyboard shortcut focuses capture from anywhere on desktop. (Installed-PWA FAB and offline capture queue arrive with story 13.4 — no forward dependency here.)
 
-### Story 3a.2: Rule-Based Classification and Minimal Clarification
+### Story 3.2: Rule-Based Classification and Minimal Clarification
 
 As Sean,
 I want captured items classified with sensible proposals and at most a couple of pointed questions,
@@ -496,7 +498,7 @@ So that triage is fast and never an interrogation.
 **Then** a rule-based classifier proposes one of the 12 types (FR-18) as editable chips — dates → important date; interrogatives → request; "I will / I told" → commitment candidate; sensitive-domain content (ADD-9) gets neutral handling with no advice framing.
 **And** clarification prompts are capped at 3 per item, each naming the planning decision it unblocks (FR-19); confirming takes one tap; reclassifying takes two.
 
-### Story 3a.3: Requests, Commitments, and Manual Acceptance
+### Story 3.3: Requests, Commitments, and Manual Acceptance
 
 As Sean,
 I want requests distinguished from commitments, with me stating exactly what kind of acceptance I gave,
@@ -509,7 +511,7 @@ So that "I'll look into it" never silently becomes "I promised."
 **Then** the FR-21 lifecycle state machine governs it, and confirming acceptance requires choosing: acknowledged / agreed to investigate / accepted full responsibility / declined (FR-23-manual).
 **And** commitment records carry the FR-22 field set; every transition is an AD-4 event; communication states (acknowledge, clarify, provide status — FR-51) are first-class actions on any request.
 
-### Story 3a.4: The Commitment Ledger Surface
+### Story 3.4: The Commitment Ledger Surface
 
 As Sean,
 I want the Ledger surface showing everything I've promised with state, protection, and risk at a glance,
@@ -522,7 +524,7 @@ So that no promise depends on my memory.
 **Then** it renders per the commitment_ledger mock: summary strip (at risk / active / waiting on you), filter chips, rows with state chips (6 states, icon mandatory), protection-level markers, due dates, requester/beneficiary.
 **And** at-risk flagging (FR-24-flag) is mechanical and explained — due date approaching with insufficient scheduled time, or repeated displacement — with the reason shown on the row; fulfilled rows use muted tokens at full opacity; "Renegotiate" is a labeled action (at MVP it opens manual edit + note; drafted renegotiation is v0.5).
 
-### Story 3a.5: The Capture Guarantee
+### Story 3.5: The Capture Guarantee
 
 As Sean,
 I want proof that nothing captured is ever lost,
@@ -617,11 +619,11 @@ So that the day has a shape — and its actual end is measured from week one.
 **Then** it shows the approved timeline, what's now/next, protected items, and expected work end (static MVP subset of the live_day_focus mock; the live-day loop is v0.2).
 **And** a "Mark work ended" action is present from this story forward (SM-3 baseline cannot wait for Epic 6), recording a work-ended event with timestamp; the SM-3 metric (actual vs. planned finish) computes from these events; a minimal SM-1 rubric (the three questions, skippable) attaches to the tap from this story forward so plan-accuracy baseline starts the week the first plan renders — the full ritual arrives with 6.2; the tap is reachable in ≤2 interactions and announced to screen readers.
 
-## Epic 1b: Foundation Completion
+## Epic 13: Foundation Completion
 
 Both Gmail accounts connect; sync health becomes a surface; theming and PWA complete; ops hardening proves the boring guarantees.
 
-### Story 1b.1: Connect Both Gmail Accounts
+### Story 13.1: Connect Both Gmail Accounts
 
 As Sean,
 I want my work and personal Gmail connected with the same context discipline as my calendars,
@@ -634,7 +636,7 @@ So that email — where requests actually arrive — flows into the system.
 **Then** context assignment is required at connect (AD-6), scopes are gmail.readonly + gmail.compose (drafts only — never send), and messages land in context-tagged mirror tables via incremental history-based sync as pg-boss jobs.
 **And** duplicate detection handles the same thread across syncs (ADD-3); rate limits respected with backoff; token refresh is automatic with in-app reauthorization prompts on failure; Google OAuth runs in personal-use/unverified mode per the architecture.
 
-### Story 1b.2: The Sync Health Surface
+### Story 13.2: The Sync Health Surface
 
 As Sean,
 I want one glance to tell me what the system can currently see,
@@ -647,7 +649,7 @@ So that I never trust a plan built on stale context without knowing it.
 **Then** each source shows connection state, last-sync time, and freshness per FR-60, in the material_status_change_alert mock idiom.
 **And** a failed/revoked connector is disclosed within one sync cycle in plain framing; plan confidence downgrades (FR-61 substrate); manual capture is offered as fallback — the complete AC-15 behavior, e2e-tested by revoking a token.
 
-### Story 1b.3: Dark Mode and Theme Switching
+### Story 13.3: Dark Mode and Theme Switching
 
 As Sean,
 I want System/Light/Dark theming that never flashes,
@@ -660,7 +662,7 @@ So that the 7:40 AM plan and the 9 PM glance both feel right.
 **Then** the choice persists in localStorage, applies without reload, and System follows prefers-color-scheme live (UX-DR3).
 **And** the dark token set ships complete and byte-identical to DESIGN.md; a no-flash inline head script sets the html class before hydration; automated contrast checks verify load-bearing pairs in both themes; reduced-motion honored; the UX-DR2 typography floor is AC-enforced (8 named roles in use, 12px hard minimum, 70ch line-length cap, 200% zoom reflow without loss).
 
-### Story 1b.4: The Phone in My Pocket
+### Story 13.4: The Phone in My Pocket
 
 As Sean,
 I want the PWA installable on my phone with capture and review working well,
@@ -671,9 +673,9 @@ So that demands caught in a hallway make it into the system.
 **Given** a mobile browser,
 **When** I install and open the PWA,
 **Then** the manifest, responsive layout, bottom tab strip (Today / Interrupts / Inbox / Commitments), and capture FAB work per UX-DR9; capture meets the ≤2-interaction bar (AC-6).
-**And** Today/Inbox/Ledger review is usable at phone width; **offline capture queues locally and syncs on reconnect (moved here from 3a.1 — this story owns all offline machinery)**; desktop-only surfaces degrade gracefully.
+**And** Today/Inbox/Ledger review is usable at phone width; **offline capture queues locally and syncs on reconnect (moved here from 3.1 — this story owns all offline machinery)**; desktop-only surfaces degrade gracefully.
 
-### Story 1b.5: Ops Hardening — Trust the Machinery
+### Story 13.5: Ops Hardening — Trust the Machinery
 
 As Sean,
 I want the boring guarantees proven — backups restore, dead jobs surface, projections rebuild,
@@ -686,11 +688,11 @@ So that the system holding my life doesn't rot silently.
 **Then** pg_dump lands on the array AND a scheduled restore-verification job restores it into a scratch database and validates row counts + latest event_seq — failure notifies in-app (ADD-6).
 **And** dead-lettered jobs are inspectable and replayable from an admin view; the projection-rebuild procedure is implemented and exercised in a test (full replay rebuilds identical projections); token-expiration and job-age alerts surface as sync-health events, never silently. *(Sizing note: large — expect execution as 2–3 sequential dev sessions: backup+restore-verification, dead-letter/rebuild tooling, alerting.)*
 
-## Epic 3b: Email Intelligence
+## Epic 14: Email Intelligence
 
 Sean's email starts proposing commitments — with the LLM treated as powerful and dangerous: gated, priced, injection-defended, and fully optional to the system's survival.
 
-### Story 3b.1: The LLM Gateway
+### Story 14.1: The LLM Gateway
 
 As Sean,
 I want every model call flowing through one governed gateway,
@@ -703,7 +705,7 @@ So that AI in my life system is routed, priced, versioned, and swappable — nev
 **Then** it runs only in the worker as a pg-boss job (AD-3), routed by config (extraction → claude-haiku-4-5 batched + prompt-cached; reasoning → claude-sonnet-5), and its output enters the domain only as zod-validated Assertions carrying confidence, provenance (source ref + model + prompt version), and context tag.
 **And** every call logs tokens and cost; monthly cost ceilings and rate controls halt with in-app disclosure rather than degrading silently; prompt templates are versioned in-repo; untrusted-content delimiting is built into the prompt scaffold from day one.
 
-### Story 3b.2: Email Commitment Extraction
+### Story 14.2: Email Commitment Extraction
 
 As Sean,
 I want my email proposing requests and commitments it finds,
@@ -714,9 +716,9 @@ So that promises made in threads stop living only in my memory.
 **Given** extraction enabled for an account (per-account toggle, default off),
 **When** new mail syncs,
 **Then** batch extraction produces candidate requests/commitments/important dates as proposals in the Capture Inbox — source badge, confidence, originating snippet — and nothing becomes a domain commitment without confirmation (AC-7).
-**And** confirmed proposals flow through the 3a.3 lifecycle including manual acceptance type; rejections are recorded as feedback events, never silently trained on; handled threads don't re-propose (ADD-3 dedup).
+**And** confirmed proposals flow through the 3.3 lifecycle including manual acceptance type; rejections are recorded as feedback events, never silently trained on; handled threads don't re-propose (ADD-3 dedup).
 
-### Story 3b.3: Hostile Input Defense
+### Story 14.3: Hostile Input Defense
 
 As Sean,
 I want every connected email treated as untrusted data — never instructions,
@@ -729,7 +731,7 @@ So that a malicious message can't steer my life system.
 **Then** the content is delimited and labeled untrusted in the prompt; the output schema permits only extraction fields (no tool requests, policy changes, or write triggers); schema-violating output is rejected and logged.
 **And** an adversarial corpus (injection, role-play coercion, scope escalation) runs in CI with zero policy-affecting or write-triggering outcomes required; sensitive-domain content (ADD-9) extracts neutrally with no advice framing; no assertion exists without a source reference.
 
-### Story 3b.4: The Extraction Quality Gate
+### Story 14.4: The Extraction Quality Gate
 
 As Sean,
 I want extraction quality measured against a golden corpus and my own rejections,
@@ -742,7 +744,7 @@ So that a noisy extractor demotes itself instead of drowning me.
 **Then** false-positive and false-negative rates compute against the corpus, and the ADD-7 regression gate blocks changes that increase false commitments.
 **And** in production the week-one behavioral gate holds: >50% rejection on an account drops it to forward-only mode automatically with an in-app explanation (FR-15); extraction proposals vs. rejections are counted continuously (§5.3 counter-metric).
 
-### Story 3b.5: The System Survives the Model
+### Story 14.5: The System Survives the Model
 
 As Sean,
 I want everything essential working when the AI is down,
@@ -856,7 +858,7 @@ So that I close the laptop without the background hum.
 
 ## Epic 7: My Data, My Rules
 
-Sean can export, disconnect, delete, and inspect — implementing the erasure design decided in Epic 1a.
+Sean can export, disconnect, delete, and inspect — implementing the erasure design decided in Epic 1.
 
 ### Story 7.1: Export Everything
 
@@ -894,7 +896,7 @@ So that "delete" means what it says — even in an append-only system.
 
 **Given** a deletion request (single item, context slice, or full account),
 **When** it executes,
-**Then** the 1a.3 erasure design does its job: payload content becomes unrecoverable (redaction/key-destruction per the ADR) while ledger integrity (event_seq chain) survives, and erasure propagates to projections, assertions, and search structures — verified by a test proving erased content is unfindable.
+**Then** the 1.3 erasure design does its job: payload content becomes unrecoverable (redaction/key-destruction per the ADR) while ledger integrity (event_seq chain) survives, and erasure propagates to projections, assertions, and search structures — verified by a test proving erased content is unfindable.
 **And** backup expiry semantics are stated in-app; full account erasure leaves a system that boots clean; every erasure is itself an audited, content-free event.
 
 ### Story 7.4: The Audit Window
@@ -917,7 +919,7 @@ Work interrupts arrive without manual capture; the week has a planned shape. *(P
 ### Story 8.1: Slack Ingestion
 As Sean, I want Slack connected with context assignment, So that work interrupts arrive hands-free.
 **Acceptance Criteria:**
-**Given** a connected Slack workspace, **When** a message demands something of me, **Then** it lands as an interrupt-intake candidate through the same extraction gates as email (3b machinery), **And** sync health, dedup against email versions of the same request, and rate-limit behavior match ADD-3.
+**Given** a connected Slack workspace, **When** a message demands something of me, **Then** it lands as an interrupt-intake candidate through the same extraction gates as email (14 machinery), **And** sync health, dedup against email versions of the same request, and rate-limit behavior match ADD-3.
 
 ### Story 8.2: Jira Ingestion
 As Sean, I want Jira work items and incidents flowing in, So that due work has its work-side system of record.
@@ -927,7 +929,7 @@ As Sean, I want Jira work items and incidents flowing in, So that due work has i
 ### Story 8.3: Full Request Extraction
 As Sean, I want all ten FR-15 intent categories extracted across email, Slack, and Jira, So that requests, follow-ups, decisions, and invitations are all caught.
 **Acceptance Criteria:**
-**Given** the expanded corpus, **When** extraction runs, **Then** all categories extract behind the same confirmation, injection-defense, and quality gates as 3b, **And** the golden corpus and regression gate extend to every category and source.
+**Given** the expanded corpus, **When** extraction runs, **Then** all categories extract behind the same confirmation, injection-defense, and quality gates as 14, **And** the golden corpus and regression gate extend to every category and source.
 
 ### Story 8.4: The Live Day
 As Sean, I want Today to live through the day — now, next, remaining capacity, projected finish, So that circumstances changing mid-day never make the plan a lie.
@@ -999,7 +1001,7 @@ Decisions gain grounding and follow-through. *Gate: UJ-6 end-to-end.*
 ### Story 11.1: Linked Documents
 As Sean, I want selected documents extracted for commitments, decisions, and risks, So that context stops living only in my head.
 **Acceptance Criteria:**
-**Given** user-linked documents, **When** extraction runs, **Then** FR-41 candidates require confirmation and FR-42 holds (documents never auto-become work; "should/need/will" creates nothing by itself), **And** all 3b injection defenses apply to document content.
+**Given** user-linked documents, **When** extraction runs, **Then** FR-41 candidates require confirmation and FR-42 holds (documents never auto-become work; "should/need/will" creates nothing by itself), **And** all 14 injection defenses apply to document content.
 
 ### Story 11.2: Authority and Conflicts
 As Sean, I want evidence carrying authority and freshness, with conflicts surfaced, So that recommendations rest on the strongest available truth.

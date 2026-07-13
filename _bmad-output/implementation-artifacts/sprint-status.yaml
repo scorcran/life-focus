@@ -48,14 +48,14 @@ tracking_system: file-system
 story_location: _bmad-output/implementation-artifacts
 
 development_status:
-  # Epic 1a: Steel Thread Foundation (MVP — build order 1)
-  epic-1a: backlog
-  1a-1-project-scaffold-and-development-environment: backlog
-  1a-2-sign-in-to-a-themed-accessible-shell: backlog
-  1a-3-the-event-ledger-small-but-final: backlog
-  1a-4-connect-both-google-calendars-with-context-assignment: backlog
-  1a-5-see-my-real-days: backlog
-  epic-1a-retrospective: optional
+  # Epic 1: Steel Thread Foundation (MVP — build order 1)
+  epic-1: backlog
+  1-1-project-scaffold-and-development-environment: backlog
+  1-2-sign-in-to-a-themed-accessible-shell: backlog
+  1-3-the-event-ledger-small-but-final: backlog
+  1-4-connect-both-google-calendars-with-context-assignment: backlog
+  1-5-see-my-real-days: backlog
+  epic-1-retrospective: optional
 
   # Epic 2: The Life Model (MVP — build order 2)
   epic-2: backlog
@@ -68,14 +68,14 @@ development_status:
   2-7-the-policy-and-boundaries-surface: backlog
   epic-2-retrospective: optional
 
-  # Epic 3a: Capture & the Commitment Ledger (MVP — build order 3)
-  epic-3a: backlog
-  3a-1-capture-anything-in-two-interactions: backlog
-  3a-2-rule-based-classification-and-minimal-clarification: backlog
-  3a-3-requests-commitments-and-manual-acceptance: backlog
-  3a-4-the-commitment-ledger-surface: backlog
-  3a-5-the-capture-guarantee: backlog
-  epic-3a-retrospective: optional
+  # Epic 3: Capture & the Commitment Ledger (MVP — build order 3)
+  epic-3: backlog
+  3-1-capture-anything-in-two-interactions: backlog
+  3-2-rule-based-classification-and-minimal-clarification: backlog
+  3-3-requests-commitments-and-manual-acceptance: backlog
+  3-4-the-commitment-ledger-surface: backlog
+  3-5-the-capture-guarantee: backlog
+  epic-3-retrospective: optional
 
   # Epic 4: The Morning Plan (MVP — build order 4)
   epic-4: backlog
@@ -87,23 +87,23 @@ development_status:
   4-6-today-and-the-work-ended-tap: backlog
   epic-4-retrospective: optional
 
-  # Epic 1b: Foundation Completion (MVP — build order 5)
-  epic-1b: backlog
-  1b-1-connect-both-gmail-accounts: backlog
-  1b-2-the-sync-health-surface: backlog
-  1b-3-dark-mode-and-theme-switching: backlog
-  1b-4-the-phone-in-my-pocket: backlog
-  1b-5-ops-hardening-trust-the-machinery: backlog
-  epic-1b-retrospective: optional
+  # Epic 13: Foundation Completion (MVP — build order 5)
+  epic-13: backlog
+  13-1-connect-both-gmail-accounts: backlog
+  13-2-the-sync-health-surface: backlog
+  13-3-dark-mode-and-theme-switching: backlog
+  13-4-the-phone-in-my-pocket: backlog
+  13-5-ops-hardening-trust-the-machinery: backlog
+  epic-13-retrospective: optional
 
-  # Epic 3b: Email Intelligence (MVP — build order 6)
-  epic-3b: backlog
-  3b-1-the-llm-gateway: backlog
-  3b-2-email-commitment-extraction: backlog
-  3b-3-hostile-input-defense: backlog
-  3b-4-the-extraction-quality-gate: backlog
-  3b-5-the-system-survives-the-model: backlog
-  epic-3b-retrospective: optional
+  # Epic 14: Email Intelligence (MVP — build order 6)
+  epic-14: backlog
+  14-1-the-llm-gateway: backlog
+  14-2-email-commitment-extraction: backlog
+  14-3-hostile-input-defense: backlog
+  14-4-the-extraction-quality-gate: backlog
+  14-5-the-system-survives-the-model: backlog
+  epic-14-retrospective: optional
 
   # Epic 5: Interrupts with Visible Tradeoffs (MVP — build order 7)
   epic-5: backlog
