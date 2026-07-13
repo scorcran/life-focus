@@ -1,11 +1,12 @@
 ---
 name: Life Focus Intelligence
 description: Calm, whole-life planning intelligence for a single founding user. Editorial minimalism, not a productivity dashboard.
-status: draft
+status: final
 created: 2026-07-12
 updated: 2026-07-12
 sources:
   - imports/life_focus_intelligence/DESIGN.md
+  # imports/life_focus_intelligence/DESIGN.md — Stitch identity artifact; referenced for visual lineage only; this DESIGN.md supersedes it.
   - imports/morning_whole_life_plan/code.html
   - imports/interrupt_decision_tradeoffs/code.html
   - ../../prds/prd-life-focus-2026-07-10/prd.md
@@ -69,6 +70,19 @@ colors:
   light-background: '#fcf9f3'
   light-on-background: '#1c1c18'
   light-surface-variant: '#e5e2dc'
+  # Warning / attention tier — severity escalation alerts and capacity-at-risk only
+  # Desaturated amber family; calm, not alarm. Never used for generic urgency.
+  # Contrast notes (WCAG 2.1):
+  #   light-on-warning-container (#92400e) on light-warning-container (#fef3c7): 6.37:1 ✓ AA body+icon
+  #   light-warning-icon (#92400e) on light-warning-container (#fef3c7): 6.37:1 ✓ AA graphical (≥3:1)
+  #   light-warning (#b45309) on light-surface (#fcf9f3): 4.58:1 ✓ AA body
+  light-warning: '#b45309'
+  light-warning-container: '#fef3c7'
+  light-on-warning-container: '#92400e'
+  light-warning-icon: '#92400e'
+  # Success indicator — consequence-preserved icon in decision scenario cards
+  # light-success-indicator (#2d6a4f) on light-surface (#fcf9f3): 5.53:1 ✓ AA body+icon
+  light-success-indicator: '#2d6a4f'
 
   # ── Dark mode ─────────────────────────────────────────────────────────────────
   # Same warm-neutral + teal-sage hue family; warm charcoal surfaces, not pure black.
@@ -129,6 +143,18 @@ colors:
   dark-background: '#1a1c1b'
   dark-on-background: '#e3e5e3'
   dark-surface-variant: '#3d4444'
+  # Warning / attention tier — dark mode
+  # Contrast notes (WCAG 2.1):
+  #   dark-on-warning-container (#fde68a) on dark-warning-container (#78350f): 9.43:1 ✓ AA
+  #   dark-warning-icon (#fde68a) on dark-warning-container (#78350f): 9.43:1 ✓ AA graphical
+  #   dark-warning (#fcd34d) on dark-surface (#1a1c1b): 10.22:1 ✓ AA
+  dark-warning: '#fcd34d'
+  dark-warning-container: '#78350f'
+  dark-on-warning-container: '#fde68a'
+  dark-warning-icon: '#fde68a'
+  # Success indicator — dark mode
+  # dark-success-indicator (#4ade80) on dark-surface (#1a1c1b): 10.88:1 ✓ AA
+  dark-success-indicator: '#4ade80'
 
 typography:
   display-lg:
@@ -206,6 +232,14 @@ components:
     item-inactive-color-dark: '{colors.dark-secondary}'
     item-radius: '{rounded.xl}'
     label-style: '{typography.label-caps}'
+    # Mobile bottom strip: center FAB for capture quick-add
+    mobile-fab-radius: '{rounded.full}'
+    mobile-fab-background-light: '{colors.light-primary}'
+    mobile-fab-background-dark: '{colors.dark-primary}'
+    mobile-fab-icon-color-light: '{colors.light-on-primary}'
+    mobile-fab-icon-color-dark: '{colors.dark-on-primary}'
+    mobile-fab-shadow: '0px 4px 20px rgba(0,0,0,0.08)'
+    mobile-fab-note: 'Center FAB sits above the tab strip z-plane. Four surrounding tabs are standard icon tabs at strip level.'
 
   # ── Capacity chips ────────────────────────────────────────────────────────────
   # Five summary chips at top of Morning Plan: Work / Personal / Flexibility / Confidence / Unscheduled
@@ -226,7 +260,10 @@ components:
     confidence-value-color-dark: '{colors.dark-primary}'
     # Risk state: subline uses error token + warning icon shape (never color alone)
     risk-subline-color-light: '{colors.light-error}'
+    risk-subline-color-dark: '{colors.dark-error}'
     risk-icon: warning (Material Symbols Outlined)
+    risk-icon-color-light: '{colors.light-error}'
+    risk-icon-color-dark: '{colors.dark-error}'
     hover-shadow: '0px 4px 20px rgba(0,0,0,0.04)'
 
   # ── Timeline ──────────────────────────────────────────────────────────────────
@@ -260,7 +297,7 @@ components:
     hover-shadow: '0px 4px 20px rgba(0,0,0,0.04)'
     hover-lift: '-0.5px translate-y'
     # Priority / committed block
-    background-committed-light: '#ebe8e2'
+    background-committed-light: '{colors.light-surface-container-high}'
     background-committed-dark: '{colors.dark-surface-container}'
     # Hard-commitment block
     border-left-protected: '4px solid {colors.light-primary-container}'
@@ -286,6 +323,14 @@ components:
     # Attention variant — hard risk; error left border
     attention-border-left: '4px solid {colors.light-error}'
     attention-label-color: '{colors.light-error}'
+    # Warning variant — severity escalation (SEV tier change); amber left border
+    warning-ribbon-color: '{colors.light-warning}'
+    warning-ribbon-color-dark: '{colors.dark-warning}'
+    warning-ribbon-background-light: '{colors.light-warning-container}'
+    warning-ribbon-background-dark: '{colors.dark-warning-container}'
+    # Usage context: glass-panel is used in BOTH Morning Plan (pre-approval) and Today
+    # (post-approval) right-aside panel. The four-card structure persists in live day
+    # view with updated real-time state. Not restricted to pre-approval only.
 
   plan-intelligence-panel:
     layout: sticky right aside; top offset 96px
@@ -298,8 +343,12 @@ components:
     card-risks-icon: warning
     card-not-scheduled-icon: snooze
     card-not-scheduled-opacity: '0.8'
-    # "Intentionally not scheduled" items: struck-through text, not failure
+    # "Intentionally not scheduled" items: struck-through text, not failure.
+    # Strikethrough is a visual deprioritization signal only (not failure).
+    # Screen reader rule: SR text must carry the full semantic label
+    # "Intentionally not scheduled" since text-decoration is not announced by AT.
     not-scheduled-text-decoration: line-through
+    not-scheduled-sr-label: 'Intentionally not scheduled —'
     # Risk bar: communicates % risk of overrun — never a "plan score"
     risk-bar-track-light: '{colors.light-surface-dim}'
     risk-bar-fill-light: '{colors.light-outline}'
@@ -319,7 +368,8 @@ components:
       background-light: '{colors.light-primary-container}'
       background-dark: '{colors.dark-primary-container}'
       text-light: '{colors.light-on-primary}'
-      text-dark: '{colors.dark-on-primary}'
+      text-dark: '{colors.dark-on-primary-container}'
+      # dark-on-primary-container (#d3e6e8) on dark-primary-container (#394a4c) = 7.20:1 ✓ AA
       radius: '{rounded.full}'
       padding: '10px 24px'
       style: '{typography.label-md}'
@@ -353,7 +403,8 @@ components:
     header-error-color: '{colors.light-error}'
     # P11 consequence checklist items — shape + color (never color alone)
     consequence-preserved-icon: check_circle
-    consequence-preserved-icon-color: '#2d6a4f'
+    consequence-preserved-icon-color: '{colors.light-success-indicator}'
+    consequence-preserved-icon-color-dark: '{colors.dark-success-indicator}'
     consequence-violated-icon: cancel
     consequence-violated-icon-color: '{colors.light-error}'
     consequence-neutral-icon: schedule or info (contextual)
@@ -383,6 +434,7 @@ components:
   # ── Evidence drawer ────────────────────────────────────────────────────────────
   evidence-drawer:
     trigger: expandable row with chevron; collapsed by default
+    animation-contract: 'Collapse/expand via CSS grid: grid-template-rows 0fr→1fr, transition 0.3s ease. Inner content wrapper uses overflow:hidden. Respects prefers-reduced-motion — transition-duration becomes 0ms when motion is reduced.'
     trigger-style: '{typography.label-md}'
     trigger-color-light: '{colors.light-secondary}'
     expanded-background-light: '{colors.light-surface-container-low}'
@@ -394,6 +446,10 @@ components:
     source-badge-background-light: '{colors.light-surface-container-highest}'
     source-badge-radius: '{rounded.full}'
     source-badge-style: '{typography.label-md}'
+    # Source-type icon taxonomy (Material Symbols Outlined):
+    # issue-tracker: bug_report | document: description | article: article
+    # compliance/security: security | calendar: event | email: mail
+    source-badge-icon-taxonomy: 'bug_report (issue), description (doc), article (article), security (compliance), event (calendar), mail (email)'
     confidence-label: '"Based on current information (NN%)"'
     last-verified-style: '{typography.body-md}'
     last-verified-color-light: '{colors.light-secondary}'
@@ -425,6 +481,224 @@ components:
     submit-icon: send
     submit-color-light: '{colors.light-primary}'
     radius: '{rounded.md}'
+
+  # ── Privacy scope badge ────────────────────────────────────────────────────────
+  # Appears top-right corner of commitment cards sourced from private channels.
+  # Signals trust scope without exposing content. (SEC-1, AC-14)
+  privacy-scope-badge:
+    position: top-right corner of parent card
+    icon: lock
+    label: 'Private Scope'
+    style: '{typography.label-md}'
+    background-light: '{colors.light-surface-container-highest}'
+    background-dark: '{colors.dark-surface-container-highest}'
+    text-light: '{colors.light-on-surface-variant}'
+    text-dark: '{colors.dark-on-surface-variant}'
+    radius: '{rounded.md}'
+    padding: '4px 8px'
+
+  # ── Source attribution header ─────────────────────────────────────────────────
+  # Used in commitment ingestion cards (personal_commitment_school_notice pattern).
+  source-attribution-header:
+    icon: verified_user
+    icon-color-light: '{colors.light-primary}'
+    icon-color-dark: '{colors.dark-primary}'
+    source-name-style: '{typography.label-md}'
+    confidence-inline-style: '{typography.label-md}'
+    confidence-inline-color-light: '{colors.light-secondary}'
+    confidence-inline-color-dark: '{colors.dark-secondary}'
+    confidence-format: '(NN% confidence)'
+
+  # ── Recommendation panel (commitment ingestion) ───────────────────────────────
+  # Distinct from plan-intelligence-panel. Used inside commitment detail cards.
+  recommendation-panel:
+    header-icon: lightbulb
+    header-style: '{typography.label-md}'
+    header-color-light: '{colors.light-on-surface}'
+    header-color-dark: '{colors.dark-on-surface}'
+    border-left: '4px solid {colors.light-primary}'
+    border-left-dark: '4px solid {colors.dark-primary}'
+    background-light: '{colors.light-surface-container-low}'
+    background-dark: '{colors.dark-surface-container-low}'
+    radius: '{rounded.xl}'
+    padding: 16px
+    action-item-prefix-icon: arrow_right
+    action-item-style: '{typography.body-md}'
+
+  # ── Trusted baseline badge ─────────────────────────────────────────────────────
+  # Inline text pill in Context Review surface. Distinct from domain-chip:
+  # no lock icon, no color, text-only pill. Marks verified source baselines.
+  trusted-baseline-badge:
+    radius: '{rounded.full}'
+    padding: '2px 8px'
+    style: '{typography.label-caps}'
+    background-light: '{colors.light-surface-container-highest}'
+    background-dark: '{colors.dark-surface-container-highest}'
+    text-light: '{colors.light-on-surface-variant}'
+    text-dark: '{colors.dark-on-surface-variant}'
+    border: none
+    icon: none
+
+  # ── Person detail component anatomy ──────────────────────────────────────────
+  # Surface #9 (People, v1.0). Layout idioms codified from person_detail_anna_fixed mock.
+  person-detail:
+    # Profile header
+    avatar-size: 80px
+    avatar-radius: '{rounded.full}'
+    avatar-ring-light: '2px solid {colors.light-surface-variant}'
+    avatar-ring-dark: '2px solid {colors.dark-surface-variant}'
+    # Intention card — personal intent. border-l uses primary-container (NOT primary).
+    # Distinguishes intent from system-protected commitments (which use primary border).
+    intention-card-border-left: '4px solid {colors.light-primary-container}'
+    intention-card-border-left-dark: '4px solid {colors.dark-primary-container}'
+    intention-card-background-light: '{colors.light-surface-container-low}'
+    intention-card-background-dark: '{colors.dark-surface-container-low}'
+    intention-card-header-icon: favorite
+    # Action vs. observation two-card pattern (side-by-side)
+    action-card-background-light: '{colors.light-surface-container-high}'
+    action-card-background-dark: '{colors.dark-surface-container-high}'
+    action-card-hover-shadow: '0px 4px 20px rgba(0,0,0,0.04)'
+    observation-card-background-light: '{colors.light-surface-container}'
+    observation-card-background-dark: '{colors.dark-surface-container}'
+    # Rhythms section: icon + text + frequency row
+    rhythm-row-icon-color-light: '{colors.light-secondary}'
+    rhythm-row-icon-color-dark: '{colors.dark-secondary}'
+    rhythm-row-style: '{typography.body-md}'
+    # Horizon/milestone items
+    horizon-border-left: '4px solid {colors.light-primary-container}'
+    horizon-border-left-dark: '4px solid {colors.dark-primary-container}'
+    horizon-background-light: '{colors.light-surface-container-low}'
+    horizon-background-dark: '{colors.dark-surface-container-low}'
+    horizon-time-badge-radius: '{rounded.full}'
+    # Open commitments list
+    open-commitment-row-icon: radio_button_unchecked
+    open-commitment-hover-reveal-action: true
+    # Accessibility rule: intention-card uses primary-container left border (not primary)
+    # to distinguish personal intent from system-protected hard commitments.
+
+  # ── Interrupt context panel ────────────────────────────────────────────────────
+  # Incident/interrupt metadata grid above decision scenario cards.
+  # Fluid grid of label+value pairs. Labels in label-caps; values in body-md.
+  interrupt-context-panel:
+    layout: 'fluid grid, 2–5 columns depending on viewport'
+    background-light: '{colors.light-surface-container-low}'
+    background-dark: '{colors.dark-surface-container-low}'
+    radius: '{rounded.xl}'
+    padding: 16px
+    label-style: '{typography.label-caps}'
+    label-color-light: '{colors.light-secondary}'
+    label-color-dark: '{colors.dark-secondary}'
+    value-style: '{typography.body-md}'
+    value-color-light: '{colors.light-on-surface}'
+    value-color-dark: '{colors.dark-on-surface}'
+
+  # ── Evidence layer footer ─────────────────────────────────────────────────────
+  # Non-expandable footer summary bar below decision scenario cards.
+  # Different from the expandable evidence-drawer — this is always visible.
+  evidence-layer-footer:
+    icon: verified_user
+    icon-color-light: '{colors.light-secondary}'
+    icon-color-dark: '{colors.dark-secondary}'
+    text-style: '{typography.body-md}'
+    text-color-light: '{colors.light-secondary}'
+    text-color-dark: '{colors.dark-secondary}'
+    confidence-format: 'Based on current information (NN%)'
+    position: 'below scenario card grid, above sticky action area'
+
+  # ── Severity badge ────────────────────────────────────────────────────────────
+  # Inline dot + label for SEV tier display in interrupt/alert contexts.
+  severity-badge:
+    dot-size: 8px
+    dot-radius: '{rounded.full}'
+    label-style: '{typography.label-md}'
+    # SEV-1 (critical): error color dot
+    sev1-dot-color-light: '{colors.light-error}'
+    sev1-dot-color-dark: '{colors.dark-error}'
+    # SEV-2 (warning): warning color dot
+    sev2-dot-color-light: '{colors.light-warning}'
+    sev2-dot-color-dark: '{colors.dark-warning}'
+    aria-rule: 'severity-badge requires aria-label with full severity text (e.g., aria-label="Severity 2")'
+
+  # ── Focus ring ────────────────────────────────────────────────────────────────
+  # Global focus-visible ring. Applied to ALL interactive elements. Never removed.
+  # WCAG 2.4.13-compatible: ≥2px, ≥3:1 contrast against adjacent colors.
+  # light-primary (#17282a) on light-surface (#fcf9f3): 16.26:1 — far exceeds 3:1 ✓
+  # dark-primary (#b7cacc) on dark-surface (#1a1c1b): 8.67:1 ✓
+  focus-ring:
+    width: 2px
+    offset: 2px
+    color-light: '{colors.light-primary}'
+    color-dark: '{colors.dark-primary}'
+    style: 'outline: 2px solid; outline-offset: 2px'
+    rule: 'Applied via :focus-visible selector only — never :focus — on all interactive elements. Not clipped by overflow:hidden or border-radius on the parent. On dark-surface sidebars, color-dark applies automatically via theme class.'
+
+  # ── State chips (commitment/request status vocabulary) ────────────────────────
+  # The status/state-chip vocabulary for Commitment Ledger, Capture Inbox, and
+  # at-risk contexts. Icon + text label MANDATORY — color is supplemental, never sole.
+  # All pairs WCAG AA verified in both themes.
+  state-chip:
+    radius: '{rounded.full}'
+    padding: '3px 8px'
+    style: '{typography.label-caps}'
+    icon-required: true
+    icon-position: leading
+    # Accepted — calm teal-adjacent
+    # light: #0369a1 on #e0f2fe = 5.17:1 ✓ AA | dark: #bae6fd on #0c4a6e = 9.11:1 ✓
+    accepted-bg-light: '#e0f2fe'
+    accepted-text-light: '#0369a1'
+    accepted-icon-light: 'check_circle'
+    accepted-bg-dark: '#0c4a6e'
+    accepted-text-dark: '#bae6fd'
+    accepted-icon-dark: 'check_circle'
+    # In progress — muted green
+    # light: #065f46 on #d1fae5 = 6.78:1 ✓ | dark: #a7f3d0 on #064e3b = 9.67:1 ✓
+    in-progress-bg-light: '#d1fae5'
+    in-progress-text-light: '#065f46'
+    in-progress-icon-light: 'pending'
+    in-progress-bg-dark: '#064e3b'
+    in-progress-text-dark: '#a7f3d0'
+    in-progress-icon-dark: 'pending'
+    # Waiting (on others)
+    # light: #5b21b6 on #ede9fe = 7.57:1 ✓ | dark: #ddd6fe on #3b0764 = 10.54:1 ✓
+    waiting-bg-light: '#ede9fe'
+    waiting-text-light: '#5b21b6'
+    waiting-icon-light: 'hourglass_empty'
+    waiting-bg-dark: '#3b0764'
+    waiting-text-dark: '#ddd6fe'
+    waiting-icon-dark: 'hourglass_empty'
+    # Waiting on you (action required)
+    # light: #c2410c on #fff7ed = 4.88:1 ✓ | dark: #fed7aa on #7c2d12 = 8.83:1 ✓
+    waiting-on-you-bg-light: '#fff7ed'
+    waiting-on-you-text-light: '#c2410c'
+    waiting-on-you-icon-light: 'priority_high'
+    waiting-on-you-bg-dark: '#7c2d12'
+    waiting-on-you-text-dark: '#fed7aa'
+    waiting-on-you-icon-dark: 'priority_high'
+    # At risk — amber warning tier (uses warning tokens)
+    # light: light-on-warning-container (#92400e) on light-warning-container (#fef3c7) = 6.37:1 ✓
+    # dark: dark-on-warning-container (#fde68a) on dark-warning-container (#78350f) = 9.43:1 ✓
+    at-risk-bg-light: '{colors.light-warning-container}'
+    at-risk-text-light: '{colors.light-on-warning-container}'
+    at-risk-icon-light: 'warning'
+    at-risk-bg-dark: '{colors.dark-warning-container}'
+    at-risk-text-dark: '{colors.dark-on-warning-container}'
+    at-risk-icon-dark: 'warning'
+    # Fulfilled — muted, NOT dimmed by opacity (see a11y M-4 fix: no opacity dimming)
+    # Uses on-surface-variant at full opacity. light: #424848 on #e5e2dc = 7.21:1 ✓
+    # dark: #c2c8c7 on #363938 = 6.88:1 ✓
+    fulfilled-bg-light: '{colors.light-surface-container-highest}'
+    fulfilled-text-light: '{colors.light-on-surface-variant}'
+    fulfilled-icon-light: 'check'
+    fulfilled-bg-dark: '{colors.dark-surface-container-highest}'
+    fulfilled-text-dark: '{colors.dark-on-surface-variant}'
+    fulfilled-icon-dark: 'check'
+    # Accessibility rules:
+    # - Each chip requires aria-label with full state name (e.g. aria-label="Status: At risk")
+    # - aria-pressed or aria-selected when chip is interactive/selectable
+    # - Non-color companion (icon) is mandatory — chip MUST NOT rely on color alone
+    # Muted / archived state rule (replaces opacity idiom — a11y M-4):
+    # Fulfilled/archived commitments use fulfilled-* tokens at FULL opacity. Do NOT apply
+    # opacity < 1 to the entire card — this fails WCAG AA for meta and secondary text sizes.
 ---
 
 ## Brand & Style
@@ -510,7 +784,7 @@ See frontmatter `components` object for all token-level specifications. Narrativ
 
 **Timeline with domain pips** — a 1px `outline-variant` vertical rail; 12px pips at each block. Open pip (teal border, warm fill) = standard event. Filled pip (solid teal) = hard commitment or protected priority. The distinction is shape (fill state) + aria-label, never color alone. Protected blocks also receive a 4px primary-container left border + lock icon badge for additional confirmation. The "Why:" inset inside priority blocks shows the planning rationale inline — not behind a tooltip, always visible.
 
-**Plan Intelligence panel** — four glass-panel cards in a sticky right aside: "What this plan protects" (shield icon), "Needs attention" (error left border, error icon), "Plan risks" (confidence bar — % risk of overrun, not a score), "Intentionally not scheduled" (snooze icon, struck-through items, 0.8 opacity). Section labels use `label-caps` uppercase. This panel is the system's editorial voice and must stay measured, specific, and grounded.
+**Plan Intelligence panel** — four glass-panel cards in a sticky right aside: "What this plan protects" (shield icon), "Needs attention" (error left border, error icon), "Plan risks" (confidence bar — % risk of overrun, not a score), "Intentionally not scheduled" (snooze icon, struck-through items, 0.8 opacity). SEV-tier escalations add the amber `warning-ribbon` glass-panel variant — distinct from the error-bordered "Needs attention" card, which is reserved for hard-boundary risk. Section labels use `label-caps` uppercase. This panel is the system's editorial voice and must stay measured, specific, and grounded.
 
 **Sticky action area** — fixed bottom, offset by 80px nav rail on desktop. Two buttons only: "Modify Plan" (outlined ghost, `rounded.full`) and "Approve today's plan" (primary fill, `rounded.full`, checkmark icon). Approval is always an explicit affirmative. No auto-approve. No "Done." No "Execute."
 
