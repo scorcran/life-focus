@@ -1,11 +1,18 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 import { authSchema } from './schema/auth.js';
+import { ledgerSchema } from './schema/ledger.js';
 
 export * from './schema/auth.js';
+export * from './schema/ledger.js';
 export { runMigrations } from './migrate.js';
+export { createLedgerStore } from './ledger/store.js';
 
-export type DrizzleClient = ReturnType<typeof drizzle<Record<string, never>>>;
+/** The full Drizzle schema: auth tables + ledger tables. */
+const schema = { ...authSchema, ...ledgerSchema };
+
+export type DbClient = ReturnType<typeof createDbClient>;
+export type DrizzleClient = DbClient['db'];
 
 /**
  * Create a Drizzle client from a standard Postgres connection string (AD-9).
@@ -18,7 +25,7 @@ export function createDbClient(connectionString: string) {
   pool.on('error', (err: Error) => {
     console.error('[db] pool error (logged, not thrown):', err.message);
   });
-  return { db: drizzle(pool, { schema: authSchema }), pool };
+  return { db: drizzle(pool, { schema }), pool };
 }
 
 /** Close the pool returned by createDbClient. */

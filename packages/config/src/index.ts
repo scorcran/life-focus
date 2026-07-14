@@ -29,7 +29,38 @@ const EnvSchema = z.object({
     .string()
     .url({ message: 'BETTER_AUTH_URL must be a valid URL' })
     .default('http://localhost:3000'),
+  // Master key for ledger crypto-shredding erasure (ADR 0001). Must decode to
+  // exactly 32 bytes (AES-256). Accepts base64 or hex; the adapter wraps
+  // per-erasure-scope data keys under this key.
+  LEDGER_MASTER_KEY: z
+    .string()
+    .refine((v) => decodeKeyBytes(v)?.length === 32, {
+      message:
+        'LEDGER_MASTER_KEY must be a base64 or hex string that decodes to exactly 32 bytes',
+    }),
 });
+
+/**
+ * Decode a key string as base64 or hex into raw bytes.
+ * Returns null if the value cannot be decoded to a plausible key.
+ *
+ * Exported as the single canonical decoder so security-critical key parsing is
+ * not duplicated (the ledger crypto adapter imports this rather than re-deriving
+ * its own — divergent decoders are a latent key-mismatch bug).
+ */
+export function decodeKeyBytes(value: string): Buffer | null {
+  // Hex: even length, only hex digits.
+  if (/^[0-9a-fA-F]+$/.test(value) && value.length % 2 === 0) {
+    const hex = Buffer.from(value, 'hex');
+    if (hex.length === value.length / 2) return hex;
+  }
+  // Base64 (standard or url-safe).
+  if (/^[A-Za-z0-9+/_-]+={0,2}$/.test(value)) {
+    const b64 = Buffer.from(value, 'base64');
+    if (b64.length > 0) return b64;
+  }
+  return null;
+}
 
 export type AppConfig = z.infer<typeof EnvSchema>;
 

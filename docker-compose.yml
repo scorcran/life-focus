@@ -35,6 +35,8 @@ services:
       NODE_ENV: production
       # loadConfig() requires a valid secret even for the migrate runner.
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
+      # loadConfig() requires a valid 32-byte ledger master key (ADR 0001).
+      LEDGER_MASTER_KEY: ${LEDGER_MASTER_KEY:-ZGV2LW9ubHktaW5zZWN1cmUtbGVkZ2VyLWtleS0zMmI=}
     restart: "no"
 
   web:
@@ -66,6 +68,8 @@ services:
       # Better Auth (AD-6). Provide a strong secret via .env in real use; the default is dev-only.
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      # Ledger crypto-shredding master key (ADR 0001).
+      LEDGER_MASTER_KEY: ${LEDGER_MASTER_KEY:-ZGV2LW9ubHktaW5zZWN1cmUtbGVkZ2VyLWtleS0zMmI=}
 
   worker:
     build:
@@ -87,6 +91,8 @@ services:
       NODE_ENV: production
       # loadConfig() requires a valid secret in every host process.
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
+      # Ledger crypto-shredding master key (ADR 0001).
+      LEDGER_MASTER_KEY: ${LEDGER_MASTER_KEY:-ZGV2LW9ubHktaW5zZWN1cmUtbGVkZ2VyLWtleS0zMmI=}
 
 volumes:
   postgres_data:

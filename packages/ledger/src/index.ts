@@ -1,20 +1,35 @@
-/** Event ledger stub — append-only event log + projections (AD-4). */
-
-export type EventContext = 'work' | 'personal' | 'joint';
-
-export interface DomainEvent {
-  readonly eventSeq?: number;
-  readonly eventType: string;
-  readonly actor: string;
-  readonly context: EventContext;
-  readonly payload: Record<string, unknown>;
-  readonly causedBy?: string;
-}
-
 /**
- * Stub: append a domain event.
- * Real implementation will write to insert-only Postgres tables.
+ * Event ledger core (AD-4): event catalog, projection reducers, undo builder,
+ * and the `LedgerStore` port. Pure — no adapter/host/I/O imports (AD-1).
+ * `EventContext` is canonical here; adapters re-export it.
  */
-export async function appendEvent(event: DomainEvent): Promise<DomainEvent> {
-  return { ...event, eventSeq: 0 };
-}
+
+export type {
+  EventContext,
+  DomainEvent,
+  AppendEventInput,
+  ReadEventsFilter,
+  CommitmentRow,
+  LedgerStore,
+} from './events/types.js';
+export { REDACTED_MARKER } from './events/types.js';
+
+export {
+  EVENT_CATALOG,
+  commitmentCapturedPayload,
+  commitmentCaptureUndonePayload,
+  crossContextAccessAuditedPayload,
+  isKnownEventType,
+  sensitiveFieldsFor,
+  validateEventPayload,
+  UnknownEventTypeError,
+  InvalidEventPayloadError,
+} from './events/catalog.js';
+export type { KnownEventType } from './events/catalog.js';
+
+export {
+  reduceCommitment,
+  projectCommitments,
+} from './projections/commitment.js';
+
+export { buildUndoEvent, UndoNotSupportedError } from './undo.js';

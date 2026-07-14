@@ -9,6 +9,9 @@
     "build": "tsc --build",
     "typecheck": "tsc --build --noEmit"
   },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
   "devDependencies": {
     "typescript": "^7.0.0",
     "vitest": "^3.0.0"

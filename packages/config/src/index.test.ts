@@ -3,12 +3,15 @@ import { loadConfig, resetConfig } from './index.js';
 
 // A valid 32+ char secret reused across the "valid config" cases.
 const SECRET = 'a'.repeat(32);
+// A valid base64 string decoding to exactly 32 bytes (AES-256 key).
+const MASTER_KEY = Buffer.alloc(32, 7).toString('base64');
 
 /** Base env with all required fields satisfied; spread and override per test. */
 function baseEnv(overrides: Record<string, string> = {}): NodeJS.ProcessEnv {
   return {
     DATABASE_URL: 'postgresql://user:pass@localhost:5432/db',
     BETTER_AUTH_SECRET: SECRET,
+    LEDGER_MASTER_KEY: MASTER_KEY,
     NODE_ENV: 'test',
     ...overrides,
   };
@@ -115,6 +118,40 @@ describe('packages/config', () => {
 
   it('rejects an invalid BETTER_AUTH_URL', () => {
     expect(() => loadConfig(baseEnv({ BETTER_AUTH_URL: 'not-a-url' })))
+      .toThrow('Invalid environment configuration');
+  });
+
+  // ── Ledger master key (Story 1.3, ADR 0001) ────────────────────────────────
+  it('requires LEDGER_MASTER_KEY', () => {
+    expect(() =>
+      loadConfig({
+        DATABASE_URL: 'postgresql://u:p@h:5432/d',
+        BETTER_AUTH_SECRET: SECRET,
+        NODE_ENV: 'test',
+      }),
+    ).toThrow('Invalid environment configuration');
+  });
+
+  it('accepts a base64 LEDGER_MASTER_KEY that decodes to 32 bytes', () => {
+    const config = loadConfig(baseEnv({ LEDGER_MASTER_KEY: MASTER_KEY }));
+    expect(config.LEDGER_MASTER_KEY).toBe(MASTER_KEY);
+  });
+
+  it('accepts a hex LEDGER_MASTER_KEY that decodes to 32 bytes', () => {
+    const hexKey = Buffer.alloc(32, 9).toString('hex');
+    const config = loadConfig(baseEnv({ LEDGER_MASTER_KEY: hexKey }));
+    expect(config.LEDGER_MASTER_KEY).toBe(hexKey);
+  });
+
+  it('rejects a LEDGER_MASTER_KEY that decodes to the wrong length', () => {
+    // 16 bytes base64 — decodes fine but is not 32 bytes.
+    const shortKey = Buffer.alloc(16, 3).toString('base64');
+    expect(() => loadConfig(baseEnv({ LEDGER_MASTER_KEY: shortKey })))
+      .toThrow('Invalid environment configuration');
+  });
+
+  it('rejects a LEDGER_MASTER_KEY that is not valid base64 or hex', () => {
+    expect(() => loadConfig(baseEnv({ LEDGER_MASTER_KEY: '!!! not a key !!!' })))
       .toThrow('Invalid environment configuration');
   });
 });

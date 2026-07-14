@@ -8,6 +8,7 @@
   "include": ["src"],
   "exclude": ["src/**/*.test.ts"],
   "references": [
-    {"path": "../config"}
+    {"path": "../config"},
+    {"path": "../ledger"}
   ]
 }

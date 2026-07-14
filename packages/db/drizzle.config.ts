@@ -6,7 +6,7 @@ const { DATABASE_URL } = loadConfig();
 
 export default defineConfig({
   dialect: 'postgresql',
-  schema: './src/schema/auth.ts',
+  schema: './src/schema',
   out: './drizzle',
   dbCredentials: {
     url: DATABASE_URL,
