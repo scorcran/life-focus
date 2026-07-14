@@ -22,6 +22,9 @@ export {
   calendarConnectedPayload,
   calendarSyncedPayload,
   calendarSyncFailedPayload,
+  onboardingStartedPayload,
+  onboardingStepCompletedPayload,
+  onboardingCompletedPayload,
   isKnownEventType,
   sensitiveFieldsFor,
   validateEventPayload,
@@ -33,11 +36,26 @@ export type {
   CalendarConnectedPayload,
   CalendarSyncedPayload,
   CalendarSyncFailedPayload,
+  OnboardingStartedPayload,
+  OnboardingStepCompletedPayload,
+  OnboardingCompletedPayload,
 } from './events/catalog.js';
 
 export {
   reduceCommitment,
   projectCommitments,
 } from './projections/commitment.js';
+
+export {
+  ONBOARDING_STEP_IDS,
+  reduceOnboarding,
+  projectOnboarding,
+} from './projections/onboarding.js';
+export type {
+  OnboardingStepId,
+  OnboardingStepMode,
+  OnboardingStepState,
+  OnboardingProgress,
+} from './projections/onboarding.js';
 
 export { buildUndoEvent, UndoNotSupportedError } from './undo.js';

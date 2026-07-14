@@ -12,10 +12,12 @@ const NAV_ITEMS = [
 ] as const;
 
 /**
- * Footer nav (Story 1.4): Settings lives in the rail footer, separate from the
- * primary 4-tab set so the MVP IA is unchanged. Reaches the connections screen.
+ * Footer nav: Setup (Story 2.1, the guided onboarding flow) and Settings
+ * (Story 1.4, the connections screen) live in the rail footer, separate from
+ * the primary 4-tab set so the MVP IA is unchanged.
  */
 const FOOTER_ITEMS = [
+  { href: '/onboarding', label: 'Setup', glyph: '◐' },
   { href: '/settings/connections', label: 'Settings', glyph: '⚙' },
 ] as const;
 
@@ -77,7 +79,7 @@ export function SideNav() {
   return (
     <nav aria-label="Primary" style={railStyle}>
       {NAV_ITEMS.map(renderItem)}
-      {/* Push the footer group (Settings) to the bottom of the rail. */}
+      {/* Push the footer group (Setup + Settings) to the bottom of the rail. */}
       <div style={{ marginTop: 'auto' }}>{FOOTER_ITEMS.map(renderItem)}</div>
     </nav>
   );

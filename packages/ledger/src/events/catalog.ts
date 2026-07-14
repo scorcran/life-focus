@@ -7,6 +7,7 @@
  */
 import { z } from 'zod';
 import type { EventContext } from './types.js';
+import { ONBOARDING_STEP_IDS } from '../projections/onboarding.js';
 
 const contextEnum = z.enum(['work', 'personal', 'joint']);
 /** Source-row contexts: work|personal only — `joint` is illegal on source-mirror rows (AD-5). */
@@ -70,6 +71,36 @@ export const calendarSyncFailedPayload = z.object({
   failedAt: z.string().min(1),
 });
 
+// ── Guided-onboarding progress events (Story 2.1, AD-4) ──────────────────────
+// Onboarding progress is meta over the whole life model (it spans work +
+// personal), so `joint` is the correct non-null context tag (AD-5). These
+// events carry no PII (`sensitiveFields: []`), so the encryption path is never
+// exercised. Progress is served by a pure in-memory projection over these
+// events — there is no projection table or migration (AD-4).
+
+/**
+ * Validate step ids against the single canonical list (`ONBOARDING_STEP_IDS`)
+ * so the catalog enum can never drift from the projection's valid set.
+ */
+const onboardingStepIdEnum = z.enum(ONBOARDING_STEP_IDS);
+
+/** Onboarding began. Idempotent at the projection: first `startedAt` wins. */
+export const onboardingStartedPayload = z.object({
+  startedAt: z.string().min(1),
+});
+
+/** A step was advanced by an explicit user action: entered or skipped. */
+export const onboardingStepCompletedPayload = z.object({
+  stepId: onboardingStepIdEnum,
+  mode: z.enum(['entered', 'skipped']),
+  at: z.string().min(1),
+});
+
+/** Onboarding was finished (pairs with `OnboardingStarted` for story 2.6 timing). */
+export const onboardingCompletedPayload = z.object({
+  completedAt: z.string().min(1),
+});
+
 // ── Catalog registry ────────────────────────────────────────────────────────
 
 interface CatalogEntry {
@@ -102,6 +133,18 @@ export const EVENT_CATALOG = {
   },
   CalendarSyncFailed: {
     schema: calendarSyncFailedPayload,
+    sensitiveFields: [],
+  },
+  OnboardingStarted: {
+    schema: onboardingStartedPayload,
+    sensitiveFields: [],
+  },
+  OnboardingStepCompleted: {
+    schema: onboardingStepCompletedPayload,
+    sensitiveFields: [],
+  },
+  OnboardingCompleted: {
+    schema: onboardingCompletedPayload,
     sensitiveFields: [],
   },
 } as const satisfies Record<string, CatalogEntry>;
@@ -157,6 +200,12 @@ export function validateEventPayload(
 export type CalendarConnectedPayload = z.infer<typeof calendarConnectedPayload>;
 export type CalendarSyncedPayload = z.infer<typeof calendarSyncedPayload>;
 export type CalendarSyncFailedPayload = z.infer<typeof calendarSyncFailedPayload>;
+
+// Inferred payload types for the guided-onboarding events (Story 2.1), so the
+// host builds catalog-valid payloads without redeclaring the shapes.
+export type OnboardingStartedPayload = z.infer<typeof onboardingStartedPayload>;
+export type OnboardingStepCompletedPayload = z.infer<typeof onboardingStepCompletedPayload>;
+export type OnboardingCompletedPayload = z.infer<typeof onboardingCompletedPayload>;
 
 // Re-export for convenience so callers can build catalog-valid payloads.
 export type { EventContext };
