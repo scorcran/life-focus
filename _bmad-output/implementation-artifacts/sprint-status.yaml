@@ -51,7 +51,7 @@ development_status:
   # Epic 1: Steel Thread Foundation (MVP — build order 1)
   epic-1: backlog
   1-1-project-scaffold-and-development-environment: done
-  1-2-sign-in-to-a-themed-accessible-shell: backlog
+  1-2-sign-in-to-a-themed-accessible-shell: done
   1-3-the-event-ledger-small-but-final: backlog
   1-4-connect-both-google-calendars-with-context-assignment: backlog
   1-5-see-my-real-days: backlog

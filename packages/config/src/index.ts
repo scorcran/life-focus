@@ -20,6 +20,15 @@ const EnvSchema = z.object({
     ),
   LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  // Better Auth (apps/web, AD-6). Secret signs sessions/tokens — must be strong.
+  BETTER_AUTH_SECRET: z
+    .string()
+    .min(32, { message: 'BETTER_AUTH_SECRET must be at least 32 characters' }),
+  // Base URL Better Auth uses to build callback/cookie origins.
+  BETTER_AUTH_URL: z
+    .string()
+    .url({ message: 'BETTER_AUTH_URL must be a valid URL' })
+    .default('http://localhost:3000'),
 });
 
 export type AppConfig = z.infer<typeof EnvSchema>;

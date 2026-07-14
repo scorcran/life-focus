@@ -12,6 +12,8 @@
   "dependencies": {
     "@life-focus/config": "*",
     "@life-focus/db": "*",
+    "better-auth": "^1.6.0",
+    "drizzle-orm": "^0.45.0",
     "next": "^16.2.0",
     "pino": "^9.0.0",
     "react": "^19.0.0",

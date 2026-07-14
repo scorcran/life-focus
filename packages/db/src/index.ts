@@ -1,5 +1,9 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
+import { authSchema } from './schema/auth.js';
+
+export * from './schema/auth.js';
+export { runMigrations } from './migrate.js';
 
 export type DrizzleClient = ReturnType<typeof drizzle<Record<string, never>>>;
 
@@ -14,7 +18,7 @@ export function createDbClient(connectionString: string) {
   pool.on('error', (err: Error) => {
     console.error('[db] pool error (logged, not thrown):', err.message);
   });
-  return { db: drizzle(pool), pool };
+  return { db: drizzle(pool, { schema: authSchema }), pool };
 }
 
 /** Close the pool returned by createDbClient. */

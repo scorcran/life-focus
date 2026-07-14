@@ -18,6 +18,25 @@ services:
       timeout: 5s
       retries: 10
 
+  # One-shot: apply DB migrations, then exit. Both hosts wait for it to complete
+  # so the auth tables exist before any authed route serves (AD-9).
+  migrate:
+    build:
+      context: .
+      dockerfile: packages/db/Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://lifefocus:lifefocus@postgres:5432/lifefocus
+      NODE_ENV: production
+      # loadConfig() requires a valid secret even for the migrate runner.
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
+    restart: "no"
+
   web:
     build:
       context: .
@@ -34,6 +53,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     environment:
       # This DATABASE_URL intentionally overrides any value in .env:
       # inside the container network the hostname is 'postgres', not 'localhost'.
@@ -42,6 +63,9 @@ services:
       PORT: 3000
       # Pinned so a NODE_ENV=development in .env can't leak into the container (environment overrides env_file).
       NODE_ENV: production
+      # Better Auth (AD-6). Provide a strong secret via .env in real use; the default is dev-only.
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
 
   worker:
     build:
@@ -54,11 +78,15 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     environment:
       # Same intentional override — see web service comment above.
       DATABASE_URL: postgresql://lifefocus:lifefocus@postgres:5432/lifefocus
       # Pinned so a NODE_ENV=development in .env can't leak into the container (environment overrides env_file).
       NODE_ENV: production
+      # loadConfig() requires a valid secret in every host process.
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
 
 volumes:
   postgres_data:
