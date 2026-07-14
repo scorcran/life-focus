@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@life-focus/broker": "*",
     "@life-focus/config": "*",
     "@life-focus/connectors": "*",
     "@life-focus/db": "*",

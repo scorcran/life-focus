@@ -48,7 +48,30 @@ const EnvSchema = z.object({
     .string()
     .url({ message: 'GOOGLE_OAUTH_REDIRECT_URI must be a valid URL' })
     .optional(),
+  // Render-time timezone for local agenda formatting (Story 1.5). No life-model
+  // exists yet (Epic 2 onboarding), so the single user's tz comes from config and
+  // is applied at render only. Optional with a default so the app boots without it.
+  // Must be a valid IANA zone name (validated via Intl so a typo fails fast).
+  APP_TIMEZONE: z
+    .string()
+    .refine(isValidTimeZone, {
+      message: 'APP_TIMEZONE must be a valid IANA time zone name (e.g. "America/New_York")',
+    })
+    .default('America/New_York'),
 });
+
+/**
+ * Whether a string is a valid IANA time zone name. Uses Intl — the same engine
+ * that renders local times — so config validation and render agree.
+ */
+function isValidTimeZone(tz: string): boolean {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Decode a key string as base64 or hex into raw bytes.

@@ -73,3 +73,15 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
   summary: `connectSource` does a select-then-insert on the `(provider, account, context)` identity, a TOCTOU that under two concurrent connects for the same identity throws a unique-constraint violation on the loser (surfaced to the user as a spurious `connect_failed`).
   evidence: `mirror/store.ts connectSource` SELECTs the existing identity then branches to INSERT or UPDATE; the SELECT and INSERT are not atomic and there is no `onConflictDoUpdate` on the identity unique index. Practically unreachable for a single human operator (mirrors the spec-1-2 deferred sign-up TOCTOU); the hardening is an upsert keyed on the identity index.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-5-see-my-real-days.md`
+  summary: The agenda renders declined / not-attending events as if attended — the mirror stores no attendee-response field, so a calendar event the user declined still occupies the "my real days" view with equal weight.
+  evidence: `packages/connectors/src/gcal/normalize.ts` keeps Google's event `status` but no `self`/`responseStatus`; `apps/web/src/lib/agenda.ts shapeAgenda` filters only by date/all-day. Faithful "real days" rendering should hide/deprioritize declined events. Out of scope for the Epic-1 read-only steel thread (NFR-6 keeps mirror fields minimal); revisit when the mirror carries the attendee response the planner needs.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-5-see-my-real-days.md`
+  summary: `formatSyncTime` renders the last-sync timestamp with `Date.toLocaleString()` and no timezone/locale args, so it prints in the SERVER's zone — not `APP_TIMEZONE` — disagreeing with the agenda's tz-explicit event times on the very same page.
+  evidence: `apps/web/src/lib/sync-disclosure.ts formatSyncTime` (relocated from story 1.4's connections page) uses `new Date(iso).toLocaleString()`; the agenda's `shapeAgenda` formats via `Intl.DateTimeFormat` with `config.APP_TIMEZONE`. The fix is to thread `APP_TIMEZONE` into `formatSyncTime` (affects both the connections page and `/today`); low consequence (a timestamp), pre-existing behavior.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-5-see-my-real-days.md`
+  summary: `loadAgenda`'s per-context cross-context audits are non-atomic — if the second context's read or audit throws after the first `CrossContextAccessAudited` row is appended, the first audit persists even though the agenda was never rendered (an orphaned audit for an output that did not occur).
+  evidence: `apps/web/src/lib/agenda-data.ts loadAgenda` loops the two contexts appending an audit each; there is no surrounding transaction. Same class as spec-1-4's deferred cross-transaction audit-atomicity item; the hardening is a composable ledger transaction spanning both audits (or auditing once after both reads succeed).

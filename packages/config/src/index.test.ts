@@ -189,4 +189,20 @@ describe('packages/config', () => {
     expect(() => loadConfig(baseEnv({ GOOGLE_OAUTH_REDIRECT_URI: 'not-a-url' })))
       .toThrow('Invalid environment configuration');
   });
+
+  // ── Render-time timezone (Story 1.5) ───────────────────────────────────────
+  it('defaults APP_TIMEZONE to America/New_York when unset (app boots without it)', () => {
+    const config = loadConfig(baseEnv());
+    expect(config.APP_TIMEZONE).toBe('America/New_York');
+  });
+
+  it('accepts a valid IANA APP_TIMEZONE', () => {
+    const config = loadConfig(baseEnv({ APP_TIMEZONE: 'Europe/London' }));
+    expect(config.APP_TIMEZONE).toBe('Europe/London');
+  });
+
+  it('rejects an invalid APP_TIMEZONE (not an IANA zone)', () => {
+    expect(() => loadConfig(baseEnv({ APP_TIMEZONE: 'Not/AZone' })))
+      .toThrow('Invalid environment configuration');
+  });
 });

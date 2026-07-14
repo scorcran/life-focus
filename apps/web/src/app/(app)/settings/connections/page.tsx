@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { loadConfig, isGoogleOAuthConfigured } from '@life-focus/config';
 import type { SourceRecord } from '@life-focus/db';
 import { getStores } from '../../../../lib/stores.js';
+import { syncDisclosure } from '../../../../lib/sync-disclosure.js';
 import { startGoogleConnect } from './actions.js';
 
 export const dynamic = 'force-dynamic';
@@ -48,41 +49,6 @@ const disabledButtonStyle: CSSProperties = {
   color: 'var(--light-on-surface-variant)',
   cursor: 'not-allowed',
 };
-
-/** Format an ISO timestamp for the last-sync disclosure. */
-function formatSyncTime(iso: string | null): string {
-  if (!iso) return 'not yet synced';
-  const d = new Date(iso);
-  return d.toLocaleString();
-}
-
-/**
- * Sync disclosure per source. Status conveyed by ICON + TEXT (never color
- * alone; a11y floor). Degraded-state voice per EXPERIENCE.md — never "Error".
- */
-function syncDisclosure(source: SourceRecord): { icon: string; label: string; text: string } {
-  if (source.status === 'revoked' || source.lastSyncStatus === 'failed') {
-    // Degraded voice per EXPERIENCE.md: never "Error"/"Sync failed" — in the
-    // visible text OR the screen-reader label (status by icon + text, a11y floor).
-    return {
-      icon: '⚠',
-      label: `Needs reconnect — last synced ${formatSyncTime(source.lastSyncedAt)}`,
-      text: `Last synced ${formatSyncTime(source.lastSyncedAt)} — reconnect to keep this calendar current.`,
-    };
-  }
-  if (source.lastSyncStatus === 'ok') {
-    return {
-      icon: '✓',
-      label: `Synced — last synced ${formatSyncTime(source.lastSyncedAt)}`,
-      text: `Last synced ${formatSyncTime(source.lastSyncedAt)}.`,
-    };
-  }
-  return {
-    icon: '◷',
-    label: 'Connected — awaiting first sync',
-    text: 'Connected — awaiting first sync.',
-  };
-}
 
 /**
  * Map the OAuth callback's redirect params to an in-app disclosure. The callback
