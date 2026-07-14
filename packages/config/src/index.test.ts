@@ -31,6 +31,32 @@ describe('packages/config', () => {
       .toThrow('Invalid environment configuration');
   });
 
+  it('treats empty-string env values as unset so defaults apply', () => {
+    const config = loadConfig({
+      DATABASE_URL: 'postgresql://u:p@h:5432/d',
+      LOG_LEVEL: '',
+      PORT: '',
+      NODE_ENV: 'test',
+    });
+    expect(config.LOG_LEVEL).toBe('info');
+    expect(config.PORT).toBe('3000');
+  });
+
+  it('throws on PORT of 0 (below valid range)', () => {
+    expect(() => loadConfig({ DATABASE_URL: 'postgresql://u:p@h:5432/d', PORT: '0' }))
+      .toThrow('Invalid environment configuration');
+  });
+
+  it('throws on PORT above 65535', () => {
+    expect(() => loadConfig({ DATABASE_URL: 'postgresql://u:p@h:5432/d', PORT: '70000' }))
+      .toThrow('Invalid environment configuration');
+  });
+
+  it('accepts PORT at the range boundaries', () => {
+    const config = loadConfig({ DATABASE_URL: 'postgresql://u:p@h:5432/d', PORT: '65535', NODE_ENV: 'test' });
+    expect(config.PORT).toBe('65535');
+  });
+
   it('accepts valid LOG_LEVEL', () => {
     const config = loadConfig({ DATABASE_URL: 'postgresql://u:p@h:5432/d', LOG_LEVEL: 'debug', NODE_ENV: 'test' });
     expect(config.LOG_LEVEL).toBe('debug');

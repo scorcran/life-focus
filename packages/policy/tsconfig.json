@@ -5,6 +5,9 @@
     "outDir": "dist",
     "rootDir": "src"
   },
+  "references": [
+    { "path": "../interpretation-schema" }
+  ],
   "include": ["src"],
   "exclude": ["src/**/*.test.ts"]
 }

@@ -2,7 +2,7 @@
 title: 'Story 1.1: Project Scaffold and Development Environment'
 type: 'chore'
 created: '2026-07-12'
-status: 'in-review'
+status: 'done'
 baseline_revision: 'e601cb281c25deb98b09f046fe4e805a9abb04e3'
 review_loop_iteration: 0
 followup_review_recommended: false
@@ -87,6 +87,27 @@ Greenfield — repo root has only planning artifacts, `package.json` (shadcn dev
 - Given `apps/web` handles a request or `apps/worker` runs a job, when logs are emitted, then they are structured JSON lines carrying a correlation ID.
 
 ## Spec Change Log
+
+### Review Findings
+
+- [x] [Review][Patch] Repair the AD-1 dependency gate — depcruise is a silent no-op (currently "1 modules, 0 dependencies cruised", nondeterministic vs. an earlier 44-module run; planted planner→db relative import exits 0). Fix TS parsing, add a self-check that fails lint when cruised-module count is below threshold, forbid `../dist/` imports, include test files, point fixtures at the production config, and wire check-fixtures + depcruise fixtures into `npm run lint` [.dependency-cruiser.cjs; check-fixtures.sh; eslint.config.js:24]
+- [x] [Review][Patch] Close the process.env lint bypass — `import { env } from 'node:process'` passes the production config (verified exit 0); add no-restricted-imports importNames for process/node:process and extend rule globs to js/mjs [eslint.config.js:52-82]
+- [x] [Review][Patch] Docker images run Node 22 against the Node 24 LTS pin; node:24-alpine verified pullable now; also resolves the engines>=24 contradiction and the yarn-removal hack [apps/web/Dockerfile:3,63; apps/worker/Dockerfile:3,49]
+- [x] [Review][Patch] `npm run build` fails on clean checkout — workspace iteration builds apps/web before packages; build packages first [package.json build script]
+- [x] [Review][Patch] Add the spec-required request-correlation-ID middleware in apps/web; health route consumes it instead of inline randomUUID [apps/web/src/app/api/health/route.ts:9]
+- [x] [Review][Patch] Type-check test files — every workspace tsconfig excludes `src/**/*.test.ts` and vitest doesn't typecheck; ~370 lines unchecked [all 12 tsconfigs]
+- [x] [Review][Patch] Run typecheck before builds (npm build script + Docker builder stage) — next.config ignoreBuildErrors:true plus no CI means nothing gates a type-broken image [apps/web/next.config.mjs]
+- [x] [Review][Patch] Compose hardening: restart:unless-stopped on web/worker; bind Postgres to 127.0.0.1; pin NODE_ENV in compose; document POSTGRES_HOST_PORT + DATABASE_URL pairing in .env.example [docker-compose.yml; .env.example]
+- [x] [Review][Patch] Worker resilience: idempotent graceful shutdown that awaits full stop; pg-boss error handler escalates to exit after threshold instead of logging forever (zombie on mid-run DB loss) [apps/worker/src/index.ts:37-53]
+- [x] [Review][Patch] Health endpoint: report config-load failure as `misconfigured`, not db-down; add query/statement timeouts to the db check pool so a stalled Postgres can't hang it [apps/web/src/app/api/health/route.ts:12-18; packages/db/src/index.ts:25-36]
+- [x] [Review][Patch] Config schema: treat empty-string env values as undefined so defaults apply; validate PORT range 1-65535 [packages/config/src/index.ts:3-16]
+- [x] [Review][Patch] Slim runtime images: prune dev deps (or Next standalone output) — production containers currently ship typescript/vitest/eslint [apps/web/Dockerfile:69; apps/worker/Dockerfile:54]
+- [x] [Review][Patch] Fix dev watch loops: worker dev never recompiles source (tsc --watch + node --watch dist) [apps/worker/package.json]
+- [x] [Review][Patch] Define PolicySet once in interpretation-schema (policy and planner currently declare diverging shapes) per AD-1 intra-core direction [packages/policy/src/index.ts:11-14; packages/planner/src/index.ts:6-8]
+- [x] [Review][Patch] Broker stub: encode AD-5 correctly (joint legal only on planning-layer artifacts) and make the docstring honest about no audit emission yet [packages/broker/src/index.ts]
+- [x] [Review][Patch] Enable noUnusedLocals/noUnusedParameters (the "TypeScript handles this" comment is currently false) [tsconfig.base.json; eslint.config.js]
+- [x] [Review][Patch] checkDbReachable seed test dials a real socket on port 54321 — use a reserved port or injectable checker [packages/db/src/index.test.ts:14-17]
+- [x] [Review][Defer] `.npmrc` legacy-peer-deps=true globally — required by the @typescript-eslint × TS 7 peer conflict; deferred until upstream peer support lands, then remove [.npmrc]
 
 ## Review Triage Log
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { AssertionSchema } from './index.js';
+import { AssertionSchema, PolicySetSchema } from './index.js';
 
 describe('packages/interpretation-schema', () => {
   it('validates a well-formed Assertion', () => {
@@ -21,6 +21,19 @@ describe('packages/interpretation-schema', () => {
       provenance: { sourceRef: 's', model: 'm', promptVersion: 'v1' },
       context: 'work',
     });
+    expect(result.success).toBe(false);
+  });
+
+  it('validates a well-formed PolicySet', () => {
+    const result = PolicySetSchema.safeParse({
+      rules: [{ id: 'r1', description: 'No work after 6pm', protectionLevel: 'private' }],
+      maxWorkHoursPerDay: 8,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects a PolicySet with non-positive maxWorkHoursPerDay', () => {
+    const result = PolicySetSchema.safeParse({ rules: [], maxWorkHoursPerDay: 0 });
     expect(result.success).toBe(false);
   });
 });

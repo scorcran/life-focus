@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npm run build && node --watch dist/index.js",
+    "dev": "npm run build && concurrently --kill-others \"tsc --build --watch --preserveWatchOutput\" \"node --watch dist/index.js\"",
     "build": "tsc --build",
     "start": "node dist/index.js",
     "typecheck": "tsc --build --noEmit"

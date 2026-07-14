@@ -49,7 +49,7 @@ A personal intelligence system for managing work-life balance and commitments.
 # Type checking
 npm run typecheck
 
-# Linting (ESLint + dependency-cruiser)
+# Linting (ESLint, incl. AD-1 architecture rules + fixture checks)
 npm run lint
 
 # Tests
@@ -86,11 +86,18 @@ This project follows hexagonal architecture (ports & adapters):
 - **Adapters** (`broker`, `connectors`, `llm-gateway`, `notify`, `db`): implement ports defined by core
 - **Hosts** (`apps/web`, `apps/worker`): thin, replaceable entry points
 
-**AD-1:** Core packages must never import adapters or hosts. Enforced by:
-- **ESLint** (`no-restricted-imports`) for workspace package specifiers
-- **dependency-cruiser** (`npm run lint`) for relative-path module edges
+**AD-1:** Core packages must never import adapters or hosts. Enforced by **ESLint**
+(`no-restricted-imports` in `eslint.config.js`), covering both:
+- workspace package specifiers (e.g. `@life-focus/db`)
+- relative paths that traverse into another package's `src/` or `dist/`
+  (e.g. `import '../../db/src/index.js'` from `packages/planner/src`)
 
-Both checks run as part of `npm run lint`.
+Env discipline is enforced alongside it: `process.env` reads and
+`import { env } from 'node:process'` are banned everywhere except `packages/config`.
+
+`npm run lint` runs ESLint over the repo and then `check-fixtures.sh`, which lints
+known-violation files in `fixtures/` with the production config and fails the build
+if any violation class goes undetected.
 
 ## Stopping
 

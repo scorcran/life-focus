@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:17
+    restart: unless-stopped
     environment:
       POSTGRES_USER: lifefocus
       POSTGRES_PASSWORD: lifefocus
@@ -8,8 +9,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      # Host port configurable via POSTGRES_HOST_PORT env var (default: 5432)
-      - "${POSTGRES_HOST_PORT:-5432}:5432"
+      # Host port configurable via POSTGRES_HOST_PORT env var (default: 5432).
+      # Bound to loopback so the database is never exposed beyond this machine.
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U lifefocus -d lifefocus"]
       interval: 5s
@@ -20,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
     ports:
       # Host port configurable for machines where 3000 is taken; container always serves 3000
       - "${WEB_HOST_PORT:-3000}:3000"
@@ -37,11 +40,14 @@ services:
       DATABASE_URL: postgresql://lifefocus:lifefocus@postgres:5432/lifefocus
       # PORT must be 3000 to match the published port; set explicitly so a user PORT in .env can't break it.
       PORT: 3000
+      # Pinned so a NODE_ENV=development in .env can't leak into the container (environment overrides env_file).
+      NODE_ENV: production
 
   worker:
     build:
       context: .
       dockerfile: apps/worker/Dockerfile
+    restart: unless-stopped
     env_file:
       - path: .env
         required: false
@@ -51,6 +57,8 @@ services:
     environment:
       # Same intentional override — see web service comment above.
       DATABASE_URL: postgresql://lifefocus:lifefocus@postgres:5432/lifefocus
+      # Pinned so a NODE_ENV=development in .env can't leak into the container (environment overrides env_file).
+      NODE_ENV: production
 
 volumes:
   postgres_data:

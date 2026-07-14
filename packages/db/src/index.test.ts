@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { createDbClient, closeDb, checkDbReachable } from './index.js';
 
 describe('packages/db', () => {
@@ -12,7 +12,9 @@ describe('packages/db', () => {
   });
 
   it('checkDbReachable returns false for an unreachable host', async () => {
-    const reachable = await checkDbReachable('postgresql://user:pass@localhost:54321/db');
+    // Port 1 on loopback is guaranteed-invalid (privileged, never a Postgres);
+    // a short timeout keeps the failure path fast and non-flaky.
+    const reachable = await checkDbReachable('postgresql://user:pass@127.0.0.1:1/db', 500);
     expect(reachable).toBe(false);
-  }, 10000);
+  }, 5000);
 });

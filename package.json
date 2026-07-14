@@ -4,14 +4,14 @@
   "type": "module",
   "engines": { "node": ">=24" },
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=apps/web\" \"npm run dev --workspace=apps/worker\"",
-    "build": "npm run build --workspaces --if-present",
-    "lint": "eslint . && depcruise --config .dependency-cruiser.cjs packages apps",
-    "typecheck": "tsc --build tsconfig.build.json --noEmit",
+    "build": "npm run build --workspace=packages --if-present && npm run build --workspace=apps --if-present",
+    "lint": "eslint . --ignore-pattern 'fixtures/**' && bash check-fixtures.sh",
+    "typecheck": "tsc --build tsconfig.build.json && tsc -p tsconfig.tests.json --noEmit && tsc -p tsconfig.tests.web.json --noEmit",
     "test": "vitest run"
   },
   "devDependencies": {
@@ -22,7 +22,6 @@
     "@eslint/js": "^9.0.0",
     "@types/node": "^24.0.0",
     "concurrently": "^9.0.0",
-    "dependency-cruiser": "^17.4.3",
     "eslint": "^9.0.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "shadcn": "^4.13.0",

@@ -1,17 +1,7 @@
 /** Policy stub — protection levels, boundaries, autonomy rules. */
-
-export type ProtectionLevel = 'private' | 'sensitive' | 'shared' | 'public';
-
-export interface PolicyRule {
-  readonly id: string;
-  readonly description: string;
-  readonly protectionLevel: ProtectionLevel;
-}
-
-export interface PolicySet {
-  readonly rules: ReadonlyArray<PolicyRule>;
-  readonly maxWorkHoursPerDay: number;
-}
+// PolicySet is the canonical type from interpretation-schema (AD-2: no duplication).
+export type { PolicySet, PolicyRule, ProtectionLevel } from '@life-focus/interpretation-schema';
+import type { PolicySet } from '@life-focus/interpretation-schema';
 
 export function getDefaultPolicies(): PolicySet {
   return {

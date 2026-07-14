@@ -1,0 +1,16 @@
+{
+  // Type-checks apps/web test files. Separate from tsconfig.tests.json because
+  // Next.js requires moduleResolution "bundler" (extensionless relative imports,
+  // `next/server` has no exports map), which is incompatible with NodeNext.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "jsx": "react-jsx",
+    "types": ["node"]
+  },
+  "include": ["apps/web/src/**/*.test.ts"]
+}

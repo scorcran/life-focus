@@ -22,3 +22,28 @@ export const ContextSnapshotSchema = z.object({
 });
 
 export type ContextSnapshot = z.infer<typeof ContextSnapshotSchema>;
+
+/** Protection levels for policy rules. */
+export const ProtectionLevelSchema = z.enum(['private', 'sensitive', 'shared', 'public']);
+
+export type ProtectionLevel = z.infer<typeof ProtectionLevelSchema>;
+
+/** A single policy rule. */
+export const PolicyRuleSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+  protectionLevel: ProtectionLevelSchema,
+});
+
+export type PolicyRule = z.infer<typeof PolicyRuleSchema>;
+
+/**
+ * Canonical PolicySet — single source of truth (AD-2: no duplication).
+ * Consumed by both @life-focus/policy and @life-focus/planner.
+ */
+export const PolicySetSchema = z.object({
+  rules: z.array(PolicyRuleSchema).readonly(),
+  maxWorkHoursPerDay: z.number().positive().max(24),
+});
+
+export type PolicySet = z.infer<typeof PolicySetSchema>;

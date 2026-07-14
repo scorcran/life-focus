@@ -6,7 +6,7 @@ describe('packages/planner', () => {
     const now = new Date('2026-07-12T00:00:00Z');
     const proposal = planDay(
       { userId: 'u1', now },
-      { maxWorkHoursPerDay: 8 },
+      { rules: [], maxWorkHoursPerDay: 8 },
       now,
     );
     expect(proposal.generatedAt).toBe(now);

@@ -22,8 +22,23 @@ export async function closeDb(pool: pg.Pool): Promise<void> {
   await pool.end().catch(() => {});
 }
 
-export async function checkDbReachable(connectionString: string): Promise<boolean> {
-  const pool = new pg.Pool({ connectionString, max: 1, connectionTimeoutMillis: 3000 });
+/**
+ * Check whether the database is reachable within `timeoutMillis`.
+ * Bounds connection establishment (connectionTimeoutMillis) AND query execution
+ * (query_timeout client-side, statement_timeout server-side) so a TCP-accepting
+ * but stalled Postgres cannot hang the caller (e.g. the health endpoint).
+ */
+export async function checkDbReachable(
+  connectionString: string,
+  timeoutMillis = 3000,
+): Promise<boolean> {
+  const pool = new pg.Pool({
+    connectionString,
+    max: 1,
+    connectionTimeoutMillis: timeoutMillis,
+    query_timeout: timeoutMillis,
+    statement_timeout: timeoutMillis,
+  });
   // Swallow idle errors so the pool doesn't emit unhandled 'error' events
   pool.on('error', () => {});
   try {

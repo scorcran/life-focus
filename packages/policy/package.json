@@ -9,6 +9,9 @@
     "build": "tsc --build",
     "typecheck": "tsc --build --noEmit"
   },
+  "dependencies": {
+    "@life-focus/interpretation-schema": "*"
+  },
   "devDependencies": {
     "typescript": "^7.0.0",
     "vitest": "^3.0.0"
