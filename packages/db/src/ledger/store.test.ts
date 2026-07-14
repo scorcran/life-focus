@@ -33,6 +33,7 @@ describe.skipIf(!hasPg)('createLedgerStore (Postgres integration)', () => {
         title,
         context,
         status: 'captured',
+        protectionLevel: 'hard-commitment',
         createdAt: now,
         updatedAt: now,
       },

@@ -7,6 +7,9 @@ import { readBoundariesStepData } from '../../../../lib/onboarding/boundaries.js
 import { BoundariesForm } from '../../../../components/onboarding/boundaries/boundaries-form.js';
 import { DomainList } from '../../../../components/onboarding/boundaries/domain-list.js';
 import { PolicyTemplates } from '../../../../components/onboarding/boundaries/policy-templates.js';
+import { readCommitmentsStepData } from '../../../../lib/onboarding/commitments.js';
+import { CommitmentForm } from '../../../../components/onboarding/commitments/commitment-form.js';
+import { CommitmentList } from '../../../../components/onboarding/commitments/commitment-list.js';
 import { advanceStep } from '../actions.js';
 
 // Reads live onboarding progress from the event log per request. Never cached.
@@ -70,9 +73,10 @@ export default async function OnboardingStepPage({
   }
   const content = stepContent(step);
 
-  // Only the boundaries step has a filled body at this story (2.2); the other
-  // steps keep the generic rationale + Continue/Skip placeholder (2.3–2.5).
+  // The boundaries (2.2) and commitments (2.3) steps have filled bodies; the
+  // other steps keep the generic rationale + Continue/Skip placeholder (2.4–2.5).
   const boundariesData = step === 'boundaries' ? await readBoundariesStepData() : null;
+  const commitmentsData = step === 'commitments' ? await readCommitmentsStepData() : null;
 
   // Bind the step + mode so each form posts one append + redirect.
   const onContinue = advanceStep.bind(null, step, 'entered');
@@ -120,6 +124,15 @@ export default async function OnboardingStepPage({
           <BoundariesForm boundaries={boundariesData.boundaries} />
           <DomainList domains={boundariesData.domains} />
           <PolicyTemplates policies={boundariesData.policies} />
+        </div>
+      )}
+
+      {commitmentsData && (
+        // Plain grouping, not a named landmark: each child section carries its
+        // own heading, mirroring the boundaries branch above.
+        <div>
+          <CommitmentForm />
+          <CommitmentList commitments={commitmentsData.commitments} />
         </div>
       )}
 

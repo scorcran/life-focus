@@ -17,6 +17,7 @@ import {
   validateEventPayload,
   sensitiveFieldsFor,
   reduceCommitment,
+  projectCommitments,
   REDACTED_MARKER,
   type AppendEventInput,
   type DomainEvent,
@@ -163,6 +164,46 @@ export function createLedgerStore(
     };
   }
 
+  /**
+   * Read + decrypt the ordered event stream for a filter. Shared by `readEvents`
+   * and `readCommitments` so both see the same sensitive-field decryption /
+   * post-erasure redaction.
+   */
+  async function readEventsInternal(
+    filter?: ReadEventsFilter,
+  ): Promise<readonly DomainEvent[]> {
+    const conditions = [];
+    if (filter?.context) conditions.push(eq(ledgerEvent.context, filter.context));
+    if (filter?.eventType) conditions.push(eq(ledgerEvent.eventType, filter.eventType));
+    const rows = await db
+      .select()
+      .from(ledgerEvent)
+      .where(conditions.length ? and(...conditions) : undefined)
+      .orderBy(ledgerEvent.eventSeq);
+
+    // Cache scope keys across rows: all events for one commitment share a
+    // scope, so this avoids one SELECT + unwrap per row on a large read.
+    const keyCache = new Map<string, Buffer | null>();
+    const scopeKey = async (scope: string): Promise<Buffer | null> => {
+      if (keyCache.has(scope)) return keyCache.get(scope)!;
+      const k = await loadScopeKey(scope);
+      keyCache.set(scope, k);
+      return k;
+    };
+
+    const out: DomainEvent[] = [];
+    for (const row of rows) {
+      const dataKey = row.erasureScope ? await scopeKey(row.erasureScope) : null;
+      const payload = decryptPayload(
+        row.eventType,
+        row.payload as Record<string, unknown>,
+        dataKey,
+      );
+      out.push(rowToEvent(row, payload));
+    }
+    return out;
+  }
+
   return {
     async append(input: AppendEventInput): Promise<DomainEvent> {
       // 1. Validate payload (throws for unknown type / bad payload) — nothing written.
@@ -223,52 +264,18 @@ export function createLedgerStore(
     },
 
     async readEvents(filter?: ReadEventsFilter): Promise<readonly DomainEvent[]> {
-      const conditions = [];
-      if (filter?.context) conditions.push(eq(ledgerEvent.context, filter.context));
-      if (filter?.eventType) conditions.push(eq(ledgerEvent.eventType, filter.eventType));
-      const rows = await db
-        .select()
-        .from(ledgerEvent)
-        .where(conditions.length ? and(...conditions) : undefined)
-        .orderBy(ledgerEvent.eventSeq);
-
-      // Cache scope keys across rows: all events for one commitment share a
-      // scope, so this avoids one SELECT + unwrap per row on a large read.
-      const keyCache = new Map<string, Buffer | null>();
-      const scopeKey = async (scope: string): Promise<Buffer | null> => {
-        if (keyCache.has(scope)) return keyCache.get(scope)!;
-        const k = await loadScopeKey(scope);
-        keyCache.set(scope, k);
-        return k;
-      };
-
-      const out: DomainEvent[] = [];
-      for (const row of rows) {
-        const dataKey = row.erasureScope ? await scopeKey(row.erasureScope) : null;
-        const payload = decryptPayload(
-          row.eventType,
-          row.payload as Record<string, unknown>,
-          dataKey,
-        );
-        out.push(rowToEvent(row, payload));
-      }
-      return out;
+      return readEventsInternal(filter);
     },
 
     async readCommitments(context: EventContext): Promise<readonly CommitmentRow[]> {
-      // Separation guarantee: filter by context in the query itself (AD-5).
-      const rows = await db
-        .select()
-        .from(commitment)
-        .where(eq(commitment.context, context));
-      return rows.map((r) => ({
-        id: r.id,
-        title: r.title,
-        context: r.context as EventContext,
-        status: r.status,
-        createdAt: r.createdAt.toISOString(),
-        updatedAt: r.updatedAt.toISOString(),
-      }));
+      // Separation guarantee: filter by context in the query itself (AD-5). The
+      // commitment projection table carries only the Story 1.3 columns; the
+      // richer read model (protection level + recurrence, Story 2.3) is derived
+      // from the context-scoped event stream via the pure projection — no
+      // projection-table migration. Sensitive titles decrypt / redact through
+      // the shared event read, matching the raw-table redaction on erase.
+      const events = await readEventsInternal({ context });
+      return projectCommitments(events);
     },
 
     async erase(scope: string): Promise<void> {
@@ -318,12 +325,19 @@ export function createLedgerStore(
       .select()
       .from(commitment)
       .where(eq(commitment.id, commitmentId));
+    // `current` only signals row existence to the reducer: a `CommitmentCaptured`
+    // rebuilds the row wholly from its event and `CommitmentCaptureUndone` drops
+    // it — neither reads `current.protectionLevel`/`recurrence`. The projection
+    // table does not persist those Story 2.3 fields (no migration), so they are
+    // reconstructed as reducer-safe placeholders never read back.
     const current: CommitmentRow | null = existingRows[0]
       ? {
           id: existingRows[0].id,
           title: existingRows[0].title,
           context: existingRows[0].context as EventContext,
           status: existingRows[0].status,
+          protectionLevel: 'hard-commitment',
+          recurrence: null,
           createdAt: existingRows[0].createdAt.toISOString(),
           updatedAt: existingRows[0].updatedAt.toISOString(),
         }

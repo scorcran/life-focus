@@ -9,8 +9,16 @@ import {
   projectCommitments,
   buildUndoEvent,
   UndoNotSupportedError,
+  PROTECTION_LEVELS,
+  protectionLevelEnum,
+  WEEKDAYS,
+  weekdayEnum,
+  commitmentRecurrenceSchema,
   type DomainEvent,
   type AppendEventInput,
+  type ProtectionLevel,
+  type Weekday,
+  type CommitmentRecurrence,
 } from './index.js';
 
 /** Build a persisted DomainEvent for reducer/undo tests. */
@@ -33,6 +41,7 @@ const capturedPayload = {
   title: 'Ship the ledger',
   context: 'work',
   status: 'captured',
+  protectionLevel: 'hard-commitment',
   createdAt: '2026-07-13T00:00:00.000Z',
   updatedAt: '2026-07-13T00:00:00.000Z',
 };
@@ -43,11 +52,74 @@ describe('catalog validation', () => {
       commitmentId: 'c-1',
       title: 'Ship it',
       context: 'work',
+      protectionLevel: 'hard-commitment',
       createdAt: '2026-07-13T00:00:00.000Z',
       updatedAt: '2026-07-13T00:00:00.000Z',
     });
     expect(parsed.status).toBe('captured'); // default applied
     expect(parsed.title).toBe('Ship it');
+    expect(parsed.protectionLevel).toBe('hard-commitment');
+  });
+
+  it('rejects a CommitmentCaptured with a missing or unknown protection level', () => {
+    // Missing → no untagged item can be created.
+    expect(() =>
+      validateEventPayload('CommitmentCaptured', {
+        commitmentId: 'c-1',
+        title: 'Ship it',
+        context: 'work',
+        createdAt: '2026-07-13T00:00:00.000Z',
+        updatedAt: '2026-07-13T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+    // Unknown level → rejected.
+    expect(() =>
+      validateEventPayload('CommitmentCaptured', {
+        commitmentId: 'c-1',
+        title: 'Ship it',
+        context: 'work',
+        protectionLevel: 'someday-maybe',
+        createdAt: '2026-07-13T00:00:00.000Z',
+        updatedAt: '2026-07-13T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+  });
+
+  it('validates an optional weekly recurrence and rejects an empty weekly rule', () => {
+    const parsed = validateEventPayload('CommitmentCaptured', {
+      ...capturedPayload,
+      recurrence: { frequency: 'weekly', daysOfWeek: ['thu'] },
+    });
+    expect(parsed.recurrence).toEqual({ frequency: 'weekly', daysOfWeek: ['thu'] });
+
+    // A weekly rule with zero days is invalid (avoid an empty weekly rule).
+    expect(() =>
+      validateEventPayload('CommitmentCaptured', {
+        ...capturedPayload,
+        recurrence: { frequency: 'weekly', daysOfWeek: [] },
+      }),
+    ).toThrow(InvalidEventPayloadError);
+  });
+
+  it('re-exports the protection-level and weekday constants/enums/schemas', () => {
+    expect(PROTECTION_LEVELS).toEqual([
+      'hard-commitment',
+      'protected-priority',
+      'flexible-intention',
+      'optional-opportunity',
+    ]);
+    expect(WEEKDAYS).toEqual(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']);
+    expect(protectionLevelEnum.parse('hard-commitment')).toBe('hard-commitment');
+    expect(weekdayEnum.parse('thu')).toBe('thu');
+    expect(
+      commitmentRecurrenceSchema.parse({ frequency: 'weekly', daysOfWeek: ['thu'] }),
+    ).toEqual({ frequency: 'weekly', daysOfWeek: ['thu'] });
+    // Inferred types resolve (compile-time surface).
+    const level: ProtectionLevel = 'protected-priority';
+    const day: Weekday = 'fri';
+    const rule: CommitmentRecurrence = { frequency: 'weekly', daysOfWeek: [day] };
+    expect(level).toBe('protected-priority');
+    expect(rule.daysOfWeek).toContain('fri');
   });
 
   it('rejects an unknown event type', () => {

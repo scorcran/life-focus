@@ -16,6 +16,11 @@ export { REDACTED_MARKER } from './events/types.js';
 
 export {
   EVENT_CATALOG,
+  PROTECTION_LEVELS,
+  protectionLevelEnum,
+  WEEKDAYS,
+  weekdayEnum,
+  commitmentRecurrenceSchema,
   commitmentCapturedPayload,
   commitmentCaptureUndonePayload,
   crossContextAccessAuditedPayload,
@@ -39,6 +44,9 @@ export {
 } from './events/catalog.js';
 export type {
   KnownEventType,
+  ProtectionLevel,
+  Weekday,
+  CommitmentRecurrence,
   CalendarConnectedPayload,
   CalendarSyncedPayload,
   CalendarSyncFailedPayload,

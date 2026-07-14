@@ -15,12 +15,45 @@ const sourceContextEnum = z.enum(['work', 'personal']);
 
 // ── Payload schemas ─────────────────────────────────────────────────────────
 
-/** A commitment was captured (the minimal Story 1.3 demonstrator). */
+/**
+ * The four canonical FR-3 protection levels: ordered, kebab-cased ids defined
+ * ONCE here. `protectionLevel` on a captured commitment is required with no
+ * default — a missing/unknown level rejects the append, so no untagged
+ * plannable item can ever exist (PRD FR-3 / epic invariant).
+ */
+export const PROTECTION_LEVELS = [
+  'hard-commitment',
+  'protected-priority',
+  'flexible-intention',
+  'optional-opportunity',
+] as const;
+
+export const protectionLevelEnum = z.enum(PROTECTION_LEVELS);
+
+/** The 7 canonical weekday ids (kebab/short form), Monday-first. */
+export const WEEKDAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
+
+export const weekdayEnum = z.enum(WEEKDAYS);
+
+/**
+ * Weekly-only recurrence (MVP): a weekly rule with ≥1 weekday. Any other/absent
+ * value means non-recurring. Full RRULE/monthly/interval recurrence is deferred.
+ */
+export const commitmentRecurrenceSchema = z.object({
+  frequency: z.literal('weekly'),
+  daysOfWeek: z.array(weekdayEnum).min(1),
+});
+
+/** A commitment was captured (Story 1.3 demonstrator; extended in Story 2.3). */
 export const commitmentCapturedPayload = z.object({
   commitmentId: z.string().min(1),
   title: z.string().min(1),
   context: contextEnum,
   status: z.string().min(1).default('captured'),
+  // Required, no default: every captured commitment carries an FR-3 protection level.
+  protectionLevel: protectionLevelEnum,
+  // Optional: absent/null means a one-off (non-recurring) commitment.
+  recurrence: commitmentRecurrenceSchema.nullable().optional(),
   createdAt: z.string().min(1),
   updatedAt: z.string().min(1),
 });
@@ -273,6 +306,12 @@ export function validateEventPayload(
   }
   return result.data as Record<string, unknown>;
 }
+
+// Inferred protection-level / recurrence types (Story 2.3), so hosts build
+// catalog-valid payloads and typed catalogs without redeclaring the shapes.
+export type ProtectionLevel = z.infer<typeof protectionLevelEnum>;
+export type Weekday = z.infer<typeof weekdayEnum>;
+export type CommitmentRecurrence = z.infer<typeof commitmentRecurrenceSchema>;
 
 // Inferred payload types for the calendar sync-health events (Story 1.4), so
 // hosts/adapters build catalog-valid payloads without redeclaring the shapes.

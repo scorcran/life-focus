@@ -5,6 +5,7 @@
  * a caller hands the store to append. The `LedgerStore` port is implemented by
  * the `packages/db` adapter and injected into hosts/broker.
  */
+import type { ProtectionLevel, CommitmentRecurrence } from './catalog.js';
 
 /** The context tag carried by every domain/event/projection row (AD-5). */
 export type EventContext = 'work' | 'personal' | 'joint';
@@ -56,12 +57,16 @@ export interface ReadEventsFilter {
   readonly eventType?: string;
 }
 
-/** A projected commitment row (the minimal Story 1.3 demonstrator). */
+/** A projected commitment row (Story 1.3 demonstrator; extended in Story 2.3). */
 export interface CommitmentRow {
   readonly id: string;
   readonly title: string;
   readonly context: EventContext;
   readonly status: string;
+  /** The FR-3 protection level this commitment was captured with (required). */
+  readonly protectionLevel: ProtectionLevel;
+  /** The weekly recurrence rule, or `null` for a one-off commitment. */
+  readonly recurrence: CommitmentRecurrence | null;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
