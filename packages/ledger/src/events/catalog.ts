@@ -101,6 +101,61 @@ export const onboardingCompletedPayload = z.object({
   completedAt: z.string().min(1),
 });
 
+// ── Boundaries, domains, and starter-policy events (Story 2.2, AD-4) ─────────
+// Boundaries, life domains, and policy templates are life-model *configuration*
+// spanning work + personal, so `joint` is the correct non-null context tag
+// (AD-5). Free-text user fields that can carry work/customer specifics
+// (`DomainRenamed.name`, `DomainAdded.name`, `PolicyTemplateAccepted.content`)
+// are declared sensitive and encrypted at rest via the existing sensitive-field
+// path (SEC-1, ADR 0001); times and enabled flags are not identifying. State is
+// served by pure projections over these events — no projection table (AD-4).
+
+/** A "HH:MM" 24-hour clock string (00:00–23:59). */
+const timeString = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'expected HH:MM 24-hour time');
+
+/** The daily boundaries were set/updated (latest-wins singleton). */
+export const boundariesSetPayload = z.object({
+  workdayStart: timeString,
+  hardStop: timeString,
+  sleepStart: timeString,
+  sleepEnd: timeString,
+  updatedAt: z.string().min(1),
+});
+
+/** A life domain was renamed (latest-wins per domain). */
+export const domainRenamedPayload = z.object({
+  domainId: z.string().min(1),
+  name: z.string().min(1),
+  at: z.string().min(1),
+});
+
+/** A custom life domain was added. */
+export const domainAddedPayload = z.object({
+  domainId: z.string().min(1),
+  name: z.string().min(1),
+  at: z.string().min(1),
+});
+
+/** A life domain was enabled or disabled (latest-wins per domain). */
+export const domainSetEnabledPayload = z.object({
+  domainId: z.string().min(1),
+  enabled: z.boolean(),
+  at: z.string().min(1),
+});
+
+/** A starter policy template was accepted, carrying the (possibly edited) content. */
+export const policyTemplateAcceptedPayload = z.object({
+  templateId: z.string().min(1),
+  content: z.string().min(1),
+  at: z.string().min(1),
+});
+
+/** A starter policy template was declined (recorded once, never re-prompted). */
+export const policyTemplateDeclinedPayload = z.object({
+  templateId: z.string().min(1),
+  at: z.string().min(1),
+});
+
 // ── Catalog registry ────────────────────────────────────────────────────────
 
 interface CatalogEntry {
@@ -145,6 +200,30 @@ export const EVENT_CATALOG = {
   },
   OnboardingCompleted: {
     schema: onboardingCompletedPayload,
+    sensitiveFields: [],
+  },
+  BoundariesSet: {
+    schema: boundariesSetPayload,
+    sensitiveFields: [],
+  },
+  DomainRenamed: {
+    schema: domainRenamedPayload,
+    sensitiveFields: ['name'],
+  },
+  DomainAdded: {
+    schema: domainAddedPayload,
+    sensitiveFields: ['name'],
+  },
+  DomainSetEnabled: {
+    schema: domainSetEnabledPayload,
+    sensitiveFields: [],
+  },
+  PolicyTemplateAccepted: {
+    schema: policyTemplateAcceptedPayload,
+    sensitiveFields: ['content'],
+  },
+  PolicyTemplateDeclined: {
+    schema: policyTemplateDeclinedPayload,
     sensitiveFields: [],
   },
 } as const satisfies Record<string, CatalogEntry>;
@@ -206,6 +285,15 @@ export type CalendarSyncFailedPayload = z.infer<typeof calendarSyncFailedPayload
 export type OnboardingStartedPayload = z.infer<typeof onboardingStartedPayload>;
 export type OnboardingStepCompletedPayload = z.infer<typeof onboardingStepCompletedPayload>;
 export type OnboardingCompletedPayload = z.infer<typeof onboardingCompletedPayload>;
+
+// Inferred payload types for the boundaries/domains/policy events (Story 2.2),
+// so the host builds catalog-valid payloads without redeclaring the shapes.
+export type BoundariesSetPayload = z.infer<typeof boundariesSetPayload>;
+export type DomainRenamedPayload = z.infer<typeof domainRenamedPayload>;
+export type DomainAddedPayload = z.infer<typeof domainAddedPayload>;
+export type DomainSetEnabledPayload = z.infer<typeof domainSetEnabledPayload>;
+export type PolicyTemplateAcceptedPayload = z.infer<typeof policyTemplateAcceptedPayload>;
+export type PolicyTemplateDeclinedPayload = z.infer<typeof policyTemplateDeclinedPayload>;
 
 // Re-export for convenience so callers can build catalog-valid payloads.
 export type { EventContext };

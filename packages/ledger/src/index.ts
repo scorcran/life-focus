@@ -25,6 +25,12 @@ export {
   onboardingStartedPayload,
   onboardingStepCompletedPayload,
   onboardingCompletedPayload,
+  boundariesSetPayload,
+  domainRenamedPayload,
+  domainAddedPayload,
+  domainSetEnabledPayload,
+  policyTemplateAcceptedPayload,
+  policyTemplateDeclinedPayload,
   isKnownEventType,
   sensitiveFieldsFor,
   validateEventPayload,
@@ -39,6 +45,12 @@ export type {
   OnboardingStartedPayload,
   OnboardingStepCompletedPayload,
   OnboardingCompletedPayload,
+  BoundariesSetPayload,
+  DomainRenamedPayload,
+  DomainAddedPayload,
+  DomainSetEnabledPayload,
+  PolicyTemplateAcceptedPayload,
+  PolicyTemplateDeclinedPayload,
 } from './events/catalog.js';
 
 export {
@@ -57,5 +69,18 @@ export type {
   OnboardingStepState,
   OnboardingProgress,
 } from './projections/onboarding.js';
+
+export { reduceBoundaries, projectBoundaries } from './projections/boundaries.js';
+export type { DailyBoundaries } from './projections/boundaries.js';
+
+export { DEFAULT_DOMAINS, projectDomains } from './projections/domains.js';
+export type { DefaultDomain, DomainRow } from './projections/domains.js';
+
+export { POLICY_TEMPLATE_IDS, projectPolicyTemplates } from './projections/policies.js';
+export type {
+  PolicyTemplateId,
+  PolicyTemplateStatus,
+  PolicyTemplateState,
+} from './projections/policies.js';
 
 export { buildUndoEvent, UndoNotSupportedError } from './undo.js';

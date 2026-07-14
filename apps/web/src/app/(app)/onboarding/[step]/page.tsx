@@ -3,6 +3,10 @@ import { redirect } from 'next/navigation';
 import { readOnboardingProgress } from '../../../../lib/onboarding/progress.js';
 import { isValidStep, stepContent } from '../../../../lib/onboarding/steps.js';
 import { OnboardingProgressIndicator } from '../../../../components/onboarding/onboarding-progress.js';
+import { readBoundariesStepData } from '../../../../lib/onboarding/boundaries.js';
+import { BoundariesForm } from '../../../../components/onboarding/boundaries/boundaries-form.js';
+import { DomainList } from '../../../../components/onboarding/boundaries/domain-list.js';
+import { PolicyTemplates } from '../../../../components/onboarding/boundaries/policy-templates.js';
 import { advanceStep } from '../actions.js';
 
 // Reads live onboarding progress from the event log per request. Never cached.
@@ -66,6 +70,10 @@ export default async function OnboardingStepPage({
   }
   const content = stepContent(step);
 
+  // Only the boundaries step has a filled body at this story (2.2); the other
+  // steps keep the generic rationale + Continue/Skip placeholder (2.3–2.5).
+  const boundariesData = step === 'boundaries' ? await readBoundariesStepData() : null;
+
   // Bind the step + mode so each form posts one append + redirect.
   const onContinue = advanceStep.bind(null, step, 'entered');
   const onSkip = advanceStep.bind(null, step, 'skipped');
@@ -103,6 +111,17 @@ export default async function OnboardingStepPage({
           {content.whatThisProtects}
         </p>
       </section>
+
+      {boundariesData && (
+        // Plain grouping, not a named landmark: each child section carries its
+        // own heading, so an extra labelled region here would only clutter the
+        // screen-reader landmark tree.
+        <div>
+          <BoundariesForm boundaries={boundariesData.boundaries} />
+          <DomainList domains={boundariesData.domains} />
+          <PolicyTemplates policies={boundariesData.policies} />
+        </div>
+      )}
 
       <div style={actionsStyle}>
         <form action={onContinue}>
