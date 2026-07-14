@@ -70,6 +70,11 @@ services:
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
       # Ledger crypto-shredding master key (ADR 0001).
       LEDGER_MASTER_KEY: ${LEDGER_MASTER_KEY:-ZGV2LW9ubHktaW5zZWN1cmUtbGVkZ2VyLWtleS0zMmI=}
+      # Google Calendar OAuth (data-source connection, Story 1.4). Optional —
+      # empty by default so the app boots + gates; connect flow disabled until set.
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
+      GOOGLE_OAUTH_REDIRECT_URI: ${GOOGLE_OAUTH_REDIRECT_URI:-}
 
   worker:
     build:
@@ -93,6 +98,11 @@ services:
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret-change-me-32chars}
       # Ledger crypto-shredding master key (ADR 0001).
       LEDGER_MASTER_KEY: ${LEDGER_MASTER_KEY:-ZGV2LW9ubHktaW5zZWN1cmUtbGVkZ2VyLWtleS0zMmI=}
+      # Google Calendar OAuth (Story 1.4). The worker's sync jobs are registered
+      # only when these are set; otherwise the worker runs without calendar sync.
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
+      GOOGLE_OAUTH_REDIRECT_URI: ${GOOGLE_OAUTH_REDIRECT_URI:-}
 
 volumes:
   postgres_data:

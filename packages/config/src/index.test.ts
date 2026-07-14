@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { loadConfig, resetConfig } from './index.js';
+import { loadConfig, resetConfig, isGoogleOAuthConfigured } from './index.js';
 
 // A valid 32+ char secret reused across the "valid config" cases.
 const SECRET = 'a'.repeat(32);
@@ -152,6 +152,41 @@ describe('packages/config', () => {
 
   it('rejects a LEDGER_MASTER_KEY that is not valid base64 or hex', () => {
     expect(() => loadConfig(baseEnv({ LEDGER_MASTER_KEY: '!!! not a key !!!' })))
+      .toThrow('Invalid environment configuration');
+  });
+
+  // ── Google Calendar OAuth env (Story 1.4) ──────────────────────────────────
+  it('boots WITHOUT any GOOGLE_OAUTH_* set (they are optional)', () => {
+    const config = loadConfig(baseEnv());
+    expect(config.GOOGLE_OAUTH_CLIENT_ID).toBeUndefined();
+    expect(isGoogleOAuthConfigured(config)).toBe(false);
+  });
+
+  it('isGoogleOAuthConfigured is true only when all three creds are present', () => {
+    const config = loadConfig(
+      baseEnv({
+        GOOGLE_OAUTH_CLIENT_ID: 'client-id',
+        GOOGLE_OAUTH_CLIENT_SECRET: 'client-secret',
+        GOOGLE_OAUTH_REDIRECT_URI: 'http://localhost:3000/api/connections/google/callback',
+      }),
+    );
+    expect(isGoogleOAuthConfigured(config)).toBe(true);
+    expect(config.GOOGLE_OAUTH_CLIENT_ID).toBe('client-id');
+  });
+
+  it('isGoogleOAuthConfigured is false when only some creds are present', () => {
+    const config = loadConfig(
+      baseEnv({
+        GOOGLE_OAUTH_CLIENT_ID: 'client-id',
+        GOOGLE_OAUTH_CLIENT_SECRET: 'client-secret',
+        // redirect URI missing
+      }),
+    );
+    expect(isGoogleOAuthConfigured(config)).toBe(false);
+  });
+
+  it('rejects an invalid GOOGLE_OAUTH_REDIRECT_URI (not a URL)', () => {
+    expect(() => loadConfig(baseEnv({ GOOGLE_OAUTH_REDIRECT_URI: 'not-a-url' })))
       .toThrow('Invalid environment configuration');
   });
 });

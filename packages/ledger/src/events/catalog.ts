@@ -9,6 +9,8 @@ import { z } from 'zod';
 import type { EventContext } from './types.js';
 
 const contextEnum = z.enum(['work', 'personal', 'joint']);
+/** Source-row contexts: work|personal only — `joint` is illegal on source-mirror rows (AD-5). */
+const sourceContextEnum = z.enum(['work', 'personal']);
 
 // ── Payload schemas ─────────────────────────────────────────────────────────
 
@@ -35,6 +37,39 @@ export const crossContextAccessAuditedPayload = z.object({
   isPlanningArtifact: z.boolean().default(false),
 });
 
+// ── Calendar connector sync-health events (Story 1.4, AD-4/AD-7) ─────────────
+// These record the sync-health facts for the audit trail; they carry no
+// sensitive fields (tokens live encrypted in the mutable calendar_source cache,
+// never in the append-only log) and touch no projection (the commitment reducer
+// ignores unknown types).
+
+/** A Google Calendar was connected with a chosen, immutable context (AD-6). */
+export const calendarConnectedPayload = z.object({
+  sourceId: z.string().min(1),
+  provider: z.literal('gcal'),
+  account: z.string().min(1),
+  context: sourceContextEnum,
+  googleCalendarId: z.string().min(1),
+});
+
+/** A calendar sync run succeeded (initial or incremental). */
+export const calendarSyncedPayload = z.object({
+  sourceId: z.string().min(1),
+  context: sourceContextEnum,
+  syncType: z.enum(['initial', 'incremental']),
+  eventCount: z.number().int().nonnegative(),
+  syncedAt: z.string().min(1),
+});
+
+/** A calendar sync run failed; `authError` distinguishes revocation (AD-7, FR-62). */
+export const calendarSyncFailedPayload = z.object({
+  sourceId: z.string().min(1),
+  context: sourceContextEnum,
+  authError: z.boolean().default(false),
+  reason: z.string().min(1),
+  failedAt: z.string().min(1),
+});
+
 // ── Catalog registry ────────────────────────────────────────────────────────
 
 interface CatalogEntry {
@@ -55,6 +90,18 @@ export const EVENT_CATALOG = {
   },
   CrossContextAccessAudited: {
     schema: crossContextAccessAuditedPayload,
+    sensitiveFields: [],
+  },
+  CalendarConnected: {
+    schema: calendarConnectedPayload,
+    sensitiveFields: [],
+  },
+  CalendarSynced: {
+    schema: calendarSyncedPayload,
+    sensitiveFields: [],
+  },
+  CalendarSyncFailed: {
+    schema: calendarSyncFailedPayload,
     sensitiveFields: [],
   },
 } as const satisfies Record<string, CatalogEntry>;
@@ -104,6 +151,12 @@ export function validateEventPayload(
   }
   return result.data as Record<string, unknown>;
 }
+
+// Inferred payload types for the calendar sync-health events (Story 1.4), so
+// hosts/adapters build catalog-valid payloads without redeclaring the shapes.
+export type CalendarConnectedPayload = z.infer<typeof calendarConnectedPayload>;
+export type CalendarSyncedPayload = z.infer<typeof calendarSyncedPayload>;
+export type CalendarSyncFailedPayload = z.infer<typeof calendarSyncFailedPayload>;
 
 // Re-export for convenience so callers can build catalog-valid payloads.
 export type { EventContext };

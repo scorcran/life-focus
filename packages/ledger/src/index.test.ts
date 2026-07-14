@@ -68,6 +68,79 @@ describe('catalog validation', () => {
   });
 });
 
+describe('calendar sync-health events (Story 1.4, AD-4/AD-7)', () => {
+  it('validates CalendarConnected with an immutable context (AD-6)', () => {
+    const parsed = validateEventPayload('CalendarConnected', {
+      sourceId: 's-1',
+      provider: 'gcal',
+      account: 'me@example.com',
+      context: 'work',
+      googleCalendarId: 'primary',
+    });
+    expect(parsed.context).toBe('work');
+    expect(parsed.provider).toBe('gcal');
+  });
+
+  it('validates CalendarSynced and CalendarSyncFailed payloads', () => {
+    const synced = validateEventPayload('CalendarSynced', {
+      sourceId: 's-1',
+      context: 'personal',
+      syncType: 'initial',
+      eventCount: 3,
+      syncedAt: '2026-07-14T00:00:00.000Z',
+    });
+    expect(synced.syncType).toBe('initial');
+
+    const failed = validateEventPayload('CalendarSyncFailed', {
+      sourceId: 's-1',
+      context: 'personal',
+      authError: true,
+      reason: 'invalid_grant',
+      failedAt: '2026-07-14T00:00:00.000Z',
+    });
+    expect(failed.authError).toBe(true);
+  });
+
+  it('rejects a CalendarConnected with a bad provider or missing context', () => {
+    expect(() =>
+      validateEventPayload('CalendarConnected', {
+        sourceId: 's-1',
+        provider: 'gmail',
+        account: 'me@example.com',
+        context: 'work',
+        googleCalendarId: 'primary',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+    expect(() =>
+      validateEventPayload('CalendarSynced', {
+        sourceId: 's-1',
+        context: 'work',
+        syncType: 'weekly',
+        eventCount: 0,
+        syncedAt: '2026-07-14T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+  });
+
+  it('rejects a joint context on a calendar source event (AD-5: no joint on source rows)', () => {
+    expect(() =>
+      validateEventPayload('CalendarConnected', {
+        sourceId: 's-1',
+        provider: 'gcal',
+        account: 'me@example.com',
+        context: 'joint',
+        googleCalendarId: 'primary',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+  });
+
+  it('declares no sensitive fields on any calendar event (tokens never in the log)', () => {
+    expect(sensitiveFieldsFor('CalendarConnected')).toEqual([]);
+    expect(sensitiveFieldsFor('CalendarSynced')).toEqual([]);
+    expect(sensitiveFieldsFor('CalendarSyncFailed')).toEqual([]);
+  });
+});
+
 describe('commitment reducer purity', () => {
   it('CommitmentCaptured creates a row; CommitmentCaptureUndone removes it', () => {
     const captured = evt({ eventType: 'CommitmentCaptured', payload: capturedPayload });

@@ -19,13 +19,21 @@ export {
   commitmentCapturedPayload,
   commitmentCaptureUndonePayload,
   crossContextAccessAuditedPayload,
+  calendarConnectedPayload,
+  calendarSyncedPayload,
+  calendarSyncFailedPayload,
   isKnownEventType,
   sensitiveFieldsFor,
   validateEventPayload,
   UnknownEventTypeError,
   InvalidEventPayloadError,
 } from './events/catalog.js';
-export type { KnownEventType } from './events/catalog.js';
+export type {
+  KnownEventType,
+  CalendarConnectedPayload,
+  CalendarSyncedPayload,
+  CalendarSyncFailedPayload,
+} from './events/catalog.js';
 
 export {
   reduceCommitment,

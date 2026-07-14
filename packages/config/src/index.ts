@@ -38,6 +38,16 @@ const EnvSchema = z.object({
       message:
         'LEDGER_MASTER_KEY must be a base64 or hex string that decodes to exactly 32 bytes',
     }),
+  // Google Calendar OAuth (Story 1.4) — data-source connection, DISTINCT from
+  // Better Auth sign-in. Optional so the app boots + gates without them; the
+  // connect flow is disabled with an explanatory note when any is unset
+  // (see isGoogleOAuthConfigured). Read-only calendar scope only (AD-8).
+  GOOGLE_OAUTH_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_OAUTH_CLIENT_SECRET: z.string().min(1).optional(),
+  GOOGLE_OAUTH_REDIRECT_URI: z
+    .string()
+    .url({ message: 'GOOGLE_OAUTH_REDIRECT_URI must be a valid URL' })
+    .optional(),
 });
 
 /**
@@ -100,4 +110,17 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
 export function resetConfig(): void {
   _config = null;
   _configEnv = null;
+}
+
+/**
+ * Whether the Google Calendar OAuth data-source flow is fully configured.
+ * All three creds must be present; otherwise the connections screen renders the
+ * connect action disabled with an explanatory note (no throw at startup).
+ */
+export function isGoogleOAuthConfigured(config: AppConfig): boolean {
+  return (
+    !!config.GOOGLE_OAUTH_CLIENT_ID &&
+    !!config.GOOGLE_OAUTH_CLIENT_SECRET &&
+    !!config.GOOGLE_OAUTH_REDIRECT_URI
+  );
 }

@@ -1,6 +1,9 @@
 import { PgBoss } from 'pg-boss';
 import pino from 'pino';
-import { loadConfig } from '@life-focus/config';
+import { loadConfig, isGoogleOAuthConfigured } from '@life-focus/config';
+import { createDbClient, createLedgerStore, createMirrorStore } from '@life-focus/db';
+import { createGcalConnector } from '@life-focus/connectors';
+import { registerGcalSync, type GcalSyncStore } from './gcal-sync.js';
 
 export const logger = pino({
   level: 'info',
@@ -124,6 +127,31 @@ async function main() {
 
   // Schedule a heartbeat every minute
   await boss.schedule(HEARTBEAT_JOB, '*/1 * * * *', {});
+
+  // Google Calendar sync (Story 1.4). Only wired when OAuth is configured — the
+  // app (and worker) still boot without it (the connect flow is disabled in the
+  // UI). fetch is the injected HTTP client so the connector does the network I/O.
+  if (isGoogleOAuthConfigured(config)) {
+    const client = createDbClient(config.DATABASE_URL);
+    const ledger = createLedgerStore(client, { masterKey: config.LEDGER_MASTER_KEY });
+    const mirror = createMirrorStore(client, { masterKey: config.LEDGER_MASTER_KEY, ledger });
+    const connector = createGcalConnector((url, init) => fetch(url, init));
+    await registerGcalSync(boss, {
+      connector,
+      store: mirror satisfies GcalSyncStore,
+      logger,
+      oauth: {
+        clientId: config.GOOGLE_OAUTH_CLIENT_ID!,
+        clientSecret: config.GOOGLE_OAUTH_CLIENT_SECRET!,
+      },
+    });
+    logger.info({ event: 'gcal-sync-registered' }, 'Google Calendar sync registered');
+  } else {
+    logger.info(
+      { event: 'gcal-sync-skipped' },
+      'Google Calendar OAuth not configured; sync not registered',
+    );
+  }
 
   logger.info({ event: 'worker-ready' }, 'Worker is ready');
 }

@@ -11,6 +11,14 @@ const NAV_ITEMS = [
   { href: '/commitments', label: 'Commitments', glyph: '◈' },
 ] as const;
 
+/**
+ * Footer nav (Story 1.4): Settings lives in the rail footer, separate from the
+ * primary 4-tab set so the MVP IA is unchanged. Reaches the connections screen.
+ */
+const FOOTER_ITEMS = [
+  { href: '/settings/connections', label: 'Settings', glyph: '⚙' },
+] as const;
+
 const railStyle: CSSProperties = {
   width: 80,
   flex: '0 0 80px',
@@ -49,25 +57,28 @@ const glyphStyle: CSSProperties = {
 export function SideNav() {
   const pathname = usePathname();
 
+  const renderItem = (item: { href: string; label: string; glyph: string }) => {
+    const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+    return (
+      <a
+        key={item.href}
+        href={item.href}
+        aria-current={active ? 'page' : undefined}
+        style={itemStyle(active)}
+      >
+        <span aria-hidden="true" style={glyphStyle}>
+          {item.glyph}
+        </span>
+        <span className="label-caps">{item.label}</span>
+      </a>
+    );
+  };
+
   return (
     <nav aria-label="Primary" style={railStyle}>
-      {NAV_ITEMS.map((item) => {
-        const active =
-          pathname === item.href || pathname.startsWith(`${item.href}/`);
-        return (
-          <a
-            key={item.href}
-            href={item.href}
-            aria-current={active ? 'page' : undefined}
-            style={itemStyle(active)}
-          >
-            <span aria-hidden="true" style={glyphStyle}>
-              {item.glyph}
-            </span>
-            <span className="label-caps">{item.label}</span>
-          </a>
-        );
-      })}
+      {NAV_ITEMS.map(renderItem)}
+      {/* Push the footer group (Settings) to the bottom of the rail. */}
+      <div style={{ marginTop: 'auto' }}>{FOOTER_ITEMS.map(renderItem)}</div>
     </nav>
   );
 }

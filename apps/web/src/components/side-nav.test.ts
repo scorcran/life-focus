@@ -28,8 +28,14 @@ describe('shell side navigation', () => {
       expect(html).toContain(label);
     }
     // Native anchors only — no div click-handlers (jsx-a11y contract).
+    // 4 primary destinations + the Settings footer entry (Story 1.4).
     const anchorCount = (html.match(/<a /g) ?? []).length;
-    expect(anchorCount).toBe(4);
+    expect(anchorCount).toBe(5);
+  });
+
+  it('renders a Settings footer entry reaching the connections screen (Story 1.4)', () => {
+    expect(html).toContain('href="/settings/connections"');
+    expect(html).toContain('Settings');
   });
 
   it('marks the active item with aria-current and the primary right border', () => {
@@ -41,6 +47,7 @@ describe('shell side navigation', () => {
   });
 
   it('labels each item with the label-caps class (Public Sans nav text)', () => {
-    expect((html.match(/label-caps/g) ?? []).length).toBe(4);
+    // 4 primary + Settings footer entry.
+    expect((html.match(/label-caps/g) ?? []).length).toBe(5);
   });
 });

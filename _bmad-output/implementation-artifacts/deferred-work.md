@@ -47,3 +47,29 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-3-the-event-ledger-small-but-final.md`
   summary: The committed dev `LEDGER_MASTER_KEY` default is wired as the compose default for the migrate/web/worker services, so a misconfigured non-dev deploy comes up green with a repo-visible erasure key.
   evidence: `.env.example` and `docker-compose.yml` use `${LEDGER_MASTER_KEY:-<committed constant>}`; a deploy that forgets to override it silently substitutes a known key, and all "erased" data (whose only protection is that key's secrecy) becomes trivially decryptable by anyone with the repo. Matches the existing `BETTER_AUTH_SECRET` pattern, but the erasure-key stakes are higher; deferred as a deployment-hardening change (require the value with no default in prod-oriented compose / fail fast when unset).
+
+## Deferred from: code review of spec-1-4-connect-both-google-calendars-with-context-assignment (2026-07-14)
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
+  summary: `connectSource`/`recordSyncSuccess`/`recordSyncFailure` update the mutable `calendar_source` row and append their AD-4 sync-health event (`CalendarConnected`/`CalendarSynced`/`CalendarSyncFailed`) in two SEPARATE transactions, so a crash between them leaves the row and its audit event divergent.
+  evidence: `mirror/store.ts` does the `insert`/`update` on `calendar_source` (auto-committed), then calls `ledger.append(...)`, and `ledger/store.ts append()` opens its OWN `db.transaction`. A process death between the two writes yields a token-bearing/active or failed/revoked source with no matching audit event (or vice versa). Low-probability for a single-user MVP and partly self-healing on reconnect for the connect case; the correct fix is a composable ledger append that can enlist in the caller's transaction so row + event commit atomically.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
+  summary: All-day mirror rows store Google's `end.date` verbatim, which is EXCLUSIVE (a single-day event has `endsAt` = the next day), and nothing documents or normalizes this — Story 1.5's agenda renderer must treat all-day `endsAt` as exclusive or it will mis-place/mis-size all-day events.
+  evidence: `connectors/src/gcal/normalize.ts normalizeBound` returns `end.date` unchanged; `normalize.test.ts` enshrines `{start:{date:'2026-07-04'}}` → `endsAt:'2026-07-05'` as the raw value without asserting the exclusivity contract the consumer must honor. Correct as a faithful cache, but the exclusive-end semantics are an unguarded downstream trap for the 1.5 render layer.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
+  summary: `runGcalSync` refreshes the access token on EVERY run regardless of `accessTokenExpiresAt`, and discards a rotated `refresh_token` returned by the refresh response (only the access token is persisted).
+  evidence: `apps/worker/src/gcal-sync.ts` calls `connector.refreshAccessToken(...)` unconditionally each cycle (the stored `accessTokenExpiresAt` is read nowhere in the sync path) then only `store.updateAccessToken(...)`; `refreshed.refreshToken` is never persisted. Wasteful token round-trips and, if Google ever rotates the refresh token, the stored one goes stale → a dead source. Google does not rotate refresh tokens for this personal-use/unverified app by default (hence deferred); the hardening is an expiry-gated refresh plus persisting a rotated refresh token.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
+  summary: Mirror `starts_at`/`ends_at` are `text` with heterogeneous formats (all-day `YYYY-MM-DD` vs timed full ISO `...Z`) and `readMirrorEvents` issues no `ORDER BY`, so any downstream chronological ordering or range query is lexicographic across mixed formats, not reliably temporal.
+  evidence: `db/src/schema/mirror.ts` types both bounds as `text`; `mirror/store.ts readMirrorEvents` selects by context with no ordering. Fine for 1.4 (which neither orders nor renders), but Story 1.5's agenda depends on correct chronological order; the fix is typed timestamp columns (or a separate all-day date column) and an explicit read order.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
+  summary: The initial full sync sends no `timeMin`/`timeMax`, so it paginates over the account's ENTIRE calendar history (every recurrence expanded into instances), an unbounded fetch that bloats the planning mirror.
+  evidence: `connectors/src/gcal/sync.ts` sets only `singleEvents`/`showDeleted`/`maxResults`/`syncToken`/`pageToken`. A real account with years of history yields a large, slow initial sync of events irrelevant to near-term planning. The fix is a bounded planning window (e.g. `timeMin = now − N days`) on the full-sync path (incremental with a syncToken cannot combine with `timeMin`); the window bound is a product decision for the agenda story.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-connect-both-google-calendars-with-context-assignment.md`
+  summary: `connectSource` does a select-then-insert on the `(provider, account, context)` identity, a TOCTOU that under two concurrent connects for the same identity throws a unique-constraint violation on the loser (surfaced to the user as a spurious `connect_failed`).
+  evidence: `mirror/store.ts connectSource` SELECTs the existing identity then branches to INSERT or UPDATE; the SELECT and INSERT are not atomic and there is no `onConflictDoUpdate` on the identity unique index. Practically unreachable for a single human operator (mirrors the spec-1-2 deferred sign-up TOCTOU); the hardening is an upsert keyed on the identity index.
