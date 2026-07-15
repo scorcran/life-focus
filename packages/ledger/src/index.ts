@@ -10,6 +10,7 @@ export type {
   AppendEventInput,
   ReadEventsFilter,
   CommitmentRow,
+  PersonRow,
   LedgerStore,
 } from './events/types.js';
 export { REDACTED_MARKER } from './events/types.js';
@@ -23,6 +24,13 @@ export {
   commitmentRecurrenceSchema,
   commitmentCapturedPayload,
   commitmentCaptureUndonePayload,
+  PERSON_IMPORTANCE,
+  personImportanceEnum,
+  personContextEnum,
+  importantDateSchema,
+  rhythmCadenceSchema,
+  personAddedPayload,
+  personAddUndonePayload,
   crossContextAccessAuditedPayload,
   calendarConnectedPayload,
   calendarSyncedPayload,
@@ -47,6 +55,11 @@ export type {
   ProtectionLevel,
   Weekday,
   CommitmentRecurrence,
+  PersonImportance,
+  PersonContext,
+  ImportantDate,
+  RhythmCadence,
+  PersonAddedPayload,
   CalendarConnectedPayload,
   CalendarSyncedPayload,
   CalendarSyncFailedPayload,
@@ -65,6 +78,11 @@ export {
   reduceCommitment,
   projectCommitments,
 } from './projections/commitment.js';
+
+export {
+  reducePerson,
+  projectPeople,
+} from './projections/person.js';
 
 export {
   ONBOARDING_STEP_IDS,

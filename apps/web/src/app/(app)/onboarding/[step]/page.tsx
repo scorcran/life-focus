@@ -10,6 +10,9 @@ import { PolicyTemplates } from '../../../../components/onboarding/boundaries/po
 import { readCommitmentsStepData } from '../../../../lib/onboarding/commitments.js';
 import { CommitmentForm } from '../../../../components/onboarding/commitments/commitment-form.js';
 import { CommitmentList } from '../../../../components/onboarding/commitments/commitment-list.js';
+import { readPeopleStepData } from '../../../../lib/onboarding/people.js';
+import { PersonForm } from '../../../../components/onboarding/people/person-form.js';
+import { PersonList } from '../../../../components/onboarding/people/person-list.js';
 import { advanceStep } from '../actions.js';
 
 // Reads live onboarding progress from the event log per request. Never cached.
@@ -73,10 +76,12 @@ export default async function OnboardingStepPage({
   }
   const content = stepContent(step);
 
-  // The boundaries (2.2) and commitments (2.3) steps have filled bodies; the
-  // other steps keep the generic rationale + Continue/Skip placeholder (2.4–2.5).
+  // The boundaries (2.2), commitments (2.3), and people (2.4) steps have filled
+  // bodies; the goals step keeps the generic rationale + Continue/Skip
+  // placeholder (2.5).
   const boundariesData = step === 'boundaries' ? await readBoundariesStepData() : null;
   const commitmentsData = step === 'commitments' ? await readCommitmentsStepData() : null;
+  const peopleData = step === 'people' ? await readPeopleStepData() : null;
 
   // Bind the step + mode so each form posts one append + redirect.
   const onContinue = advanceStep.bind(null, step, 'entered');
@@ -133,6 +138,15 @@ export default async function OnboardingStepPage({
         <div>
           <CommitmentForm />
           <CommitmentList commitments={commitmentsData.commitments} />
+        </div>
+      )}
+
+      {peopleData && (
+        // Plain grouping, not a named landmark: each child section carries its
+        // own heading, mirroring the boundaries/commitments branches above.
+        <div>
+          <PersonForm />
+          <PersonList people={peopleData.people} />
         </div>
       )}
 

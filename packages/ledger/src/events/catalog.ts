@@ -63,6 +63,92 @@ export const commitmentCaptureUndonePayload = z.object({
   commitmentId: z.string().min(1),
 });
 
+// ── Important-people events (Story 2.4, AD-4) ────────────────────────────────
+// A core person is one additive `PersonAdded` event carrying the MVP-lite Person
+// model plus an optional embedded weekly communication rhythm. `name`/`intention`
+// are free-text user fields that can identify a person, so they are declared
+// sensitive and crypto-shredded via the existing sensitive-field path (ADR 0001);
+// the action passes an explicit `erasureScope: 'person:'+personId` so a future
+// erase is person-precise. State is served by a pure projection over these events
+// — no projection table or migration (AD-4). FR-12 / P5: there is NO relationship
+// score/rating/rank/health field anywhere; `importance` is a user-asserted
+// categorical label, and `importantDates` are user-asserted only (never inferred).
+
+/**
+ * The three canonical closeness "circles" (FR-12 / P5): ordered, kebab-cased ids
+ * defined ONCE here. `importance` is a user-asserted categorical label — an
+ * opaque string stored as-is, never computed, ordered, or used to rank people.
+ * There is no numeric/score field; this is the only "importance" the model has.
+ */
+export const PERSON_IMPORTANCE = ['inner-circle', 'close', 'wider-circle'] as const;
+
+export const personImportanceEnum = z.enum(PERSON_IMPORTANCE);
+
+/** Person contexts: work|personal only — a person is never `joint` (AD-5). */
+export const personContextEnum = z.enum(['work', 'personal']);
+
+/**
+ * Days per month for user-asserted important dates. February allows 29 so a
+ * leap-day (`02-29`) birthday is accepted even in a bare `MM-DD` date (there is
+ * no year to leap-check against); every other month uses its real length.
+ */
+const DAYS_IN_MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] as const;
+
+/**
+ * A user-asserted important date: a free-text label plus a date string
+ * (`MM-DD` recurring, or a full `YYYY-MM-DD`). Never inferred from any source.
+ * The shape regex is not enough — it also validates a REAL calendar month/day
+ * so impossible dates (`13-45`, `02-31`, `99-99`, `00-00`) are rejected at
+ * append (and dropped by the projection's re-validation), never persisted.
+ */
+export const importantDateSchema = z.object({
+  label: z.string().min(1),
+  date: z
+    .string()
+    .regex(/^(\d{4}-)?\d{2}-\d{2}$/, 'expected MM-DD or YYYY-MM-DD')
+    .refine((date) => {
+      const match = /^(?:\d{4}-)?(\d{2})-(\d{2})$/.exec(date);
+      if (match === null) return false;
+      const month = Number(match[1]);
+      const day = Number(match[2]);
+      return month >= 1 && month <= 12 && day >= 1 && day <= DAYS_IN_MONTH[month - 1];
+    }, 'expected a real calendar month and day'),
+});
+
+/**
+ * Weekly communication rhythm cadence (MVP): weekly, with an OPTIONALLY-empty
+ * set of weekdays. Unlike `commitmentRecurrenceSchema` (which requires ≥1 day),
+ * an EMPTY `daysOfWeek` is valid and means the flexible "sometime each week"
+ * window ("call Mom weekly"). Reuses the canonical `weekdayEnum`.
+ */
+export const rhythmCadenceSchema = z.object({
+  frequency: z.literal('weekly'),
+  daysOfWeek: z.array(weekdayEnum),
+});
+
+/** A core person was added (Story 2.4), with an optional embedded weekly rhythm. */
+export const personAddedPayload = z.object({
+  personId: z.string().min(1),
+  name: z.string().min(1),
+  relationshipType: z.string().min(1),
+  // Required, no default: every person carries a user-asserted closeness label.
+  importance: personImportanceEnum,
+  // Optional: absent/null means no stated intention for this relationship.
+  intention: z.string().min(1).nullable().optional(),
+  // Optional: user-asserted important dates only (never inferred).
+  importantDates: z.array(importantDateSchema).optional(),
+  context: personContextEnum,
+  // Optional: absent/null means no communication rhythm was set.
+  rhythm: rhythmCadenceSchema.nullable().optional(),
+  createdAt: z.string().min(1),
+  updatedAt: z.string().min(1),
+});
+
+/** A prior person-add was undone (compensating forward event, AD-4). */
+export const personAddUndonePayload = z.object({
+  personId: z.string().min(1),
+});
+
 /** A cross-context read/emit was audited (AC-14 instrument). */
 export const crossContextAccessAuditedPayload = z.object({
   sourceContext: contextEnum,
@@ -207,6 +293,14 @@ export const EVENT_CATALOG = {
     schema: commitmentCaptureUndonePayload,
     sensitiveFields: [],
   },
+  PersonAdded: {
+    schema: personAddedPayload,
+    sensitiveFields: ['name', 'intention'],
+  },
+  PersonAddUndone: {
+    schema: personAddUndonePayload,
+    sensitiveFields: [],
+  },
   CrossContextAccessAudited: {
     schema: crossContextAccessAuditedPayload,
     sensitiveFields: [],
@@ -312,6 +406,15 @@ export function validateEventPayload(
 export type ProtectionLevel = z.infer<typeof protectionLevelEnum>;
 export type Weekday = z.infer<typeof weekdayEnum>;
 export type CommitmentRecurrence = z.infer<typeof commitmentRecurrenceSchema>;
+
+// Inferred important-people types (Story 2.4), so hosts build catalog-valid
+// payloads and typed catalogs without redeclaring the shapes. No score type
+// exists by construction (FR-12 / P5).
+export type PersonImportance = z.infer<typeof personImportanceEnum>;
+export type PersonContext = z.infer<typeof personContextEnum>;
+export type ImportantDate = z.infer<typeof importantDateSchema>;
+export type RhythmCadence = z.infer<typeof rhythmCadenceSchema>;
+export type PersonAddedPayload = z.infer<typeof personAddedPayload>;
 
 // Inferred payload types for the calendar sync-health events (Story 1.4), so
 // hosts/adapters build catalog-valid payloads without redeclaring the shapes.
