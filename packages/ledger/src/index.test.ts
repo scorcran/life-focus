@@ -21,6 +21,10 @@ import {
   rhythmCadenceSchema,
   reducePerson,
   projectPeople,
+  goalContextEnum,
+  goalAllocationSchema,
+  reduceGoal,
+  projectGoals,
   type DomainEvent,
   type AppendEventInput,
   type ProtectionLevel,
@@ -31,6 +35,9 @@ import {
   type ImportantDate,
   type RhythmCadence,
   type PersonRow,
+  type GoalContext,
+  type GoalAllocation,
+  type GoalRow,
 } from './index.js';
 
 /** Build a persisted DomainEvent for reducer/undo tests. */
@@ -244,6 +251,103 @@ describe('catalog validation', () => {
     expect(ctx).toBe('work');
     expect(date.label).toBe('Anniversary');
     expect(cadence.daysOfWeek).toContain('mon');
+  });
+
+  it('validates a GoalAdded payload and rejects bad allocation/context (Story 2.5)', () => {
+    const parsed = validateEventPayload('GoalAdded', {
+      goalId: 'g-1',
+      title: 'Learn to paint',
+      nextAction: 'Buy a starter set',
+      allocation: { frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 },
+      context: 'personal',
+      createdAt: '2026-07-14T00:00:00.000Z',
+      updatedAt: '2026-07-14T00:00:00.000Z',
+    });
+    expect(parsed.allocation).toEqual({ frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 });
+
+    // A joint context is illegal on a goal (AD-5).
+    expect(() =>
+      validateEventPayload('GoalAdded', {
+        goalId: 'g-1',
+        title: 'x',
+        nextAction: 'y',
+        allocation: { frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 },
+        context: 'joint',
+        createdAt: '2026-07-14T00:00:00.000Z',
+        updatedAt: '2026-07-14T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+
+    // Out-of-range / non-integer allocation is rejected.
+    expect(() =>
+      validateEventPayload('GoalAdded', {
+        goalId: 'g-1',
+        title: 'x',
+        nextAction: 'y',
+        allocation: { frequency: 'weekly', sessionsPerWeek: 8, minutesPerSession: 45 },
+        context: 'personal',
+        createdAt: '2026-07-14T00:00:00.000Z',
+        updatedAt: '2026-07-14T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+  });
+
+  it('re-exports the goal enums/schemas + projection and declares title/nextAction sensitive', () => {
+    expect(goalContextEnum.parse('work')).toBe('work');
+    expect(goalContextEnum.safeParse('joint').success).toBe(false);
+    expect(
+      goalAllocationSchema.parse({ frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 }),
+    ).toEqual({ frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 });
+    expect(sensitiveFieldsFor('GoalAdded')).toEqual(['title', 'nextAction']);
+    expect(sensitiveFieldsFor('GoalAddUndone')).toEqual([]);
+    expect(sensitiveFieldsFor('GoalAllocationDisplaced')).toEqual([]);
+
+    // Projection fns resolve and fold a goal + a displacement.
+    const rows = projectGoals([
+      {
+        id: 'e1',
+        eventSeq: 1,
+        eventType: 'GoalAdded',
+        actor: 'u',
+        context: 'personal',
+        causedBy: null,
+        compensatesEventId: null,
+        erasureScope: null,
+        createdAt: '2026-07-14T00:00:00.000Z',
+        payload: {
+          goalId: 'g-1',
+          title: 'Learn to paint',
+          nextAction: 'Buy a starter set',
+          allocation: { frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 },
+          context: 'personal',
+          createdAt: '2026-07-14T00:00:00.000Z',
+          updatedAt: '2026-07-14T00:00:00.000Z',
+        },
+      },
+    ]);
+    const row: GoalRow | undefined = rows[0];
+    expect(row?.id).toBe('g-1');
+    expect(row?.allocation.protectionLevel).toBe('protected-priority');
+    expect(
+      reduceGoal(row ?? null, {
+        id: 'e2',
+        eventSeq: 2,
+        eventType: 'GoalAddUndone',
+        actor: 'u',
+        context: 'personal',
+        causedBy: null,
+        compensatesEventId: 'e1',
+        erasureScope: null,
+        createdAt: '2026-07-14T00:00:00.000Z',
+        payload: { goalId: 'g-1' },
+      }),
+    ).toBeNull();
+
+    // Inferred types resolve (compile-time surface); no score type exists.
+    const ctx: GoalContext = 'work';
+    const alloc: GoalAllocation = { frequency: 'weekly', sessionsPerWeek: 2, minutesPerSession: 30 };
+    expect(ctx).toBe('work');
+    expect(alloc.sessionsPerWeek).toBe(2);
   });
 
   it('rejects an unknown event type', () => {

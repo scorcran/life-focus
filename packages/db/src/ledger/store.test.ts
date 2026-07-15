@@ -226,6 +226,62 @@ describe.skipIf(!hasPg)('createLedgerStore (Postgres integration)', () => {
     expect(afterEvent.payload.intention).toBe(REDACTED_MARKER);
   });
 
+  it('append persists a GoalAdded with no projection table, encrypting title/nextAction at rest (Story 2.5)', async () => {
+    const now = '2026-07-14T00:00:00.000Z';
+    const goalId = 'g-store-1';
+    // Explicit goal-precise erasure scope (the default scope derivation looks for
+    // commitmentId only, so the action supplies this).
+    const appended = await store.append({
+      eventType: 'GoalAdded',
+      actor: 'user-1',
+      context: 'personal',
+      erasureScope: `goal:${goalId}`,
+      payload: {
+        goalId,
+        title: 'Learn to paint',
+        nextAction: 'Buy a starter watercolor set',
+        allocation: { frequency: 'weekly', sessionsPerWeek: 3, minutesPerSession: 45 },
+        context: 'personal',
+        createdAt: now,
+        updatedAt: now,
+      },
+    });
+    expect(appended.erasureScope).toBe(`goal:${goalId}`);
+
+    // Title/nextAction are ciphertext at rest (raw row is not the plaintext).
+    const rawRows = await client.db
+      .select()
+      .from(ledgerEvent)
+      .where(eq(ledgerEvent.id, appended.id));
+    const rawPayload = rawRows[0]!.payload as Record<string, unknown>;
+    expect(rawPayload.title).not.toBe('Learn to paint');
+    expect(rawPayload.nextAction).not.toBe('Buy a starter watercolor set');
+    // Non-sensitive fields stay plaintext.
+    expect(rawPayload.context).toBe('personal');
+    expect(rawPayload.allocation).toEqual({
+      frequency: 'weekly',
+      sessionsPerWeek: 3,
+      minutesPerSession: 45,
+    });
+
+    // They decrypt on read.
+    const events = await store.readEvents({ eventType: 'GoalAdded' });
+    const readBack = events.find((e) => e.id === appended.id)!;
+    expect(readBack.payload.title).toBe('Learn to paint');
+    expect(readBack.payload.nextAction).toBe('Buy a starter watercolor set');
+
+    // No commitment projection row was created for a goal event (no table).
+    const commitmentRows = await store.readCommitments('personal');
+    expect(commitmentRows.map((r) => r.id)).not.toContain(goalId);
+
+    // Crypto-shred the goal scope; title/nextAction become unrecoverable.
+    await store.erase(`goal:${goalId}`);
+    const afterEvents = await store.readEvents({ eventType: 'GoalAdded' });
+    const afterEvent = afterEvents.find((e) => e.id === appended.id)!;
+    expect(afterEvent.payload.title).toBe(REDACTED_MARKER);
+    expect(afterEvent.payload.nextAction).toBe(REDACTED_MARKER);
+  });
+
   it('append rejects an unknown event type and an invalid payload (nothing written)', async () => {
     await expect(
       store.append({ eventType: 'NopeEvent', actor: 'u', context: 'work', payload: {} }),

@@ -12,6 +12,7 @@ import type {
   PersonContext,
   ImportantDate,
   Weekday,
+  GoalContext,
 } from './catalog.js';
 
 /** The context tag carried by every domain/event/projection row (AD-5). */
@@ -104,6 +105,35 @@ export interface PersonRow {
     readonly frequency: 'weekly';
     readonly daysOfWeek: readonly Weekday[];
   } | null;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+
+/**
+ * A projected goal row (Story 2.5). FR-40 / P5: there is NO numeric
+ * score/rating/rank/health field here — `displacementCount` is a plain factual
+ * count of `GoalAllocationDisplaced` events, shown in neutral language. The
+ * allocation is exposed as a `protected-priority` intention (the shared 2.3
+ * protection-level vocabulary) linked to this goal by id, so it is queryable as a
+ * protected-priority intention for the Epic-4 ContextSnapshot. The user never
+ * chooses the level — it is fixed by construction.
+ */
+export interface GoalRow {
+  readonly id: string;
+  readonly title: string;
+  /** The one user-defined next action for this goal. */
+  readonly nextAction: string;
+  /** The protected weekly allocation — a protected-priority intention by construction. */
+  readonly allocation: {
+    readonly protectionLevel: 'protected-priority';
+    readonly frequency: 'weekly';
+    readonly sessionsPerWeek: number;
+    readonly minutesPerSession: number;
+  };
+  /** A plain count of times the allocation was moved/dropped (never a score). */
+  readonly displacementCount: number;
+  /** Goal context — work|personal only (never joint, AD-5). */
+  readonly context: GoalContext;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
