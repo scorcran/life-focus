@@ -1,6 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import type { DomainEvent } from '../events/types.js';
-import { projectOnboarding, ONBOARDING_STEP_IDS } from './onboarding.js';
+import {
+  projectOnboarding,
+  ONBOARDING_STEP_IDS,
+  ONBOARDING_SITTING_LIMIT_MINUTES,
+  onboardingSittingMinutes,
+  isOnboardingWithinSittingLimit,
+  type OnboardingProgress,
+} from './onboarding.js';
 
 /** Build a persisted DomainEvent for projection tests. */
 function evt(
@@ -130,5 +137,83 @@ describe('projectOnboarding', () => {
 
   it('exposes the canonical ordered step-id list', () => {
     expect(ONBOARDING_STEP_IDS).toEqual(['boundaries', 'commitments', 'people', 'goals']);
+  });
+});
+
+describe('onboarding sitting instrument (Story 2.6, AC-2)', () => {
+  /** Build an OnboardingProgress with a start/complete pair `minutes` apart. */
+  function sitting(startedAt: string | null, completedAt: string | null): OnboardingProgress {
+    return {
+      started: startedAt !== null,
+      startedAt,
+      steps: {},
+      completed: completedAt !== null,
+      completedAt,
+    };
+  }
+
+  it('exposes the ≤45-minute limit constant', () => {
+    expect(ONBOARDING_SITTING_LIMIT_MINUTES).toBe(45);
+  });
+
+  it('within limit: started 10:00, completed 10:40 → 40 min, within = true', () => {
+    const p = sitting('2026-07-14T10:00:00.000Z', '2026-07-14T10:40:00.000Z');
+    expect(onboardingSittingMinutes(p)).toBe(40);
+    expect(isOnboardingWithinSittingLimit(p)).toBe(true);
+  });
+
+  it('fractional sitting: a 30-second gap → 0.5 min (the contract is fractional minutes)', () => {
+    const p = sitting('2026-07-14T10:00:00.000Z', '2026-07-14T10:00:30.000Z');
+    expect(onboardingSittingMinutes(p)).toBe(0.5);
+    expect(isOnboardingWithinSittingLimit(p)).toBe(true);
+  });
+
+  it('zero-length sitting: equal timestamps → 0 min, within = true (lower boundary)', () => {
+    const p = sitting('2026-07-14T10:00:00.000Z', '2026-07-14T10:00:00.000Z');
+    expect(onboardingSittingMinutes(p)).toBe(0);
+    expect(isOnboardingWithinSittingLimit(p)).toBe(true);
+  });
+
+  it('empty-string timestamp (a state reduceOnboarding can persist) → null, within = false', () => {
+    const p = sitting('', '2026-07-14T10:40:00.000Z');
+    expect(onboardingSittingMinutes(p)).toBeNull();
+    expect(isOnboardingWithinSittingLimit(p)).toBe(false);
+  });
+
+  it('exactly at the limit: completed = started + 45min → 45 min, within = true (inclusive)', () => {
+    const p = sitting('2026-07-14T10:00:00.000Z', '2026-07-14T10:45:00.000Z');
+    expect(onboardingSittingMinutes(p)).toBe(45);
+    expect(isOnboardingWithinSittingLimit(p)).toBe(true);
+  });
+
+  it('over the limit: completed = started + 46min → 46 min, within = false', () => {
+    const p = sitting('2026-07-14T10:00:00.000Z', '2026-07-14T10:46:00.000Z');
+    expect(onboardingSittingMinutes(p)).toBe(46);
+    expect(isOnboardingWithinSittingLimit(p)).toBe(false);
+  });
+
+  it('not yet completed: started, completedAt null → null, within = false (never throws)', () => {
+    const p = sitting('2026-07-14T10:00:00.000Z', null);
+    expect(onboardingSittingMinutes(p)).toBeNull();
+    expect(isOnboardingWithinSittingLimit(p)).toBe(false);
+  });
+
+  it('not started: empty progress → null, within = false', () => {
+    const p = projectOnboarding([]);
+    expect(onboardingSittingMinutes(p)).toBeNull();
+    expect(isOnboardingWithinSittingLimit(p)).toBe(false);
+  });
+
+  it('inverted pair: completed earlier than started → null (unmeasurable), within = false', () => {
+    const p = sitting('2026-07-14T10:40:00.000Z', '2026-07-14T10:00:00.000Z');
+    expect(onboardingSittingMinutes(p)).toBeNull();
+    expect(isOnboardingWithinSittingLimit(p)).toBe(false);
+  });
+
+  it('unparseable timestamp → null (unmeasurable), within = false, never throws', () => {
+    const p = sitting('not-a-date', '2026-07-14T10:40:00.000Z');
+    expect(() => onboardingSittingMinutes(p)).not.toThrow();
+    expect(onboardingSittingMinutes(p)).toBeNull();
+    expect(isOnboardingWithinSittingLimit(p)).toBe(false);
   });
 });
