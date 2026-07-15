@@ -14,11 +14,23 @@ import {
   WEEKDAYS,
   weekdayEnum,
   commitmentRecurrenceSchema,
+  PERSON_IMPORTANCE,
+  personImportanceEnum,
+  personContextEnum,
+  importantDateSchema,
+  rhythmCadenceSchema,
+  reducePerson,
+  projectPeople,
   type DomainEvent,
   type AppendEventInput,
   type ProtectionLevel,
   type Weekday,
   type CommitmentRecurrence,
+  type PersonImportance,
+  type PersonContext,
+  type ImportantDate,
+  type RhythmCadence,
+  type PersonRow,
 } from './index.js';
 
 /** Build a persisted DomainEvent for reducer/undo tests. */
@@ -120,6 +132,118 @@ describe('catalog validation', () => {
     const rule: CommitmentRecurrence = { frequency: 'weekly', daysOfWeek: [day] };
     expect(level).toBe('protected-priority');
     expect(rule.daysOfWeek).toContain('fri');
+  });
+
+  it('validates a PersonAdded payload with an optional rhythm and importance (Story 2.4)', () => {
+    const parsed = validateEventPayload('PersonAdded', {
+      personId: 'p-1',
+      name: 'Mom',
+      relationshipType: 'Parent',
+      importance: 'inner-circle',
+      context: 'personal',
+      rhythm: { frequency: 'weekly', daysOfWeek: [] },
+      importantDates: [{ label: 'Birthday', date: '03-14' }],
+      createdAt: '2026-07-14T00:00:00.000Z',
+      updatedAt: '2026-07-14T00:00:00.000Z',
+    });
+    expect(parsed.importance).toBe('inner-circle');
+    // Empty weekday set is allowed for a rhythm (flexible weekly window).
+    expect(parsed.rhythm).toEqual({ frequency: 'weekly', daysOfWeek: [] });
+
+    // Missing importance → rejected (no untagged person).
+    expect(() =>
+      validateEventPayload('PersonAdded', {
+        personId: 'p-1',
+        name: 'Mom',
+        relationshipType: 'Parent',
+        context: 'personal',
+        createdAt: '2026-07-14T00:00:00.000Z',
+        updatedAt: '2026-07-14T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+
+    // A joint context is illegal on a person (AD-5).
+    expect(() =>
+      validateEventPayload('PersonAdded', {
+        personId: 'p-1',
+        name: 'Mom',
+        relationshipType: 'Parent',
+        importance: 'close',
+        context: 'joint',
+        createdAt: '2026-07-14T00:00:00.000Z',
+        updatedAt: '2026-07-14T00:00:00.000Z',
+      }),
+    ).toThrow(InvalidEventPayloadError);
+  });
+
+  it('re-exports the person constants/enums/schemas + projection and declares name/intention sensitive', () => {
+    expect(PERSON_IMPORTANCE).toEqual(['inner-circle', 'close', 'wider-circle']);
+    expect(personImportanceEnum.parse('close')).toBe('close');
+    expect(personContextEnum.parse('work')).toBe('work');
+    expect(importantDateSchema.parse({ label: 'Birthday', date: '03-14' })).toEqual({
+      label: 'Birthday',
+      date: '03-14',
+    });
+    // A leap-day birthday is valid even as a bare MM-DD (no year to check).
+    expect(importantDateSchema.safeParse({ label: 'Leap', date: '02-29' }).success).toBe(true);
+    // Impossible calendar dates are rejected — the shape regex is not enough.
+    for (const bad of ['13-45', '02-31', '04-31', '99-99', '00-00', '2026-02-30']) {
+      expect(importantDateSchema.safeParse({ label: 'x', date: bad }).success).toBe(false);
+    }
+    expect(rhythmCadenceSchema.parse({ frequency: 'weekly', daysOfWeek: [] })).toEqual({
+      frequency: 'weekly',
+      daysOfWeek: [],
+    });
+    expect(sensitiveFieldsFor('PersonAdded')).toEqual(['name', 'intention']);
+    expect(sensitiveFieldsFor('PersonAddUndone')).toEqual([]);
+
+    // Projection fns resolve and fold a person.
+    const rows = projectPeople([
+      {
+        id: 'e1',
+        eventSeq: 1,
+        eventType: 'PersonAdded',
+        actor: 'u',
+        context: 'personal',
+        causedBy: null,
+        compensatesEventId: null,
+        erasureScope: null,
+        createdAt: '2026-07-14T00:00:00.000Z',
+        payload: {
+          personId: 'p-1',
+          name: 'Mom',
+          relationshipType: 'Parent',
+          importance: 'inner-circle',
+          context: 'personal',
+          createdAt: '2026-07-14T00:00:00.000Z',
+          updatedAt: '2026-07-14T00:00:00.000Z',
+        },
+      },
+    ]);
+    const row: PersonRow | undefined = rows[0];
+    expect(row?.id).toBe('p-1');
+    expect(reducePerson(row ?? null, {
+      id: 'e2',
+      eventSeq: 2,
+      eventType: 'PersonAddUndone',
+      actor: 'u',
+      context: 'personal',
+      causedBy: null,
+      compensatesEventId: 'e1',
+      erasureScope: null,
+      createdAt: '2026-07-14T00:00:00.000Z',
+      payload: { personId: 'p-1' },
+    })).toBeNull();
+
+    // Inferred types resolve (compile-time surface); no score type exists.
+    const importance: PersonImportance = 'wider-circle';
+    const ctx: PersonContext = 'work';
+    const date: ImportantDate = { label: 'Anniversary', date: '2026-06-01' };
+    const cadence: RhythmCadence = { frequency: 'weekly', daysOfWeek: ['mon'] };
+    expect(importance).toBe('wider-circle');
+    expect(ctx).toBe('work');
+    expect(date.label).toBe('Anniversary');
+    expect(cadence.daysOfWeek).toContain('mon');
   });
 
   it('rejects an unknown event type', () => {

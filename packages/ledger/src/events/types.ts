@@ -5,7 +5,14 @@
  * a caller hands the store to append. The `LedgerStore` port is implemented by
  * the `packages/db` adapter and injected into hosts/broker.
  */
-import type { ProtectionLevel, CommitmentRecurrence } from './catalog.js';
+import type {
+  ProtectionLevel,
+  CommitmentRecurrence,
+  PersonImportance,
+  PersonContext,
+  ImportantDate,
+  Weekday,
+} from './catalog.js';
 
 /** The context tag carried by every domain/event/projection row (AD-5). */
 export type EventContext = 'work' | 'personal' | 'joint';
@@ -67,6 +74,36 @@ export interface CommitmentRow {
   readonly protectionLevel: ProtectionLevel;
   /** The weekly recurrence rule, or `null` for a one-off commitment. */
   readonly recurrence: CommitmentRecurrence | null;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+
+/**
+ * A projected important-person row (Story 2.4). FR-12 / P5: there is NO
+ * numeric/rating/rank/health/score field here — `importance` is a user-asserted
+ * categorical label, and `importantDates` are user-asserted only. A present
+ * `rhythm` is exposed as a `flexible-intention` (the shared 2.3 protection-level
+ * vocabulary) linked to this person, so it is queryable as a flexible intention
+ * for the Epic-4 ContextSnapshot.
+ */
+export interface PersonRow {
+  readonly id: string;
+  readonly name: string;
+  readonly relationshipType: string;
+  /** The user-asserted closeness circle (opaque label — never computed/ranked). */
+  readonly importance: PersonImportance;
+  /** A stated relationship intention, or `null` when none was given. */
+  readonly intention: string | null;
+  /** User-asserted important dates (verbatim); empty when none were given. */
+  readonly importantDates: readonly ImportantDate[];
+  /** Person context — work|personal only (never joint, AD-5). */
+  readonly context: PersonContext;
+  /** The weekly communication rhythm as a flexible intention, or `null`. */
+  readonly rhythm: {
+    readonly protectionLevel: 'flexible-intention';
+    readonly frequency: 'weekly';
+    readonly daysOfWeek: readonly Weekday[];
+  } | null;
   readonly createdAt: string;
   readonly updatedAt: string;
 }

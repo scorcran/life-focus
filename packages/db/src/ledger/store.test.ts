@@ -172,6 +172,60 @@ describe.skipIf(!hasPg)('createLedgerStore (Postgres integration)', () => {
     await expect(store.erase('commitment:does-not-exist')).resolves.toBeUndefined();
   });
 
+  it('append persists a PersonAdded with no projection table, encrypting name/intention at rest (Story 2.4)', async () => {
+    const now = '2026-07-14T00:00:00.000Z';
+    const personId = 'p-store-1';
+    // Explicit person-precise erasure scope (the default scope derivation looks
+    // for commitmentId only, so the action supplies this).
+    const appended = await store.append({
+      eventType: 'PersonAdded',
+      actor: 'user-1',
+      context: 'personal',
+      erasureScope: `person:${personId}`,
+      payload: {
+        personId,
+        name: 'Mom',
+        relationshipType: 'Parent',
+        importance: 'inner-circle',
+        intention: 'Stay in regular touch',
+        context: 'personal',
+        rhythm: { frequency: 'weekly', daysOfWeek: [] },
+        createdAt: now,
+        updatedAt: now,
+      },
+    });
+    expect(appended.erasureScope).toBe(`person:${personId}`);
+
+    // Name/intention are ciphertext at rest (raw row is not the plaintext).
+    const rawRows = await client.db
+      .select()
+      .from(ledgerEvent)
+      .where(eq(ledgerEvent.id, appended.id));
+    const rawPayload = rawRows[0]!.payload as Record<string, unknown>;
+    expect(rawPayload.name).not.toBe('Mom');
+    expect(rawPayload.intention).not.toBe('Stay in regular touch');
+    // Non-sensitive fields stay plaintext.
+    expect(rawPayload.relationshipType).toBe('Parent');
+    expect(rawPayload.importance).toBe('inner-circle');
+
+    // They decrypt on read.
+    const events = await store.readEvents({ eventType: 'PersonAdded' });
+    const readBack = events.find((e) => e.id === appended.id)!;
+    expect(readBack.payload.name).toBe('Mom');
+    expect(readBack.payload.intention).toBe('Stay in regular touch');
+
+    // No commitment projection row was created for a person event (no table).
+    const commitmentRows = await store.readCommitments('personal');
+    expect(commitmentRows.map((r) => r.id)).not.toContain(personId);
+
+    // Crypto-shred the person scope; name/intention become unrecoverable.
+    await store.erase(`person:${personId}`);
+    const afterEvents = await store.readEvents({ eventType: 'PersonAdded' });
+    const afterEvent = afterEvents.find((e) => e.id === appended.id)!;
+    expect(afterEvent.payload.name).toBe(REDACTED_MARKER);
+    expect(afterEvent.payload.intention).toBe(REDACTED_MARKER);
+  });
+
   it('append rejects an unknown event type and an invalid payload (nothing written)', async () => {
     await expect(
       store.append({ eventType: 'NopeEvent', actor: 'u', context: 'work', payload: {} }),
