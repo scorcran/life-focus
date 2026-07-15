@@ -102,6 +102,9 @@ export {
   ONBOARDING_STEP_IDS,
   reduceOnboarding,
   projectOnboarding,
+  ONBOARDING_SITTING_LIMIT_MINUTES,
+  onboardingSittingMinutes,
+  isOnboardingWithinSittingLimit,
 } from './projections/onboarding.js';
 export type {
   OnboardingStepId,

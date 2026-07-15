@@ -110,3 +110,39 @@ export function projectOnboarding(
   }
   return progress;
 }
+
+// ── Sitting-duration instrument (Story 2.6, AC-2) ────────────────────────────
+// The ≤45-minute verdict is a reusable derivation over the persisted
+// `OnboardingStarted`/`OnboardingCompleted` pair (AD-4), so the instrumented
+// timestamps are genuinely *measured*, not merely present. Pure: it reads only
+// the projected progress singleton and never touches the wall clock.
+
+/** The Epic-2 AC-2 target: a full life model set up in ≤45 minutes (inclusive). */
+export const ONBOARDING_SITTING_LIMIT_MINUTES = 45;
+
+/**
+ * The measured onboarding sitting in fractional minutes, or `null` when it is
+ * unmeasurable. Returns `null` unless the flow both started and completed and
+ * both timestamps parse to real times with completion no earlier than the
+ * start; otherwise `(completedMs - startedMs) / 60000`. Never throws — an
+ * inverted or unparseable pair is treated as unmeasurable (`null`), not an error.
+ */
+export function onboardingSittingMinutes(progress: OnboardingProgress): number | null {
+  if (!progress.started || !progress.completed) return null;
+  if (progress.startedAt === null || progress.completedAt === null) return null;
+  const startedMs = Date.parse(progress.startedAt);
+  const completedMs = Date.parse(progress.completedAt);
+  if (Number.isNaN(startedMs) || Number.isNaN(completedMs)) return null;
+  if (completedMs < startedMs) return null;
+  return (completedMs - startedMs) / 60000;
+}
+
+/**
+ * Whether the onboarding sitting landed within the ≤45-minute limit (AC-2). The
+ * boundary is inclusive (exactly 45 minutes passes). An unmeasurable sitting
+ * (`null` minutes — not started/completed, inverted, or unparseable) is `false`.
+ */
+export function isOnboardingWithinSittingLimit(progress: OnboardingProgress): boolean {
+  const minutes = onboardingSittingMinutes(progress);
+  return minutes !== null && minutes <= ONBOARDING_SITTING_LIMIT_MINUTES;
+}

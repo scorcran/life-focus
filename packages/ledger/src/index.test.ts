@@ -25,6 +25,9 @@ import {
   goalAllocationSchema,
   reduceGoal,
   projectGoals,
+  ONBOARDING_SITTING_LIMIT_MINUTES,
+  onboardingSittingMinutes,
+  isOnboardingWithinSittingLimit,
   type DomainEvent,
   type AppendEventInput,
   type ProtectionLevel,
@@ -38,6 +41,7 @@ import {
   type GoalContext,
   type GoalAllocation,
   type GoalRow,
+  type OnboardingProgress,
 } from './index.js';
 
 /** Build a persisted DomainEvent for reducer/undo tests. */
@@ -348,6 +352,19 @@ describe('catalog validation', () => {
     const alloc: GoalAllocation = { frequency: 'weekly', sessionsPerWeek: 2, minutesPerSession: 30 };
     expect(ctx).toBe('work');
     expect(alloc.sessionsPerWeek).toBe(2);
+  });
+
+  it('re-exports the onboarding sitting instrument (Story 2.6)', () => {
+    expect(ONBOARDING_SITTING_LIMIT_MINUTES).toBe(45);
+    const within: OnboardingProgress = {
+      started: true,
+      startedAt: '2026-07-14T10:00:00.000Z',
+      steps: {},
+      completed: true,
+      completedAt: '2026-07-14T10:40:00.000Z',
+    };
+    expect(onboardingSittingMinutes(within)).toBe(40);
+    expect(isOnboardingWithinSittingLimit(within)).toBe(true);
   });
 
   it('rejects an unknown event type', () => {
