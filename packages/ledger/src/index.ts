@@ -11,6 +11,7 @@ export type {
   ReadEventsFilter,
   CommitmentRow,
   PersonRow,
+  GoalRow,
   LedgerStore,
 } from './events/types.js';
 export { REDACTED_MARKER } from './events/types.js';
@@ -31,6 +32,11 @@ export {
   rhythmCadenceSchema,
   personAddedPayload,
   personAddUndonePayload,
+  goalContextEnum,
+  goalAllocationSchema,
+  goalAddedPayload,
+  goalAddUndonePayload,
+  goalAllocationDisplacedPayload,
   crossContextAccessAuditedPayload,
   calendarConnectedPayload,
   calendarSyncedPayload,
@@ -60,6 +66,9 @@ export type {
   ImportantDate,
   RhythmCadence,
   PersonAddedPayload,
+  GoalContext,
+  GoalAllocation,
+  GoalAddedPayload,
   CalendarConnectedPayload,
   CalendarSyncedPayload,
   CalendarSyncFailedPayload,
@@ -83,6 +92,11 @@ export {
   reducePerson,
   projectPeople,
 } from './projections/person.js';
+
+export {
+  reduceGoal,
+  projectGoals,
+} from './projections/goal.js';
 
 export {
   ONBOARDING_STEP_IDS,

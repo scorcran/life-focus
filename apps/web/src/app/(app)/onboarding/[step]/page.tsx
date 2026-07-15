@@ -13,6 +13,9 @@ import { CommitmentList } from '../../../../components/onboarding/commitments/co
 import { readPeopleStepData } from '../../../../lib/onboarding/people.js';
 import { PersonForm } from '../../../../components/onboarding/people/person-form.js';
 import { PersonList } from '../../../../components/onboarding/people/person-list.js';
+import { readGoalsStepData } from '../../../../lib/onboarding/goals.js';
+import { GoalForm } from '../../../../components/onboarding/goals/goal-form.js';
+import { GoalList } from '../../../../components/onboarding/goals/goal-list.js';
 import { advanceStep } from '../actions.js';
 
 // Reads live onboarding progress from the event log per request. Never cached.
@@ -76,12 +79,12 @@ export default async function OnboardingStepPage({
   }
   const content = stepContent(step);
 
-  // The boundaries (2.2), commitments (2.3), and people (2.4) steps have filled
-  // bodies; the goals step keeps the generic rationale + Continue/Skip
-  // placeholder (2.5).
+  // The boundaries (2.2), commitments (2.3), people (2.4), and goals (2.5) steps
+  // all have filled bodies rendered from their pure projections.
   const boundariesData = step === 'boundaries' ? await readBoundariesStepData() : null;
   const commitmentsData = step === 'commitments' ? await readCommitmentsStepData() : null;
   const peopleData = step === 'people' ? await readPeopleStepData() : null;
+  const goalsData = step === 'goals' ? await readGoalsStepData() : null;
 
   // Bind the step + mode so each form posts one append + redirect.
   const onContinue = advanceStep.bind(null, step, 'entered');
@@ -147,6 +150,15 @@ export default async function OnboardingStepPage({
         <div>
           <PersonForm />
           <PersonList people={peopleData.people} />
+        </div>
+      )}
+
+      {goalsData && (
+        // Plain grouping, not a named landmark: each child section carries its
+        // own heading, mirroring the branches above. At most 3 active goals.
+        <div>
+          <GoalForm atLimit={goalsData.goals.length >= 3} />
+          <GoalList goals={goalsData.goals} />
         </div>
       )}
 

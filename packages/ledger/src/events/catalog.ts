@@ -149,6 +149,61 @@ export const personAddUndonePayload = z.object({
   personId: z.string().min(1),
 });
 
+// ── Goal events (Story 2.5, AD-4) ────────────────────────────────────────────
+// A goal is one additive `GoalAdded` event carrying the MVP-lite Goal model
+// (title, one user-defined next action, a weekly protected allocation, context)
+// plus a compensating `GoalAddUndone`. `title`/`nextAction` are free-text user
+// fields that can identify the goal, so they are declared sensitive and
+// crypto-shredded via the existing sensitive-field path (ADR 0001); the action
+// passes an explicit `erasureScope: 'goal:'+goalId` so a future erase is
+// goal-precise. A per-goal `displacementCount` is folded from
+// `GoalAllocationDisplaced` events (`{ goalId }`) — a plain factual count, never
+// a score/health/rank (FR-40 / P5). State is served by a pure projection over
+// these events — no projection table or migration (AD-4). The allocation is a
+// protected priority BY CONSTRUCTION: the user never picks a protection level for
+// a goal (unlike a commitment). A goal is never `joint` (AD-5).
+
+/** Goal contexts: work|personal only — a goal is never `joint` (AD-5). */
+export const goalContextEnum = z.enum(['work', 'personal']);
+
+/**
+ * A goal's protected weekly allocation (MVP): weekly-only, with a whole number of
+ * sessions per week (1–7) and whole minutes per session (1–480). The allocation
+ * is exposed by the projection as a `protected-priority` intention linked to the
+ * goal; the user does not choose the level — it is fixed.
+ */
+export const goalAllocationSchema = z.object({
+  frequency: z.literal('weekly'),
+  sessionsPerWeek: z.number().int().min(1).max(7),
+  minutesPerSession: z.number().int().min(1).max(480),
+});
+
+/** A goal was added (Story 2.5), with an embedded protected weekly allocation. */
+export const goalAddedPayload = z.object({
+  goalId: z.string().min(1),
+  title: z.string().min(1),
+  nextAction: z.string().min(1),
+  allocation: goalAllocationSchema,
+  context: goalContextEnum,
+  createdAt: z.string().min(1),
+  updatedAt: z.string().min(1),
+});
+
+/** A prior goal-add was undone (compensating forward event, AD-4). */
+export const goalAddUndonePayload = z.object({
+  goalId: z.string().min(1),
+});
+
+/**
+ * A goal's planned allocation was moved or dropped (FR-40). Folds
+ * `displacementCount += 1` on the goal. No onboarding surface emits this — moving
+ * an allocation is a planning action (Epic 4); the event + fold are defined here
+ * for completeness. No sensitive fields.
+ */
+export const goalAllocationDisplacedPayload = z.object({
+  goalId: z.string().min(1),
+});
+
 /** A cross-context read/emit was audited (AC-14 instrument). */
 export const crossContextAccessAuditedPayload = z.object({
   sourceContext: contextEnum,
@@ -301,6 +356,18 @@ export const EVENT_CATALOG = {
     schema: personAddUndonePayload,
     sensitiveFields: [],
   },
+  GoalAdded: {
+    schema: goalAddedPayload,
+    sensitiveFields: ['title', 'nextAction'],
+  },
+  GoalAddUndone: {
+    schema: goalAddUndonePayload,
+    sensitiveFields: [],
+  },
+  GoalAllocationDisplaced: {
+    schema: goalAllocationDisplacedPayload,
+    sensitiveFields: [],
+  },
   CrossContextAccessAudited: {
     schema: crossContextAccessAuditedPayload,
     sensitiveFields: [],
@@ -415,6 +482,12 @@ export type PersonContext = z.infer<typeof personContextEnum>;
 export type ImportantDate = z.infer<typeof importantDateSchema>;
 export type RhythmCadence = z.infer<typeof rhythmCadenceSchema>;
 export type PersonAddedPayload = z.infer<typeof personAddedPayload>;
+
+// Inferred goal types (Story 2.5), so hosts build catalog-valid payloads without
+// redeclaring the shapes. No score type exists by construction (FR-40 / P5).
+export type GoalContext = z.infer<typeof goalContextEnum>;
+export type GoalAllocation = z.infer<typeof goalAllocationSchema>;
+export type GoalAddedPayload = z.infer<typeof goalAddedPayload>;
 
 // Inferred payload types for the calendar sync-health events (Story 1.4), so
 // hosts/adapters build catalog-valid payloads without redeclaring the shapes.
