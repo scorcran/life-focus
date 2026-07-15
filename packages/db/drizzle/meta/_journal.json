@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1784008597521,
+      "tag": "0000_fat_green_goblin",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784011803629,
+      "tag": "0001_ledger_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784011816987,
+      "tag": "0002_ledger_insert_only",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784014730914,
+      "tag": "0003_mirror_tables",
+      "breakpoints": true
+    }
+  ]
+}

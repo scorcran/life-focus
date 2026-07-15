@@ -110,10 +110,14 @@ export default [
     },
   },
   // Env discipline for ALL source files except packages/config
-  // (structural: all env reads must go through packages/config)
+  // (structural: all env reads must go through packages/config).
+  // Carve-out: the db test HARNESS under packages/db/test/** may read
+  // TEST_DATABASE_URL — that is test infrastructure config, not app config, and
+  // never ships in the built app (src/ stays fully covered by the rule). Scoped
+  // to db only so a future package's test dir cannot silently read arbitrary env.
   {
     files: SOURCE_EXTS.map((ext) => `**/*.${ext}`),
-    ignores: ['packages/config/src/**'],
+    ignores: ['packages/config/src/**', 'packages/db/test/**'],
     rules: {
       'no-restricted-syntax': [
         'error',

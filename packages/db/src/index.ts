@@ -1,7 +1,34 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
+import { authSchema } from './schema/auth.js';
+import { ledgerSchema } from './schema/ledger.js';
+import { mirrorSchema } from './schema/mirror.js';
 
-export type DrizzleClient = ReturnType<typeof drizzle<Record<string, never>>>;
+export * from './schema/auth.js';
+export * from './schema/ledger.js';
+export * from './schema/mirror.js';
+export { runMigrations } from './migrate.js';
+export { createLedgerStore } from './ledger/store.js';
+export { createMirrorStore } from './mirror/store.js';
+export type {
+  MirrorStore,
+  MirrorStoreOptions,
+  SourceRecord,
+  SourceContext,
+  DecryptedTokens,
+  ConnectSourceInput,
+} from './mirror/store.js';
+export {
+  encryptSecret,
+  decryptSecret,
+  decodeTokenKey,
+} from './mirror/token-cipher.js';
+
+/** The full Drizzle schema: auth tables + ledger tables + mirror cache tables. */
+const schema = { ...authSchema, ...ledgerSchema, ...mirrorSchema };
+
+export type DbClient = ReturnType<typeof createDbClient>;
+export type DrizzleClient = DbClient['db'];
 
 /**
  * Create a Drizzle client from a standard Postgres connection string (AD-9).
@@ -14,7 +41,7 @@ export function createDbClient(connectionString: string) {
   pool.on('error', (err: Error) => {
     console.error('[db] pool error (logged, not thrown):', err.message);
   });
-  return { db: drizzle(pool), pool };
+  return { db: drizzle(pool, { schema }), pool };
 }
 
 /** Close the pool returned by createDbClient. */

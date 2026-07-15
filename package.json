@@ -12,7 +12,8 @@
     "build": "npm run build --workspace=packages --if-present && npm run build --workspace=apps --if-present",
     "lint": "eslint . --ignore-pattern 'fixtures/**' && bash check-fixtures.sh",
     "typecheck": "tsc --build tsconfig.build.json && tsc -p tsconfig.tests.json --noEmit && tsc -p tsconfig.tests.web.json --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "loop:ship": "bash scripts/bmad-loop-ship.sh"
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",

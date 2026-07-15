@@ -20,7 +20,80 @@ const EnvSchema = z.object({
     ),
   LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  // Better Auth (apps/web, AD-6). Secret signs sessions/tokens — must be strong.
+  BETTER_AUTH_SECRET: z
+    .string()
+    .min(32, { message: 'BETTER_AUTH_SECRET must be at least 32 characters' }),
+  // Base URL Better Auth uses to build callback/cookie origins.
+  BETTER_AUTH_URL: z
+    .string()
+    .url({ message: 'BETTER_AUTH_URL must be a valid URL' })
+    .default('http://localhost:3000'),
+  // Master key for ledger crypto-shredding erasure (ADR 0001). Must decode to
+  // exactly 32 bytes (AES-256). Accepts base64 or hex; the adapter wraps
+  // per-erasure-scope data keys under this key.
+  LEDGER_MASTER_KEY: z
+    .string()
+    .refine((v) => decodeKeyBytes(v)?.length === 32, {
+      message:
+        'LEDGER_MASTER_KEY must be a base64 or hex string that decodes to exactly 32 bytes',
+    }),
+  // Google Calendar OAuth (Story 1.4) — data-source connection, DISTINCT from
+  // Better Auth sign-in. Optional so the app boots + gates without them; the
+  // connect flow is disabled with an explanatory note when any is unset
+  // (see isGoogleOAuthConfigured). Read-only calendar scope only (AD-8).
+  GOOGLE_OAUTH_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_OAUTH_CLIENT_SECRET: z.string().min(1).optional(),
+  GOOGLE_OAUTH_REDIRECT_URI: z
+    .string()
+    .url({ message: 'GOOGLE_OAUTH_REDIRECT_URI must be a valid URL' })
+    .optional(),
+  // Render-time timezone for local agenda formatting (Story 1.5). No life-model
+  // exists yet (Epic 2 onboarding), so the single user's tz comes from config and
+  // is applied at render only. Optional with a default so the app boots without it.
+  // Must be a valid IANA zone name (validated via Intl so a typo fails fast).
+  APP_TIMEZONE: z
+    .string()
+    .refine(isValidTimeZone, {
+      message: 'APP_TIMEZONE must be a valid IANA time zone name (e.g. "America/New_York")',
+    })
+    .default('America/New_York'),
 });
+
+/**
+ * Whether a string is a valid IANA time zone name. Uses Intl — the same engine
+ * that renders local times — so config validation and render agree.
+ */
+function isValidTimeZone(tz: string): boolean {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Decode a key string as base64 or hex into raw bytes.
+ * Returns null if the value cannot be decoded to a plausible key.
+ *
+ * Exported as the single canonical decoder so security-critical key parsing is
+ * not duplicated (the ledger crypto adapter imports this rather than re-deriving
+ * its own — divergent decoders are a latent key-mismatch bug).
+ */
+export function decodeKeyBytes(value: string): Buffer | null {
+  // Hex: even length, only hex digits.
+  if (/^[0-9a-fA-F]+$/.test(value) && value.length % 2 === 0) {
+    const hex = Buffer.from(value, 'hex');
+    if (hex.length === value.length / 2) return hex;
+  }
+  // Base64 (standard or url-safe).
+  if (/^[A-Za-z0-9+/_-]+={0,2}$/.test(value)) {
+    const b64 = Buffer.from(value, 'base64');
+    if (b64.length > 0) return b64;
+  }
+  return null;
+}
 
 export type AppConfig = z.infer<typeof EnvSchema>;
 
@@ -60,4 +133,17 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
 export function resetConfig(): void {
   _config = null;
   _configEnv = null;
+}
+
+/**
+ * Whether the Google Calendar OAuth data-source flow is fully configured.
+ * All three creds must be present; otherwise the connections screen renders the
+ * connect action disabled with an explanatory note (no throw at startup).
+ */
+export function isGoogleOAuthConfigured(config: AppConfig): boolean {
+  return (
+    !!config.GOOGLE_OAUTH_CLIENT_ID &&
+    !!config.GOOGLE_OAUTH_CLIENT_SECRET &&
+    !!config.GOOGLE_OAUTH_REDIRECT_URI
+  );
 }

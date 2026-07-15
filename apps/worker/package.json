@@ -12,7 +12,10 @@
   "dependencies": {
     "pg-boss": "^12.0.0",
     "pino": "^9.0.0",
-    "@life-focus/config": "*"
+    "@life-focus/config": "*",
+    "@life-focus/connectors": "*",
+    "@life-focus/db": "*",
+    "@life-focus/ledger": "*"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

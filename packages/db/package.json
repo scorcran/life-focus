@@ -7,14 +7,22 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "typecheck": "tsc --build --noEmit"
+    "typecheck": "tsc --build --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@life-focus/config": "*",
+    "@life-focus/connectors": "*",
+    "@life-focus/ledger": "*",
     "drizzle-orm": "^0.45.0",
-    "pg": "^8.0.0"
+    "pg": "^8.0.0",
+    "uuidv7": "^1.0.0"
   },
   "devDependencies": {
+    "@testcontainers/postgresql": "^10.0.0",
     "@types/pg": "^8.0.0",
+    "drizzle-kit": "^0.31.0",
     "typescript": "^7.0.0",
     "vitest": "^3.0.0"
   }

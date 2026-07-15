@@ -9,6 +9,9 @@
   "include": ["src"],
   "exclude": ["src/**/*.test.ts"],
   "references": [
-    {"path": "../../packages/config"}
+    {"path": "../../packages/config"},
+    {"path": "../../packages/connectors"},
+    {"path": "../../packages/ledger"},
+    {"path": "../../packages/db"}
   ]
 }

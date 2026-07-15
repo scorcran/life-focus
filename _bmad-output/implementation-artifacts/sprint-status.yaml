@@ -51,20 +51,20 @@ development_status:
   # Epic 1: Steel Thread Foundation (MVP — build order 1)
   epic-1: backlog
   1-1-project-scaffold-and-development-environment: done
-  1-2-sign-in-to-a-themed-accessible-shell: backlog
-  1-3-the-event-ledger-small-but-final: backlog
-  1-4-connect-both-google-calendars-with-context-assignment: backlog
-  1-5-see-my-real-days: backlog
+  1-2-sign-in-to-a-themed-accessible-shell: done
+  1-3-the-event-ledger-small-but-final: done
+  1-4-connect-both-google-calendars-with-context-assignment: done
+  1-5-see-my-real-days: done
   epic-1-retrospective: optional
 
   # Epic 2: The Life Model (MVP — build order 2)
   epic-2: backlog
-  2-1-guided-onboarding-flow: backlog
-  2-2-boundaries-domains-and-starter-policies: backlog
-  2-3-hard-commitments-and-protection-levels: backlog
-  2-4-important-people-and-communication-rhythms: backlog
-  2-5-goals-with-a-next-action-and-protected-allocation: backlog
-  2-6-the-forty-five-minute-proof: backlog
+  2-1-guided-onboarding-flow: done
+  2-2-boundaries-domains-and-starter-policies: done
+  2-3-hard-commitments-and-protection-levels: done
+  2-4-important-people-and-communication-rhythms: done
+  2-5-goals-with-a-next-action-and-protected-allocation: done
+  2-6-the-forty-five-minute-proof: done
   2-7-the-policy-and-boundaries-surface: backlog
   epic-2-retrospective: optional
 
