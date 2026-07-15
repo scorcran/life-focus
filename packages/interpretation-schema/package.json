@@ -1,0 +1,19 @@
+{
+  "name": "@life-focus/interpretation-schema",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --build --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.0",
+    "vitest": "^3.0.0"
+  }
+}

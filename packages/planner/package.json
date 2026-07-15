@@ -1,0 +1,19 @@
+{
+  "name": "@life-focus/planner",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --build --noEmit"
+  },
+  "dependencies": {
+    "@life-focus/interpretation-schema": "*"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.0",
+    "vitest": "^3.0.0"
+  }
+}

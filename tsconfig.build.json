@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {"path": "packages/config"},
+    {"path": "packages/planner"},
+    {"path": "packages/ledger"},
+    {"path": "packages/policy"},
+    {"path": "packages/interpretation-schema"},
+    {"path": "packages/broker"},
+    {"path": "packages/connectors"},
+    {"path": "packages/llm-gateway"},
+    {"path": "packages/db"},
+    {"path": "packages/notify"},
+    {"path": "apps/web"},
+    {"path": "apps/worker"}
+  ]
+}

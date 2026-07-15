@@ -1,0 +1,16 @@
+{
+  // Type-checks test files (excluded from the per-package build configs).
+  // Covers all workspaces that use the standard NodeNext resolution; apps/web
+  // tests are checked by tsconfig.tests.web.json (bundler resolution, matching
+  // the Next.js app's own tsconfig).
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "include": [
+    "packages/*/src/**/*.test.ts",
+    "apps/worker/src/**/*.test.ts"
+  ]
+}
